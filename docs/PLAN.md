@@ -41,11 +41,12 @@ Reasons: different stack and tooling, deploys on its own schedule, and the app's
 **Acceptance:** a "Hello PreCut" page is live on a `*.netlify.app` URL.
 
 ## Phase W1 — Legal and required pages (do first: the app's Play listing needs these URLs)
-- [ ] `/privacy` — privacy policy matching the app (on-device processing, cloud AI with consent, what is uploaded, retention, processors such as Supabase and the speech-to-text provider, how to delete data). Pull the facts from the app's `docs/` and ask the user to confirm.
-- [ ] `/terms` — terms of use, including subscriptions and acceptable use of AI features
-- [ ] `/delete-data` — explains "Settings → Cloud AI → Delete my cloud data" and gives an email fallback (Play Console data-deletion URL)
-- [ ] `/support` — FAQ and contact email
-- [ ] `/.well-known/assetlinks.json` — placeholder for Android App Links (template share links, Phase 28 in the app); the user supplies the signing certificate SHA-256 from Play Console
+*Done 2026-10-29; the user approved the legal text. Publisher "SavieCode", contact savyj03@gmail.com. Facts checked against PreCut `6b2636a` (the published APK). Terms have no governing-law clause yet (country not chosen).*
+- [x] `/privacy` — privacy policy matching the app (on-device processing, cloud AI with consent, what is uploaded, retention, processors such as Supabase and the speech-to-text provider, how to delete data). Pull the facts from the app's `docs/` and ask the user to confirm.
+- [x] `/terms` — terms of use, including subscriptions and acceptable use of AI features
+- [x] `/delete-data` — explains "Settings → Cloud AI → Delete my cloud data" and gives an email fallback (Play Console data-deletion URL)
+- [x] `/support` — FAQ and contact email
+- [x] `/.well-known/assetlinks.json` — placeholder for Android App Links (template share links, Phase 28 in the app); the user supplies the signing certificate SHA-256 from Play Console (holds the APK's certificate now; add the Play app-signing certificate if Play uses a different key)
 
 **Acceptance:** all pages render on a phone and the user has approved the legal text.
 

@@ -26,9 +26,12 @@ export const apk = {
     "2c108e1a3cf6490e9913e73eefe02bdde2ebd028aedb9ac57502ad45f4342912",
 };
 
-// TODO(user): needed for the legal pages in W1.
-export const contactEmail: string | null = null;
-export const legalName: string | null = null;
+// Who publishes PreCut and how to reach them (privacy policy, terms, support).
+export const contactEmail = "savyj03@gmail.com";
+export const legalName = "SavieCode";
+
+/** When the privacy policy and terms last changed; shown on both pages. */
+export const legalUpdated = "29 October 2026";
 
 // PreCut Pro doesn't exist yet (app Phase 25); prices are set in Play Console.
 export const prices = null;

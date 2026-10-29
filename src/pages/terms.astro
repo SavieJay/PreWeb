@@ -1,0 +1,99 @@
+---
+import ProseLayout from "../layouts/ProseLayout.astro";
+import { app, contactEmail, legalName, legalUpdated } from "../config";
+---
+
+<ProseLayout
+  title="Terms of use"
+  description={`The terms for using the ${app.name} app and this website.`}
+  updated={legalUpdated}
+>
+  <p>
+    These terms cover the {app.name} app and this website, provided by{" "}
+    {legalName}. By installing or using {app.name}, you agree to them. Please
+    also read the
+    <a href="/privacy">privacy policy</a>.
+  </p>
+
+  <h2>Using {app.name}</h2>
+  <p>
+    {app.name} is free. You may use it to make videos for any lawful purpose,
+    personal or commercial. Exports carry no watermark.
+  </p>
+  <p>
+    Some built-in fonts and stickers are made by others and come with their own
+    open licences, listed in <strong>Settings → Open-source licences</strong>.
+    The Animated sticker pack (Animated Noto Emoji by Google, CC BY 4.0) asks
+    you to credit it when you share a video that uses it.
+  </p>
+
+  <h2>Your content</h2>
+  <p>
+    Your videos, photos, recordings and projects are yours. {app.name} doesn't
+    claim any rights to them, and they stay on your phone (see the{" "}
+    <a href="/privacy">privacy policy</a> for the one exception, cloud AI).
+    You're responsible for having the right to use what you edit and share.
+  </p>
+
+  <h2>Cloud AI features</h2>
+  <ul>
+    <li>
+      Cloud AI is optional. {app.name} asks before every upload, and you can
+      switch it off in
+      <strong>Settings → Cloud AI</strong>.
+    </li>
+    <li>
+      Each phone gets free cloud AI minutes every month. How many, and which
+      features use them, may change. The service can also pause, for example
+      when the month's budget is used up.
+    </li>
+    <li>
+      Only send sound you have the right to send, and don't use cloud AI for
+      anything unlawful.
+    </li>
+    <li>
+      Don't try to get around the limits, copy or reverse-engineer {app.name}'s
+      server, or use it outside the app.
+    </li>
+  </ul>
+
+  <h2>Getting {app.name} and updates</h2>
+  <p>
+    Get {app.name} only from <a href="/download">this website</a>, which links
+    to the official file. Copies from anywhere else may be changed or unsafe.
+    New versions install over the old one and keep your projects.
+  </p>
+
+  <h2>Paid features</h2>
+  <p>
+    {app.name} is free today. If paid features come later, their price and terms
+    will be shown before you pay, and these terms will be updated.
+  </p>
+
+  <h2>No warranty</h2>
+  <p>
+    {app.name} is provided as it is, without warranties of any kind. We work to
+    make it reliable, but we can't promise it will be free of bugs or always
+    available. Keep copies of media that matter to you.
+  </p>
+
+  <h2>Limitation of liability</h2>
+  <p>
+    As far as the law allows, {legalName} isn't liable for indirect or
+    consequential losses, or for lost data, arising from your use of {app.name}{" "}
+    or this website. Nothing in these terms limits rights you have by law that
+    can't be limited.
+  </p>
+
+  <h2>Changes</h2>
+  <p>
+    If these terms change, the new version will be posted on this page with a
+    new date. If you keep using {app.name} after that, the new terms apply.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    Questions about these terms:{" "}
+    <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.
+  </p>
+</ProseLayout>

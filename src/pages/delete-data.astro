@@ -1,0 +1,64 @@
+---
+// The data-deletion page (also the URL for Play Console's data deletion question).
+import ProseLayout from "../layouts/ProseLayout.astro";
+import { app, contactEmail } from "../config";
+---
+
+<ProseLayout
+  title="Delete your data"
+  description={`How to delete what ${app.name} keeps, on your phone and on its server.`}
+>
+  <p>
+    {app.name} has no accounts. Almost everything it stores is on your phone.
+    The only thing kept on {app.name}'s server is an anonymous ID for your phone
+    and the cloud AI minutes it used, and only if you've used cloud AI.
+  </p>
+
+  <h2>Delete your cloud data</h2>
+  <ol>
+    <li>
+      Open {app.name} and go to <strong>Settings → Cloud AI</strong>.
+    </li>
+    <li>
+      Tap <strong>Delete my cloud data</strong>, then confirm.
+    </li>
+  </ol>
+  <p>
+    {app.name}'s server forgets this phone's anonymous ID and the minutes it
+    used. Nothing else is kept there, and your projects aren't affected. If you
+    use cloud AI again later, the phone gets a new ID.
+  </p>
+
+  <h2>Delete what's on your phone</h2>
+  <ul>
+    <li>
+      <strong>A project:</strong> delete it in {app.name}; its files go with it.
+    </li>
+    <li>
+      <strong>Working copies:</strong>
+      <strong>Settings → Clear preview cache</strong>.
+    </li>
+    <li>
+      <strong>Crash reports:</strong>{" "}
+      <strong>Settings → Crash reports → Delete</strong>.
+    </li>
+    <li>
+      <strong>Everything:</strong> uninstall {app.name}. That removes everything
+      it stored on your phone, except videos, GIFs, audio and photos you
+      exported to your gallery.
+    </li>
+  </ul>
+
+  <h2>If you can't open the app</h2>
+  <p>
+    The anonymous ID isn't linked to your name, email or phone number, so we
+    can't find a phone's data from an email alone. It's deleted automatically
+    after 13 months without use. If you need help, email{" "}
+    <a href={`mailto:${contactEmail}`}>{contactEmail}</a> and we'll do what we
+    can.
+  </p>
+  <p>
+    More about what {app.name} does with data:{" "}
+    <a href="/privacy">privacy policy</a>.
+  </p>
+</ProseLayout>

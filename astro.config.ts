@@ -8,6 +8,9 @@ export default defineConfig({
   // redirect to /download/: download buttons and the app's update link use /download.
   build: { format: "file" },
   trailingSlash: "never",
+  // Astro's HTML compression drops the space at a line break before a tag inside
+  // layout slots ("Android\n<span>8.0" became "Android8.0"). Netlify gzips anyway.
+  compressHTML: false,
   vite: {
     plugins: [tailwindcss()],
   },
