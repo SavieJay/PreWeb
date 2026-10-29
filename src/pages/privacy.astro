@@ -1,0 +1,191 @@
+---
+// Matches what the app does at the published version (PreCut 6b2636a): its cloud AI texts
+// (Settings → Cloud AI → What is sent), docs/store/privacy-policy.md and docs/CLOUD_API.md.
+import ProseLayout from "../layouts/ProseLayout.astro";
+import { app, contactEmail, legalName, legalUpdated } from "../config";
+---
+
+<ProseLayout
+  title="Privacy policy"
+  description={`What the ${app.name} app and this website do with your information.`}
+  updated={legalUpdated}
+>
+  <p>
+    {app.name} is a video editor for Android, made by {legalName}. This policy
+    explains what the {app.name} app and this website do with your information.
+  </p>
+  <p class="card">
+    <strong>In short:</strong> {app.name} edits on your phone, and nothing
+    leaves it unless you use a cloud AI feature and agree, that time, to send
+    the sound. Then only the sound is sent, to turn speech into words. There are
+    no accounts, no ads and no analytics.
+  </p>
+
+  <h2>Cloud AI (optional, and asked every time)</h2>
+  <p>
+    Some features can use cloud AI: today{" "}
+    <strong>Settings → Cloud AI → Check cloud AI</strong>, and automatic
+    captions when they arrive. Before anything is sent, {app.name} shows what it
+    is about to send and asks you. If you say no, nothing is sent. You can
+    switch cloud AI off in <strong>Settings → Cloud AI</strong>.
+  </p>
+  <p>When you agree:</p>
+  <ul>
+    <li>
+      <strong>What is sent:</strong> only the sound you're making captions for
+      (for Check cloud AI, a test phrase your phone speaks). Never the video,
+      photos or project.
+    </li>
+    <li>
+      <strong>Where it goes:</strong>
+      {app.name}'s server, which runs on{" "}
+      <a href="https://supabase.com/privacy">Supabase</a>
+      in Ireland (EU). It passes the sound to ElevenLabs, a speech-to-text
+      service, and sends the words and their timings back to your phone.
+    </li>
+    <li>
+      <strong>What {app.name}'s server keeps:</strong> no audio and no words. It
+      keeps a random ID that the app made for this installation (not linked to
+      your name, email or phone number) and how many minutes it used this month,
+      so each phone gets its free minutes. Both are deleted after 13 months
+      without use, or when you tap
+      <strong>Settings → Cloud AI → Delete my cloud data</strong>. The server's
+      logs record each request's time, type, size and outcome with a shortened
+      form of that ID, never the sound or the words. Like any web service, the
+      hosting provider's logs also record your IP address. Logs are kept briefly
+      to run and protect the service.
+    </li>
+    <li>
+      <strong>ElevenLabs</strong> turns the sound into words for {app.name},
+      under its own
+      <a href="https://elevenlabs.io/privacy-policy">privacy policy</a> and data
+      terms.
+    </li>
+    <li>
+      <strong>Google Play Integrity:</strong> before sending, {app.name} asks
+      Google Play to confirm that it's the genuine {app.name} on a genuine
+      Android phone, so no one else can use
+      {app.name}'s minutes. Google Play makes that check under Google's terms,
+      with information about the app and the device; {app.name} receives only
+      the result.
+    </li>
+  </ul>
+  <p>
+    Cloud AI needs the internet. Without a connection, {app.name} tells you and
+    sends nothing.
+  </p>
+
+  <h2>What stays on your phone</h2>
+  <p>To edit, {app.name} works with files on your device:</p>
+  <ul>
+    <li>
+      <strong>Photos and videos you pick.</strong> You choose them with
+      Android's picker, and
+      {app.name} can read only those. If the picker can't keep access to a file,{" "}
+      {app.name} saves a copy in its own storage so your project still works
+      later.
+    </li>
+    <li>
+      <strong>Microphone.</strong>
+      {app.name} asks for the microphone only when you record a voiceover. The
+      recording is saved in the app's storage as part of your project.
+    </li>
+    <li>
+      <strong>Your projects.</strong>
+      {app.name} saves drafts, covers, preview copies and other working files in
+      its own storage on your phone.
+    </li>
+    <li>
+      <strong>Exports.</strong> Videos, GIFs, audio and photos you export are
+      saved to your phone's gallery or music folders, where other apps can see
+      them like any other media.
+    </li>
+    <li>
+      <strong>Notifications.</strong>
+      {app.name} shows a notification while an export runs, so you can follow or
+      cancel it.
+    </li>
+    <li>
+      <strong>Crash reports.</strong> If {app.name} closes unexpectedly, it
+      saves a short report (the error, your phone model, Android and app
+      versions, and {app.name}'s own recent log lines) in its own storage. It
+      stays there unless you share it yourself from
+      <strong>Settings → Crash reports</strong>.
+    </li>
+  </ul>
+  <p>
+    {app.name} has no accounts, no ads and no analytics. When you share an
+    export, Android's share sheet sends it to the app you choose. What happens
+    next is up to that app.
+  </p>
+
+  <h2>Text to speech</h2>
+  <p>
+    If you use text to speech, {app.name} passes your text to the text-to-speech
+    engine installed on your phone. That engine's own privacy policy applies to
+    the text.
+  </p>
+
+  <h2>This website</h2>
+  <ul>
+    <li>
+      The website is hosted by{" "}
+      <a href="https://www.netlify.com/privacy/">Netlify</a>. Like any web host,
+      Netlify's servers record technical details of each visit, such as your IP
+      address, browser and the page you asked for, to deliver and protect the
+      site.
+    </li>
+    <li>
+      The app download comes from
+      <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">
+        GitHub
+      </a>
+      , which records downloads in the same way.
+    </li>
+    <li>
+      The website sets no cookies and uses no analytics or trackers. The
+      download page checks whether you're on Android, an iPhone or a computer to
+      show the right instructions; that check happens in your browser and
+      nothing is sent.
+    </li>
+  </ul>
+
+  <h2>Deleting your data</h2>
+  <ul>
+    <li>
+      Deleting a project removes its files from the app.
+      <strong>Settings → Clear preview cache</strong> frees working copies.
+    </li>
+    <li>
+      <strong>Settings → Cloud AI → Delete my cloud data</strong> deletes the
+      random ID and minutes
+      {app.name}'s server keeps for this phone.
+    </li>
+    <li>
+      Uninstalling {app.name} removes everything it stored on your phone, except
+      media you exported to your gallery. What {app.name}'s server keeps is then
+      deleted after 13 months without use.
+    </li>
+  </ul>
+  <p>
+    More detail: <a href="/delete-data">Delete your data</a>.
+  </p>
+
+  <h2>Children</h2>
+  <p>
+    {app.name} isn't directed at children. Cloud AI sends only sound that the
+    person using the app chooses to send.
+  </p>
+
+  <h2>Changes</h2>
+  <p>
+    If this policy changes, the new version will be posted on this page with a
+    new date.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    Questions or requests about your information:{" "}
+    <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.
+  </p>
+</ProseLayout>

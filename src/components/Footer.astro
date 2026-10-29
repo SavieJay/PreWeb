@@ -1,5 +1,5 @@
 ---
-import { app, legalName } from "../config";
+import { legalName } from "../config";
 
 // The pages behind these links are built in Phase W1.
 const links = [
@@ -28,7 +28,7 @@ const year = new Date().getFullYear();
       </ul>
     </nav>
     <p class="text-sm text-fg-muted">
-      © <span class="font-mono">{year}</span> {legalName ?? app.name}
+      © <span class="font-mono">{year}</span> {legalName}
     </p>
   </div>
 </footer>

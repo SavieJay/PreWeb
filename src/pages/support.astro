@@ -1,0 +1,76 @@
+---
+import ProseLayout from "../layouts/ProseLayout.astro";
+import { app, contactEmail } from "../config";
+
+const mail = `mailto:${contactEmail}`;
+---
+
+<ProseLayout
+  title="Support"
+  description={`Help with ${app.name}: installing, updating, privacy and how to get in touch.`}
+>
+  <p class="card">
+    Need help, found a bug or have an idea? Email
+    <a href={mail}>{contactEmail}</a>.
+  </p>
+
+  <h2>Questions</h2>
+  <dl>
+    <dt>How do I install {app.name}?</dt>
+    <dd>
+      Open the <a href="/download">download page</a> on your Android phone, tap
+      Download APK and follow the four steps there.
+    </dd>
+
+    <dt>Is {app.name} free?</dt>
+    <dd>Yes. No watermark on exports, no ads and no account.</dd>
+
+    <dt>Why isn't it on Google Play?</dt>
+    <dd>
+      {app.name} isn't on Google Play yet. Until it is, this website is the
+      place to get it.
+    </dd>
+
+    <dt>
+      Android warned me about the file, or Play Protect wants to check it. Is
+      that normal?
+    </dt>
+    <dd>
+      Yes. Android does that for apps installed from outside Google Play. To
+      make sure your copy is the official one, compare it with the fingerprints
+      under "Check that the file is genuine" on the{" "}
+      <a href="/download">download page</a>.
+    </dd>
+
+    <dt>Which phones does it work on?</dt>
+    <dd>Android phones running Android {app.minAndroid} or newer.</dd>
+
+    <dt>Is there an iPhone version?</dt>
+    <dd>Not yet. {app.name} is on Android for now.</dd>
+
+    <dt>How do I update?</dt>
+    <dd>
+      Download the new version from the <a href="/download">download page</a>{" "}
+      and install it over the old one. Your projects stay.
+    </dd>
+
+    <dt>Does {app.name} upload my videos?</dt>
+    <dd>
+      No. Your videos, photos and projects stay on your phone. Optional cloud AI
+      features send only the sound, and only after you agree each time. See the{" "}
+      <a href="/privacy">privacy policy</a>.
+    </dd>
+
+    <dt>{app.name} closed unexpectedly. How do I report it?</dt>
+    <dd>
+      Open <strong>Settings → Crash reports</strong>, tap Share and send the
+      report to
+      <a href={mail}>{contactEmail}</a>, with a line about what you were doing.
+    </dd>
+
+    <dt>How do I delete my data?</dt>
+    <dd>
+      See <a href="/delete-data">Delete your data</a>.
+    </dd>
+  </dl>
+</ProseLayout>

@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.savie.precut",
+      "sha256_cert_fingerprints": [
+        "2C:10:8E:1A:3C:F6:49:0E:99:13:E7:3E:EF:E0:2B:DD:E2:EB:D0:28:AE:DB:9A:C5:75:02:AD:45:F4:34:29:12"
+      ]
+    }
+  }
+]
