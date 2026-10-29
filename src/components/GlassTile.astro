@@ -7,14 +7,21 @@ interface Props {
   lean?: "left" | "right";
   /** Offsets the float animation so tiles don't move in step. */
   delay?: string;
+  /** When the tile pops in on page load. */
+  enter?: string;
 }
 
-const { class: className, lean = "left", delay = "0s" } = Astro.props;
+const {
+  class: className,
+  lean = "left",
+  delay = "0s",
+  enter = "0s",
+} = Astro.props;
 ---
 
 <div
   class:list={["float absolute", className]}
-  style={`--delay: ${delay}`}
+  style={`--delay: ${delay}; --enter-delay: ${enter}`}
   aria-hidden="true"
 >
   <div class="tile" data-lean={lean}>
@@ -26,7 +33,6 @@ const { class: className, lean = "left", delay = "0s" } = Astro.props;
   .float {
     width: clamp(4.5rem, 21%, 7.5rem);
     aspect-ratio: 1;
-    animation: float 7s ease-in-out var(--delay) infinite;
   }
 
   .tile {
@@ -61,15 +67,25 @@ const { class: className, lean = "left", delay = "0s" } = Astro.props;
     filter: drop-shadow(0 0 10px rgb(255 77 109 / 0.6));
   }
 
+  @media (prefers-reduced-motion: no-preference) {
+    .float {
+      animation: float 7s ease-in-out var(--delay) infinite;
+    }
+    .tile {
+      animation: tile-in 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)
+        var(--enter-delay) both;
+    }
+  }
+
   @keyframes float {
     50% {
       translate: 0 -10px;
     }
   }
-
-  @media (prefers-reduced-motion: reduce) {
-    .float {
-      animation: none;
+  @keyframes tile-in {
+    from {
+      opacity: 0;
+      scale: 0.5;
     }
   }
 </style>

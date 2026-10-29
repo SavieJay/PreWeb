@@ -47,3 +47,35 @@
     outline-offset: 3px;
   }
 }
+
+/* Motion. Things move only for people who haven't asked their device for reduced motion,
+   and only transform and opacity change, so animations never shift the layout. */
+@keyframes enter-rise {
+  from {
+    opacity: 0;
+    translate: 0 1.5rem;
+  }
+}
+
+/* Rises in on page load. Stagger with style="--enter-delay: 0.2s". */
+@utility enter {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: enter-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1)
+      var(--enter-delay, 0s) both;
+  }
+}
+
+/* Rises in as it scrolls into view. Browsers without scroll-driven animations just show it. */
+@utility reveal {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Longhands on purpose: the minifier folds a timeline into the `animation`
+       shorthand, which browsers reject. */
+    @supports (animation-timeline: view()) {
+      animation-name: enter-rise;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
+}

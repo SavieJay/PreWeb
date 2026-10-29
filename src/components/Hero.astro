@@ -10,12 +10,17 @@ import { app } from "../config";
   <div class="glow" aria-hidden="true">
     <div class="arc"></div>
   </div>
-  <div class="streaks streaks-left" aria-hidden="true"></div>
-  <div class="streaks streaks-right" aria-hidden="true"></div>
+  <div class="streaks-in" aria-hidden="true">
+    <div class="streaks streaks-left"></div>
+    <div class="streaks streaks-right"></div>
+  </div>
 
   <div class="relative mx-auto max-w-6xl px-4 pt-[clamp(8rem,34vw,15rem)] pb-20">
     <h1 class="text-center">
-      <span class="block text-[clamp(1.375rem,5vw,2.75rem)] leading-tight font-light tracking-tight text-balance">
+      <span
+        class="enter block text-[clamp(1.375rem,5vw,2.75rem)] leading-tight font-light tracking-tight text-balance"
+        style="--enter-delay: 0.1s"
+      >
         Pro-level video editing on your phone.
       </span>
       <span class="accent mt-2 block text-[clamp(2.75rem,12vw,8rem)] leading-[0.95] font-bold tracking-[-0.03em]">
@@ -26,21 +31,32 @@ import { app } from "../config";
     <div class="mt-12 grid items-center gap-14 lg:mt-16 lg:grid-cols-[1fr_1.15fr]">
       <div class="mx-auto max-w-md lg:mx-0">
         <span
-          class="block h-2 w-14 rounded-full bg-accent"
+          class="bar block h-2 w-14 rounded-full bg-accent"
           aria-hidden="true"
         ></span>
-        <p class="mt-5 text-lg leading-relaxed text-fg/90 sm:text-xl">
+        <p
+          class="enter mt-5 text-lg leading-relaxed text-fg/90 sm:text-xl"
+          style="--enter-delay: 0.35s"
+        >
           {app.name} puts a full timeline, effects, text, music and 4K export in
           your pocket. No ads, no account, and nothing leaves your phone without
           your say-so.
         </p>
-        <DownloadButton id="hero" size="lg" class="mt-8 w-full sm:w-auto" />
-        <p class="mt-4 text-sm text-fg-muted">
+        <div class="enter mt-8" style="--enter-delay: 0.45s">
+          <DownloadButton id="hero" size="lg" class="w-full sm:w-auto" />
+        </div>
+        <p
+          class="enter mt-4 text-sm text-fg-muted"
+          style="--enter-delay: 0.55s"
+        >
           Free · Android <span class="font-mono">{app.minAndroid}</span> or
           newer · Version <span class="font-mono">{app.version}</span>
         </p>
       </div>
-      <PhoneMockup />
+      {/* On small screens the phone is below the fold, so it rises in on scroll there. */}
+      <div class="max-lg:reveal">
+        <PhoneMockup />
+      </div>
     </div>
   </div>
 </section>
@@ -77,17 +93,29 @@ import { app } from "../config";
     background: var(--color-ink-0);
     box-shadow:
       0 2px 0 0 rgb(255 130 150 / 0.9),
-      0 8px 24px -2px rgb(255 77 109 / 0.7),
-      0 30px 90px 10px rgb(217 43 80 / 0.35);
+      0 8px 24px -2px rgb(255 77 109 / 0.7);
     translate: -50% calc(-100% + clamp(5.5rem, 26vw, 12rem));
+  }
+  /* The wide glow is its own layer, so it can breathe on the GPU. */
+  .arc::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: 0 30px 90px 10px rgb(217 43 80 / 0.35);
   }
 
   /* Vertical folds of light, like the reference's curtain, brightest at mid-height. */
+  .streaks-in {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
   .streaks {
     position: absolute;
     top: 16%;
     bottom: 0;
-    z-index: -1;
     width: clamp(7rem, 32%, 26rem);
     pointer-events: none;
     background:
@@ -133,6 +161,63 @@ import { app } from "../config";
       );
       background-clip: text;
       color: transparent;
+    }
+  }
+
+  .bar {
+    transform-origin: left;
+  }
+
+  /* Only opacity and transforms animate, one animation per element, so the GPU runs them
+     all; that's why the entrances sit on wrappers and the breathing on a separate layer. */
+  @media (prefers-reduced-motion: no-preference) {
+    .glow {
+      animation: glow-in 1.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .arc::after {
+      animation: breathe 5s ease-in-out 1.6s infinite alternate;
+    }
+    .streaks-in {
+      animation: fade-in 1.8s ease-out 0.3s both;
+    }
+    .streaks {
+      animation: shimmer 4.5s ease-in-out 2.1s infinite alternate;
+    }
+    .streaks-right {
+      animation-duration: 6s;
+    }
+    .accent {
+      animation: enter-rise 1s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
+    }
+    .bar {
+      animation: draw 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+    }
+  }
+
+  @keyframes glow-in {
+    from {
+      opacity: 0;
+      translate: 0 -3rem;
+    }
+  }
+  @keyframes breathe {
+    to {
+      opacity: 0.4;
+    }
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes shimmer {
+    to {
+      opacity: 0.45;
+    }
+  }
+  @keyframes draw {
+    from {
+      scale: 0 1;
     }
   }
 </style>

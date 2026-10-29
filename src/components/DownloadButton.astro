@@ -16,8 +16,10 @@ const large = size === "lg";
   href={downloadHref(id)}
   data-download={id}
   class:list={[
-    "inline-flex items-center justify-center gap-2 rounded-full bg-accent-fill font-semibold text-white shadow-[0_10px_28px_-10px_rgb(217_43_80/0.8)] transition-colors hover:bg-accent-fill-pressed active:bg-accent-fill-pressed",
-    large ? "h-14 px-7 text-base" : "h-11 px-5 text-sm",
+    "inline-flex items-center justify-center gap-2 rounded-full bg-accent-fill font-semibold text-white shadow-[0_10px_28px_-10px_rgb(217_43_80/0.8)] transition-[background-color,translate,box-shadow] duration-200 hover:-translate-y-0.5 hover:bg-accent-fill-pressed hover:shadow-[0_14px_32px_-10px_rgb(217_43_80/0.9)] active:translate-y-0 active:bg-accent-fill-pressed motion-reduce:hover:translate-y-0",
+    large
+      ? "shine relative h-14 overflow-hidden px-7 text-base"
+      : "h-11 px-5 text-sm",
     className,
   ]}
 >
@@ -37,3 +39,33 @@ const large = size === "lg";
     </span>
   )}
 </a>
+
+<style>
+  /* Now and then a band of light sweeps across the large button. */
+  .shine::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      105deg,
+      transparent 30%,
+      rgb(255 255 255 / 0.35) 50%,
+      transparent 70%
+    );
+    translate: -100% 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .shine::after {
+      animation: button-shine 6s ease-in-out 2.4s infinite;
+    }
+  }
+
+  @keyframes button-shine {
+    25%,
+    100% {
+      translate: 100% 0;
+    }
+  }
+</style>
