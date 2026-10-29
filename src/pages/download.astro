@@ -1,0 +1,21 @@
+---
+// Placeholder so the Download buttons lead somewhere; the real page is Phase W3.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { app } from "../config";
+---
+
+<BaseLayout
+  title="Download"
+  description={`Download ${app.name}, the video editor for Android.`}
+>
+  <section class="mx-auto max-w-xl px-4 py-24 text-center">
+    <h1 class="text-4xl font-bold tracking-tight">Download {app.name}</h1>
+    <p class="mt-4 text-lg text-fg-muted">
+      {app.name} <span class="font-mono">{app.version}</span> for{" "}
+      <span class="whitespace-nowrap">
+        Android <span class="font-mono">{app.minAndroid}</span>
+      </span>{" "}
+      and newer will be available to download here soon.
+    </p>
+  </section>
+</BaseLayout>

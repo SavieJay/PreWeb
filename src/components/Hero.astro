@@ -1,0 +1,138 @@
+---
+// Hero in the style of the design reference: a glowing arc, ribbed light streaks
+// on both sides, a two-tone headline and the phone with floating glass tiles.
+import DownloadButton from "./DownloadButton.astro";
+import PhoneMockup from "./PhoneMockup.astro";
+import { app } from "../config";
+---
+
+<section class="relative isolate overflow-hidden">
+  <div class="glow" aria-hidden="true">
+    <div class="arc"></div>
+  </div>
+  <div class="streaks streaks-left" aria-hidden="true"></div>
+  <div class="streaks streaks-right" aria-hidden="true"></div>
+
+  <div class="relative mx-auto max-w-6xl px-4 pt-[clamp(8rem,34vw,15rem)] pb-20">
+    <h1 class="text-center">
+      <span class="block text-[clamp(1.375rem,5vw,2.75rem)] leading-tight font-light tracking-tight text-balance">
+        Pro-level video editing on your phone.
+      </span>
+      <span class="accent mt-2 block text-[clamp(2.75rem,12vw,8rem)] leading-[0.95] font-bold tracking-[-0.03em]">
+        No watermark.
+      </span>
+    </h1>
+
+    <div class="mt-12 grid items-center gap-14 lg:mt-16 lg:grid-cols-[1fr_1.15fr]">
+      <div class="mx-auto max-w-md lg:mx-0">
+        <span
+          class="block h-2 w-14 rounded-full bg-accent"
+          aria-hidden="true"
+        ></span>
+        <p class="mt-5 text-lg leading-relaxed text-fg/90 sm:text-xl">
+          {app.name} puts a full timeline, effects, text, music and 4K export in
+          your pocket. No ads, no account, and nothing leaves your phone without
+          your say-so.
+        </p>
+        <DownloadButton id="hero" size="lg" class="mt-8 w-full sm:w-auto" />
+        <p class="mt-4 text-sm text-fg-muted">
+          Free · Android <span class="font-mono">{app.minAndroid}</span> or
+          newer · Version <span class="font-mono">{app.version}</span>
+        </p>
+      </div>
+      <PhoneMockup />
+    </div>
+  </div>
+</section>
+
+<style>
+  /* A dark planet whose lower rim catches the accent light; the sides fade out. */
+  .glow {
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: -1;
+    height: clamp(26rem, 95vw, 46rem);
+    pointer-events: none;
+    background: radial-gradient(
+      60% 55% at 55% 0%,
+      rgb(92 20 38 / 0.6),
+      transparent 70%
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent 2%,
+      #000 32%,
+      #000 74%,
+      transparent 100%
+    );
+  }
+
+  .arc {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: max(56rem, 220vw);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--color-ink-0);
+    box-shadow:
+      0 2px 0 0 rgb(255 130 150 / 0.9),
+      0 8px 24px -2px rgb(255 77 109 / 0.7),
+      0 30px 90px 10px rgb(217 43 80 / 0.35);
+    translate: -50% calc(-100% + clamp(5.5rem, 26vw, 12rem));
+  }
+
+  /* Vertical folds of light, like the reference's curtain, brightest at mid-height. */
+  .streaks {
+    position: absolute;
+    top: 16%;
+    bottom: 0;
+    z-index: -1;
+    width: clamp(7rem, 32%, 26rem);
+    pointer-events: none;
+    background:
+      repeating-linear-gradient(
+        90deg,
+        transparent 0 7px,
+        rgb(255 77 109 / 0.22) 9px,
+        transparent 11px 16px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent 0 19px,
+        rgb(255 140 160 / 0.12) 22px,
+        transparent 25px 33px
+      );
+    mask-image: radial-gradient(
+      100% 45% at var(--edge) 55%,
+      #000 0%,
+      rgb(0 0 0 / 0.5) 45%,
+      transparent 100%
+    );
+  }
+  .streaks-left {
+    left: 0;
+    --edge: 0%;
+  }
+  .streaks-right {
+    right: 0;
+    --edge: 100%;
+  }
+
+  .accent {
+    color: var(--color-accent);
+    filter: drop-shadow(0 0 32px rgb(255 77 109 / 0.25));
+  }
+  @supports (background-clip: text) {
+    .accent {
+      background-image: linear-gradient(
+        100deg,
+        #e0335a 0%,
+        var(--color-accent) 40%,
+        #ff8fa3 100%
+      );
+      background-clip: text;
+      color: transparent;
+    }
+  }
+</style>

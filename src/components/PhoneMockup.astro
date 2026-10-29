@@ -1,0 +1,455 @@
+---
+// The phone with PreCut's editor, drawn in CSS until real screenshots arrive (W2),
+// with three glass tiles around it as in the design reference.
+import GlassTile from "./GlassTile.astro";
+
+const tools = [
+  {
+    label: "Edit",
+    d: "M9.64 7.64c.23-.5.36-1.05.36-1.64 0-2.21-1.79-4-4-4S2 3.79 2 6s1.79 4 4 4c.59 0 1.14-.13 1.64-.36L10 12l-2.36 2.36C7.14 14.13 6.59 14 6 14c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4c0-.59-.13-1.14-.36-1.64L12 14l7 7h3v-1L9.64 7.64zM6 8c-1.1 0-2-.89-2-2s.9-2 2-2 2 .89 2 2-.9 2-2 2zm0 12c-1.1 0-2-.89-2-2s.9-2 2-2 2 .89 2 2-.9 2-2 2zM19 3l-6 6 2 2 7-7V3z",
+  },
+  {
+    label: "Audio",
+    d: "M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z",
+  },
+  { label: "Text", d: "M5 4v3h5.5v12h3V7H19V4z" },
+  {
+    label: "Effects",
+    d: "M19 9l1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25L19 9zm-7.5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12l-5.5-2.5zM19 15l-1.25 2.75L15 19l2.75 1.25L19 23l1.25-2.75L23 19l-2.75-1.25L19 15z",
+  },
+  {
+    label: "Filters",
+    d: "M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z",
+  },
+];
+---
+
+<div class="stage relative mx-auto aspect-[4/5] w-full max-w-[34rem]">
+  <GlassTile class="top-[30%] left-[1%] z-0" delay="0s">
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle cx="6" cy="6" r="3"></circle>
+      <circle cx="6" cy="18" r="3"></circle>
+      <path d="M8.12 8.12 12 12M20 4 8.12 15.88M14.8 14.8 20 20"></path>
+    </svg>
+  </GlassTile>
+  <GlassTile class="top-[5%] right-[3%] z-0" lean="right" delay="-2.3s">
+    <svg viewBox="0 0 24 24">
+      <text
+        x="12"
+        y="16.2"
+        text-anchor="middle"
+        font-size="11"
+        font-weight="800"
+        fill="currentColor"
+      >
+        4K
+      </text>
+    </svg>
+  </GlassTile>
+  <GlassTile class="top-[60%] right-[6%] z-20" lean="right" delay="-4.6s">
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M12 3l7 3v5c0 4.5-3 8.3-7 9.5-4-1.2-7-5-7-9.5V6l7-3z"></path>
+      <path d="M9 12l2 2 4-4"></path>
+    </svg>
+  </GlassTile>
+
+  <div
+    class="phone absolute top-1/2 left-1/2 z-10"
+    role="img"
+    aria-label="The PreCut editor: a video preview above a timeline with clips, a title and music"
+  >
+    <div class="screen">
+      <div class="status">
+        <span class="font-mono">9:41</span>
+        <span class="battery"></span>
+      </div>
+
+      <div class="topbar">
+        <svg viewBox="0 0 24 24" fill="currentColor" class="icon">
+          <path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
+        </svg>
+        <span class="chip font-mono">1080p</span>
+        <span class="export">Export</span>
+      </div>
+
+      <div class="preview">
+        <div class="frame">
+          <span class="sun"></span>
+          <svg viewBox="0 0 90 40" preserveAspectRatio="none" class="hills">
+            <path
+              d="M0 22 Q18 8 34 18 T64 14 T90 16 V40 H0Z"
+              fill="#2a1030"
+            ></path>
+            <path d="M0 30 Q22 18 44 28 T90 24 V40 H0Z" fill="#140a18"></path>
+          </svg>
+          <span class="title">Weekend vlog</span>
+        </div>
+      </div>
+
+      <div class="controls">
+        <span class="font-mono">00:07 / 00:24</span>
+        <svg viewBox="0 0 24 24" fill="currentColor" class="play">
+          <path d="M8 5v14l11-7z"></path>
+        </svg>
+        <span class="undo">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="icon">
+            <path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"></path>
+          </svg>
+          <svg viewBox="0 0 24 24" fill="currentColor" class="icon dim">
+            <path d="M18.4 10.6C16.55 8.99 14.15 8 11.5 8c-4.65 0-8.58 3.03-9.96 7.22L3.9 16c1.05-3.19 4.05-5.5 7.6-5.5 1.95 0 3.73.72 5.12 1.88L13 16h9V7l-3.6 3.6z"></path>
+          </svg>
+        </span>
+      </div>
+
+      <div class="timeline">
+        <div class="ruler"></div>
+        <div class="row clips">
+          <span class="clip c1"></span>
+          <span class="clip c2 selected"></span>
+          <span class="clip c3"></span>
+        </div>
+        <div class="row">
+          <span class="lane text-lane">T&nbsp;Weekend vlog</span>
+        </div>
+        <div class="row">
+          <span class="lane music-lane"></span>
+        </div>
+        <div class="row">
+          <span class="lane voice-lane"></span>
+        </div>
+        <span class="playhead"></span>
+      </div>
+
+      <div class="toolbar">
+        {tools.map((tool) => (
+          <span class="tool">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d={tool.d} />
+            </svg>
+            {tool.label}
+          </span>
+        ))}
+      </div>
+      <span class="gesture"></span>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Everything inside is sized in cqw (phone widths), so the screen scales with the phone. */
+  .phone {
+    container-type: inline-size;
+    width: 52%;
+    aspect-ratio: 9 / 19.5;
+    padding: 2.4%;
+    border-radius: 14% / 6.5%;
+    background: linear-gradient(
+      150deg,
+      #4a4a52 0%,
+      #1b1b1f 22%,
+      #0b0b0c 55%,
+      #2a1a20 82%,
+      #6b2a3a 100%
+    );
+    box-shadow:
+      inset 0 0 0 1.5px rgb(255 255 255 / 0.14),
+      -30px 40px 80px -24px rgb(0 0 0 / 0.85),
+      40px 0 100px -30px rgb(255 77 109 / 0.5);
+    /* One transform: the minifier drops a separate `translate` next to `transform`. */
+    transform: translate(-50%, -50%) perspective(1800px) rotateY(-16deg)
+      rotateX(6deg) rotateZ(5deg);
+  }
+
+  .screen {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 12% / 5.6%;
+    background: var(--color-ink-0);
+    color: var(--color-fg);
+    font-size: 3.4cqw;
+  }
+
+  .icon {
+    width: 5.5cqw;
+    height: 5.5cqw;
+  }
+  .dim {
+    opacity: 0.38;
+  }
+
+  .status {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 9cqw;
+    padding: 2cqw 8cqw 0;
+    font-size: 3.2cqw;
+  }
+  .battery {
+    width: 6cqw;
+    height: 3cqw;
+    border-radius: 0.8cqw;
+    background: var(--color-fg);
+  }
+
+  .topbar {
+    display: flex;
+    align-items: center;
+    gap: 2cqw;
+    height: 12cqw;
+    padding: 0 4cqw;
+  }
+  .chip {
+    margin-left: auto;
+    padding: 1.2cqw 3cqw;
+    border-radius: 99px;
+    background: var(--color-ink-2);
+    font-size: 3cqw;
+  }
+  .export {
+    padding: 1.6cqw 4cqw;
+    border-radius: 99px;
+    background: var(--color-accent-fill);
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .preview {
+    display: grid;
+    place-items: center;
+    height: 92cqw;
+    background: #000;
+  }
+  .frame {
+    position: relative;
+    height: 100%;
+    aspect-ratio: 9 / 16;
+    overflow: hidden;
+    background: linear-gradient(
+      180deg,
+      #1d0f3a 0%,
+      #6b1f4e 38%,
+      #ff4d6d 66%,
+      #ffb26b 100%
+    );
+  }
+  .sun {
+    position: absolute;
+    left: 50%;
+    top: 46%;
+    width: 22cqw;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      #ffe2b8 0%,
+      #ffb26b 60%,
+      transparent 72%
+    );
+    translate: -50% -50%;
+  }
+  .hills {
+    position: absolute;
+    inset: auto 0 0;
+    width: 100%;
+    height: 42%;
+  }
+  .title {
+    position: absolute;
+    inset: 16% 0 auto;
+    text-align: center;
+    font-size: 6cqw;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-shadow: 0 0.6cqw 2cqw rgb(0 0 0 / 0.5);
+  }
+
+  .controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 12cqw;
+    padding: 0 4cqw;
+    color: var(--color-fg-muted);
+    font-size: 3cqw;
+  }
+  .play {
+    width: 8cqw;
+    height: 8cqw;
+    color: var(--color-fg);
+  }
+  .undo {
+    display: flex;
+    gap: 3cqw;
+    color: var(--color-fg);
+  }
+
+  .timeline {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2cqw;
+    padding-top: 1cqw;
+    background: var(--color-ink-0);
+  }
+  .ruler {
+    height: 4cqw;
+    background: repeating-linear-gradient(
+        90deg,
+        #6b6b74 0 0.4cqw,
+        transparent 0.4cqw 12cqw
+      )
+      0 0 / 100% 2.2cqw no-repeat;
+  }
+  .row {
+    display: flex;
+    gap: 0.8cqw;
+    height: 6.5cqw;
+    padding-left: 8cqw;
+  }
+  .clips {
+    height: 15cqw;
+  }
+  .clip {
+    position: relative;
+    height: 100%;
+    border-radius: 1.6cqw;
+    background-image:
+      repeating-linear-gradient(
+        90deg,
+        transparent 0 7.6cqw,
+        rgb(0 0 0 / 0.35) 7.6cqw 8cqw
+      ),
+      var(--thumb);
+  }
+  .c1 {
+    width: 30cqw;
+    --thumb: linear-gradient(135deg, #ffb26b, #d94f3d 60%, #5c1426);
+  }
+  .c2 {
+    width: 26cqw;
+    --thumb: linear-gradient(135deg, #3fb7a6, #137d6f 55%, #0b3a3a);
+  }
+  .c3 {
+    width: 34cqw;
+    --thumb: linear-gradient(135deg, #b48cff, #7b5bd6 50%, #2a1a55);
+  }
+  .selected {
+    outline: 0.6cqw solid #fff;
+    outline-offset: 0.3cqw;
+  }
+  .selected::before,
+  .selected::after {
+    content: "";
+    position: absolute;
+    top: -0.3cqw;
+    bottom: -0.3cqw;
+    width: 2.8cqw;
+    background: #fff;
+  }
+  .selected::before {
+    left: -2.8cqw;
+    border-radius: 1.2cqw 0 0 1.2cqw;
+  }
+  .selected::after {
+    right: -2.8cqw;
+    border-radius: 0 1.2cqw 1.2cqw 0;
+  }
+
+  .lane {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 2cqw;
+    border-radius: 1.2cqw;
+    font-size: 2.8cqw;
+    font-weight: 600;
+  }
+  .text-lane {
+    width: 40cqw;
+    margin-left: 14cqw;
+    background: var(--color-lane-text);
+    color: var(--color-ink-0);
+  }
+  .music-lane {
+    width: 100cqw;
+    background:
+      repeating-linear-gradient(
+          90deg,
+          rgb(255 255 255 / 0.6) 0 0.5cqw,
+          transparent 0.5cqw 1.3cqw
+        )
+        0 50% / 100% 55% no-repeat,
+      var(--color-lane-music);
+  }
+  .voice-lane {
+    width: 22cqw;
+    margin-left: 46cqw;
+    background: var(--color-lane-voice);
+  }
+  .playhead {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 0.6cqw;
+    background: #fff;
+    box-shadow: 0 0 0 0.3cqw rgb(14 14 16 / 0.35);
+  }
+  .playhead::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 3cqw;
+    height: 3.6cqw;
+    border-radius: 0.9cqw;
+    background: #fff;
+    translate: -50% 0;
+  }
+
+  .toolbar {
+    display: flex;
+    justify-content: space-around;
+    padding: 3cqw 2cqw 2cqw;
+    background: var(--color-ink-1);
+    font-size: 2.8cqw;
+  }
+  .tool {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2cqw;
+  }
+  .tool svg {
+    width: 6cqw;
+    height: 6cqw;
+  }
+  .gesture {
+    align-self: center;
+    width: 30cqw;
+    height: 1.2cqw;
+    margin: 2cqw 0 2.4cqw;
+    border-radius: 99px;
+    background: var(--color-fg);
+    opacity: 0.6;
+  }
+</style>

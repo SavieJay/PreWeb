@@ -1,0 +1,7 @@
+dist/
+.astro/
+node_modules/
+package-lock.json
+# Hand-written project docs
+CLAUDE.md
+docs/

@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+/* Tokens from the app's ui/theme/Color.kt and docs/design/DESIGN.md. The app is dark only, so is the site. */
+@theme {
+  --color-ink-0: #0e0e10; /* background */
+  --color-ink-1: #17171a; /* surfaces */
+  --color-ink-2: #222226; /* chips, tiles */
+  --color-ink-3: #2e2e33; /* dividers */
+  --color-ink-4: #3a3a40; /* pressed, selected */
+  --color-outline: #5a5a62;
+  --color-fg: #f2f2f5;
+  --color-fg-muted: #9a9aa3;
+
+  /* Accent is for text, icons and glows. White on Accent is only 3.2:1, so filled buttons use AccentFill. */
+  --color-accent: #ff4d6d;
+  --color-accent-fill: #d92b50;
+  --color-accent-fill-pressed: #c21f44;
+  --color-accent-container: #5c1426;
+  --color-on-accent-container: #ffd9df;
+
+  /* Timeline lane colours, used in the editor mock-up. */
+  --color-lane-text: #b8860b;
+  --color-lane-music: #137d6f;
+  --color-lane-voice: #7b5bd6;
+  --color-lane-sticker: #e07a2e;
+  --color-lane-effect: #a3c93a;
+
+  --font-sans: "Roboto Flex Variable", "Roboto Flex", system-ui, sans-serif;
+  --font-mono: "Roboto Mono Variable", "Roboto Mono", ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    background-color: var(--color-ink-0);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    min-height: 100dvh;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+}

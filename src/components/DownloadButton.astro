@@ -1,0 +1,39 @@
+---
+import { downloadHref } from "../lib/download";
+
+interface Props {
+  /** Names the button in the Play referrer and in click counts, e.g. "header" or "hero". */
+  id: string;
+  size?: "sm" | "lg";
+  class?: string;
+}
+
+const { id, size = "sm", class: className } = Astro.props;
+const large = size === "lg";
+---
+
+<a
+  href={downloadHref(id)}
+  data-download={id}
+  class:list={[
+    "inline-flex items-center justify-center gap-2 rounded-full bg-accent-fill font-semibold text-white shadow-[0_10px_28px_-10px_rgb(217_43_80/0.8)] transition-colors hover:bg-accent-fill-pressed active:bg-accent-fill-pressed",
+    large ? "h-14 px-7 text-base" : "h-11 px-5 text-sm",
+    className,
+  ]}
+>
+  <svg
+    aria-hidden="true"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    class={large ? "size-6" : "size-5"}
+  >
+    <path d="M5 20h14v-2H5v2zm14-11h-4V3H9v6H5l7 7 7-7z"></path>
+  </svg>
+  {large ? (
+    <span>Download for Android</span>
+  ) : (
+    <span>
+      Download<span class="sr-only"> PreCut</span>
+    </span>
+  )}
+</a>

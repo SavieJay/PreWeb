@@ -1,0 +1,22 @@
+---
+import logo from "../assets/logo.svg";
+import DownloadButton from "./DownloadButton.astro";
+import { app } from "../config";
+---
+
+<header class="sticky top-0 z-50 border-b border-white/5 bg-ink-0/75 backdrop-blur-md">
+  <div class="mx-auto flex h-16 max-w-6xl items-center gap-4 px-4">
+    <a href="/" class="flex items-center gap-2.5">
+      <img src={logo.src} width="23" height="28" alt="" />
+      <span class="text-xl font-semibold tracking-tight">{app.name}</span>
+    </a>
+    <span
+      aria-hidden="true"
+      class="hidden h-8 w-px rotate-[20deg] bg-fg/40 sm:block"
+    ></span>
+    <span class="hidden text-sm text-fg-muted sm:block">
+      Video editor for Android
+    </span>
+    <DownloadButton id="header" class="ml-auto" />
+  </div>
+</header>
