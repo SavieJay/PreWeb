@@ -22,6 +22,14 @@ Node 22.23 or newer.
 - `src/components/`, `src/layouts/`, `src/pages/`: the site. Each file in `src/pages/` is a page.
 - `netlify.toml`: build settings and response headers.
 
+## Publishing a new APK
+
+1. Build a signed release APK from a commit of the PreCut app (`./gradlew assembleRelease`), signed with the same key as every earlier version.
+2. Check it and note its numbers: `apksigner verify --print-certs <apk>` (certificate SHA-256), `stat -c %s <apk>` (size), `sha256sum <apk>`.
+3. Copy it to `release/PreCut-<version>.apk` and publish it:
+   `gh release create v<version> release/PreCut-<version>.apk --title "PreCut <version>" --notes-file release/notes-v<version>.md`
+4. In `src/config.ts`, set `app.version` and the APK's `sizeBytes`, `sha256` and `certSha256`, then push. The site's buttons point at the new file.
+
 ## Deploying
 
 Every push to `main` deploys to production on Netlify; every pull request gets its own preview link.

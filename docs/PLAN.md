@@ -12,8 +12,8 @@ Reasons: different stack and tooling, deploys on its own schedule, and the app's
 ## How the download button works
 *Changed 2026-10-29 (user): PreCut isn't on Google Play yet, so the site offers the APK now and switches to Play later.*
 
-- **Now: direct APK.** Every download button goes to `/download`, which offers the signed APK with its version,
-  size, SHA-256 checksum and "allow unknown apps" install steps. The APK is a GitHub Release asset of this repo
+- **Now: direct APK.** Every download button goes to `/download#start`, which offers the signed APK with its version,
+  size, SHA-256 checksum and "allow unknown apps" install steps; on Android phones `#start` begins the download at once. The APK is a GitHub Release asset of this repo
   (`SavieJay/PreWeb`), never committed; GitHub doesn't count download traffic, Netlify's free plan does.
 - **After the Play launch:** set `play.live = true` in `src/config.ts`. Buttons then go to the Play listing with a referrer tag
   (`https://play.google.com/store/apps/details?id=<package>&referrer=utm_source%3Dwebsite%26utm_medium%3D<button-id>`)
@@ -59,8 +59,10 @@ Reasons: different stack and tooling, deploys on its own schedule, and the app's
 **Acceptance:** Lighthouse ≥ 95 on mobile for performance, accessibility and SEO; looks right at 360px, 768px and 1280px.
 
 ## Phase W3 — Download, pricing, changelog
+*The download items were brought forward on 2026-10-29 at the user's request.*
 - [ ] Publish the signed release APK as a GitHub Release (`v<version>`, `PreCut-<version>.apk`) with its SHA-256; size and checksum in `src/config.ts`
-- [ ] `/download` smart page (rules above), QR code generated at build time
+  (1.0.0 built from PreCut commit `6b2636a`, versionCode 35, signature verified; values are in `src/config.ts` and the file waits in the gitignored `release/` until the public repo exists)
+- [x] `/download` smart page (rules above), QR code generated at build time (no iPhone waitlist yet)
 - [ ] `/pricing` — Free vs Pro with prices from `src/config.ts`; "Prices may vary by country" note; links to the app
 - [ ] `/changelog` — one Markdown file per release in `src/content/changelog/`; newest first
 - [ ] Analytics: count clicks on each download button (privacy-friendly, no cookies)

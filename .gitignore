@@ -26,3 +26,6 @@ Design.jpg
 # APKs are published on GitHub Releases, never committed
 *.apk
 *.aab
+
+# Release files waiting to be published (APK and notes)
+release/

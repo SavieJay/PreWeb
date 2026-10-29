@@ -3,6 +3,7 @@
 // on both sides, a two-tone headline and the phone with floating glass tiles.
 import DownloadButton from "./DownloadButton.astro";
 import PhoneMockup from "./PhoneMockup.astro";
+import AppFacts from "./AppFacts.astro";
 import { app } from "../config";
 ---
 
@@ -45,13 +46,10 @@ import { app } from "../config";
         <div class="enter mt-8" style="--enter-delay: 0.45s">
           <DownloadButton id="hero" size="lg" class="w-full sm:w-auto" />
         </div>
-        <p
+        <AppFacts
           class="enter mt-4 text-sm text-fg-muted"
           style="--enter-delay: 0.55s"
-        >
-          Free · Android <span class="font-mono">{app.minAndroid}</span> or
-          newer · Version <span class="font-mono">{app.version}</span>
-        </p>
+        />
       </div>
       {/* On small screens the phone is below the fold, so it rises in on scroll there. */}
       <div class="max-lg:reveal">

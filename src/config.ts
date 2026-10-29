@@ -17,9 +17,13 @@ export const play = {
 /** The signed APK, published as a GitHub Release asset of this repository. */
 export const apk = {
   url: `https://github.com/SavieJay/PreWeb/releases/download/v${app.version}/PreCut-${app.version}.apk`,
-  // Filled in when the release is published (W3).
-  sizeBytes: null as number | null,
-  sha256: null as string | null,
+  // Built from PreCut commit 6b2636a (versionCode 35). From the file: `stat -c %s`, `sha256sum`.
+  sizeBytes: 8_916_929,
+  sha256: "f97372f086d77d9bf8821b464b6b8e7ffc6fdd8ccd204fd3e11c3164eff3c174",
+  // The signing certificate's SHA-256 (`apksigner verify --print-certs`). Every version
+  // must be signed with this key, or it won't install over the previous one.
+  certSha256:
+    "2c108e1a3cf6490e9913e73eefe02bdde2ebd028aedb9ac57502ad45f4342912",
 };
 
 // TODO(user): needed for the legal pages in W1.

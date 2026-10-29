@@ -6,14 +6,24 @@ interface Props {
   id: string;
   size?: "sm" | "lg";
   class?: string;
+  /** Overrides where the button goes, e.g. straight to the APK on the download page. */
+  href?: string;
+  /** Overrides the large button's label. */
+  label?: string;
 }
 
-const { id, size = "sm", class: className } = Astro.props;
+const {
+  id,
+  size = "sm",
+  class: className,
+  href = downloadHref(id),
+  label = "Download for Android",
+} = Astro.props;
 const large = size === "lg";
 ---
 
 <a
-  href={downloadHref(id)}
+  href={href}
   data-download={id}
   class:list={[
     "inline-flex items-center justify-center gap-2 rounded-full bg-accent-fill font-semibold text-white shadow-[0_10px_28px_-10px_rgb(217_43_80/0.8)] transition-[background-color,translate,box-shadow] duration-200 hover:-translate-y-0.5 hover:bg-accent-fill-pressed hover:shadow-[0_14px_32px_-10px_rgb(217_43_80/0.9)] active:translate-y-0 active:bg-accent-fill-pressed motion-reduce:hover:translate-y-0",
@@ -32,7 +42,7 @@ const large = size === "lg";
     <path d="M5 20h14v-2H5v2zm14-11h-4V3H9v6H5l7 7 7-7z"></path>
   </svg>
   {large ? (
-    <span>Download for Android</span>
+    <span>{label}</span>
   ) : (
     <span>
       Download<span class="sr-only"> PreCut</span>

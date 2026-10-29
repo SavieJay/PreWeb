@@ -1,21 +1,216 @@
 ---
-// Placeholder so the Download buttons lead somewhere; the real page is Phase W3.
+// The download page. Each device sees its own part: the APK and how to install it on
+// Android phones, a QR code on computers, a note on iPhones and iPads (docs/PLAN.md).
+import { renderSVG } from "uqr";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { app } from "../config";
+import AppFacts from "../components/AppFacts.astro";
+import DownloadButton from "../components/DownloadButton.astro";
+import { apk, app } from "../config";
+import { formatSize } from "../lib/download";
+
+const fileName = `PreCut-${app.version}.apk`;
+const size = apk.sizeBytes ? formatSize(apk.sizeBytes) : null;
+// Dark squares on white, which phone cameras read most reliably.
+const qr = renderSVG(new URL("/download", Astro.site).href, {
+  ecc: "M",
+  border: 2,
+  pixelSize: 1,
+});
+
+const steps = [
+  {
+    title: "Download the APK",
+    text: "with the button above. If your browser asks whether to keep the file, choose to download it.",
+  },
+  {
+    title: "Open the file:",
+    text: `tap Open in the download notification, or find ${fileName} in your Downloads.`,
+  },
+  {
+    title: "Allow the install:",
+    text: "if Android asks, tap Settings, turn on Allow from this source, then go back.",
+  },
+  {
+    title: "Tap Install, then Open.",
+    text: "Google Play Protect may check the app first. That's normal for apps from outside Google Play.",
+  },
+];
 ---
 
 <BaseLayout
   title="Download"
-  description={`Download ${app.name}, the video editor for Android.`}
+  description={`Download ${app.name}, the video editor for Android: the APK, how to install it, and how to check it's genuine.`}
 >
-  <section class="mx-auto max-w-xl px-4 py-24 text-center">
-    <h1 class="enter text-4xl font-bold tracking-tight">Download {app.name}</h1>
-    <p class="enter mt-4 text-lg text-fg-muted" style="--enter-delay: 0.12s">
-      {app.name} <span class="font-mono">{app.version}</span> for{" "}
-      <span class="whitespace-nowrap">
-        Android <span class="font-mono">{app.minAndroid}</span>
-      </span>{" "}
-      and newer will be available to download here soon.
-    </p>
+  <Fragment slot="head">
+    <script is:inline>
+      // Show the part of the page for this device before anything is drawn.
+      (() => {
+        const ua = navigator.userAgent;
+        const ios =
+          /iPhone|iPad|iPod/.test(ua) ||
+          (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+        document.documentElement.dataset.device = /Android/i.test(ua)
+          ? "android"
+          : ios
+            ? "ios"
+            : "desktop";
+      })();
+    </script>
+  </Fragment>
+
+  <section class="relative isolate overflow-hidden">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="mx-auto max-w-2xl px-4 pt-14 pb-20 sm:pt-20">
+      <h1 class="enter text-center text-4xl font-bold tracking-tight sm:text-5xl">
+        Download {app.name}
+      </h1>
+      <AppFacts
+        class="enter mt-3 text-center text-fg-muted"
+        style="--enter-delay: 0.1s"
+      />
+
+      <div data-for="android" class="enter mt-10" style="--enter-delay: 0.2s">
+        <div class="flex flex-col items-center">
+          <DownloadButton
+            id="apk"
+            size="lg"
+            href={apk.url}
+            label="Download APK"
+            class="w-full sm:w-auto"
+          />
+          <p id="started" role="status" class="mt-3 text-sm text-fg-muted"></p>
+        </div>
+
+        <div class="mt-10 rounded-3xl border border-white/5 bg-ink-1 p-6">
+          <h2 class="text-xl font-semibold">Install it in four steps</h2>
+          <p class="mt-2 text-fg-muted">
+            {app.name} isn't on Google Play yet, so you install it from here. It
+            takes about a minute.
+          </p>
+          <ol class="mt-6 space-y-5">
+            {steps.map((step, i) => (
+              <li class="flex gap-4">
+                <span class="grid size-8 shrink-0 place-items-center rounded-full bg-accent-container font-mono text-sm font-semibold text-on-accent-container">
+                  {i + 1}
+                </span>
+                <p class="pt-1 leading-relaxed">
+                  <strong class="font-semibold">{step.title}</strong>{" "}
+                  <span class="text-fg/80">{step.text}</span>
+                </p>
+              </li>
+            ))}
+          </ol>
+          <p class="mt-6 border-t border-white/5 pt-5 text-sm text-fg-muted">
+            When there's a new version, download it here and install it over
+            this one. Your projects stay.
+          </p>
+        </div>
+      </div>
+
+      <div data-for="desktop" class="enter mt-10" style="--enter-delay: 0.2s">
+        <div class="flex flex-col items-center gap-8 rounded-3xl border border-white/5 bg-ink-1 p-6 sm:flex-row sm:p-8">
+          <div
+            class="qr w-48 shrink-0 overflow-hidden rounded-2xl"
+            role="img"
+            aria-label="QR code that opens this page"
+            set:html={qr}
+          />
+          <div class="text-center sm:text-left">
+            <h2 class="text-xl font-semibold">Scan with your Android phone</h2>
+            <p class="mt-2 text-fg-muted">
+              {app.name} is an Android app. Point your phone's camera at the
+              code to open this page there, then tap Download APK.
+            </p>
+            <a
+              href={apk.url}
+              class="mt-4 inline-block py-2 text-accent underline-offset-4 hover:underline"
+              data-download="apk-desktop"
+            >
+              Or download the APK to this computer{size && ` (${size})`}
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div
+        data-for="ios"
+        class="enter mt-10 rounded-3xl border border-white/5 bg-ink-1 p-6 text-center"
+        style="--enter-delay: 0.2s"
+      >
+        <h2 class="text-xl font-semibold">{app.name} is on Android for now</h2>
+        <p class="mt-2 text-fg-muted">
+          There's no iPhone or iPad version yet. To get {app.name}, open this
+          page on an Android phone.
+        </p>
+      </div>
+
+      {apk.sha256 && apk.certSha256 && (
+        <details class="mt-8 rounded-2xl border border-white/5 bg-ink-1 p-5">
+          <summary class="cursor-pointer font-semibold">
+            Check that the file is genuine
+          </summary>
+          <dl class="mt-4 space-y-4 text-sm">
+            <div>
+              <dt class="text-fg-muted">SHA-256 of {fileName}</dt>
+              <dd class="mt-1 font-mono break-all">{apk.sha256}</dd>
+            </div>
+            <div>
+              <dt class="text-fg-muted">Signing certificate (SHA-256)</dt>
+              <dd class="mt-1 font-mono break-all">{apk.certSha256}</dd>
+            </div>
+          </dl>
+          <p class="mt-4 text-sm text-fg-muted">
+            Every version of {app.name} is signed with this certificate, which
+            is why a new version installs over the old one and keeps your
+            projects.
+          </p>
+        </details>
+      )}
+    </div>
   </section>
+
+  <script is:inline define:vars={{ apkUrl: apk.url }}>
+    // Arriving from a Download button (#start) on an Android phone starts the
+    // download straight away, with the install steps already on screen.
+    if (location.hash === "#start") {
+      history.replaceState(null, "", location.pathname);
+      if (document.documentElement.dataset.device === "android") {
+        setTimeout(() => {
+          document.getElementById("started").textContent =
+            "Your download has started. If nothing happens, tap Download APK.";
+          location.href = apkUrl;
+        }, 600);
+      }
+    }
+  </script>
 </BaseLayout>
+
+<style>
+  .glow {
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: -1;
+    height: 28rem;
+    pointer-events: none;
+    background: radial-gradient(
+      50% 60% at 50% 0%,
+      rgb(92 20 38 / 0.55),
+      transparent 70%
+    );
+  }
+
+  .qr :global(svg) {
+    display: block;
+    width: 100%;
+    height: auto;
+    shape-rendering: crispEdges;
+  }
+
+  /* Only the part for this device. Without JavaScript, Android and computer both show. */
+  :global(html[data-device="android"]) [data-for]:not([data-for~="android"]),
+  :global(html[data-device="ios"]) [data-for]:not([data-for~="ios"]),
+  :global(html[data-device="desktop"]) [data-for]:not([data-for~="desktop"]),
+  :global(html:not([data-device])) [data-for="ios"] {
+    display: none;
+  }
+</style>
