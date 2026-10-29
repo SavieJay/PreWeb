@@ -34,7 +34,9 @@ Reasons: different stack and tooling, deploys on its own schedule, and the app's
 - [x] Astro + Tailwind + TypeScript project, Prettier, `src/config.ts` (app name, package name, Play switch, APK, prices, contact email, current version)
 - [x] Base layout: header with logo and "Download" button, footer with legal links
 - [x] Fonts, colors and tokens matching the app
-- [ ] Deploy to Netlify from GitHub; preview deploys on pull requests
+- [x] Deploy to Netlify from GitHub; preview deploys on pull requests
+  (2026-10-29: https://precut.netlify.app, team "SAVIE" (savyj03@gmail.com), linked through Netlify's GitHub app; pushes to `main` deploy.
+  The free plan's "Powered by Netlify" badge is switched off (site setting `built_with_badge_enabled`), since the site shows no third-party logos)
 
 **Acceptance:** a "Hello PreCut" page is live on a `*.netlify.app` URL.
 
