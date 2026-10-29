@@ -60,8 +60,8 @@ Reasons: different stack and tooling, deploys on its own schedule, and the app's
 
 ## Phase W3 — Download, pricing, changelog
 *The download items were brought forward on 2026-10-29 at the user's request.*
-- [ ] Publish the signed release APK as a GitHub Release (`v<version>`, `PreCut-<version>.apk`) with its SHA-256; size and checksum in `src/config.ts`
-  (1.0.0 built from PreCut commit `6b2636a`, versionCode 35, signature verified; values are in `src/config.ts` and the file waits in the gitignored `release/` until the public repo exists)
+- [x] Publish the signed release APK as a GitHub Release (`v<version>`, `PreCut-<version>.apk`) with its SHA-256; size and checksum in `src/config.ts`
+  (1.0.0 built from PreCut commit `6b2636a`, versionCode 35, signature verified; published 2026-10-29, the public download's SHA-256 matches)
 - [x] `/download` smart page (rules above), QR code generated at build time (no iPhone waitlist yet)
 - [ ] `/pricing` — Free vs Pro with prices from `src/config.ts`; "Prices may vary by country" note; links to the app
 - [ ] `/changelog` — one Markdown file per release in `src/content/changelog/`; newest first
