@@ -29,3 +29,8 @@ Design.jpg
 
 # Release files waiting to be published (APK and notes)
 release/
+
+# Impeccable design skill: decision mocks and review captures are local working files
+.impeccable/mocks/
+.impeccable/review/
+.impeccable/build/

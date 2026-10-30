@@ -1,81 +1,120 @@
 @import "tailwindcss";
 
-/* Tokens from the app's ui/theme/Color.kt and docs/design/DESIGN.md. The app is dark only, so is the site. */
+/* Daylight section: the site is drawn like an architect's section through an edit.
+   Limewash ground, charcoal poché for cut walls and the ground slab, one gold sunbeam
+   for the playhead and the primary action. Contrast ratios are against the ground they
+   sit on (WCAG AA). */
 @theme {
-  --color-ink-0: #0e0e10; /* background */
-  --color-ink-1: #17171a; /* surfaces */
-  --color-ink-2: #222226; /* chips, tiles */
-  --color-ink-3: #2e2e33; /* dividers */
-  --color-ink-4: #3a3a40; /* pressed, selected */
-  --color-outline: #5a5a62;
-  --color-fg: #f2f2f5;
-  --color-fg-muted: #9a9aa3;
+  --color-lime: #f2efea; /* limewash ground */
+  --color-lime-2: #e7e3dc; /* shaded plaster: panels on the ground */
+  --color-mortar: #d9dcdd; /* mortar panels */
+  --color-stone: #a8a39a; /* drawn lines only, never text (2.2:1) */
+  --color-poche: #1c1f22; /* section cut, text on limewash (14.4:1) */
+  --color-poche-2: #272b30; /* raised surfaces on the slab */
 
-  /* Accent is for text, icons and glows. White on Accent is only 3.2:1, so filled buttons use AccentFill. */
-  --color-accent: #ff4d6d;
-  --color-accent-fill: #d92b50;
-  --color-accent-fill-pressed: #c21f44;
-  --color-accent-container: #5c1426;
-  --color-on-accent-container: #ffd9df;
+  /* Gold is light, not ink: a fill under charcoal text (7.3:1) or text on the slab
+     (7.3:1). On limewash, gold-toned text uses sun-ink (5.7:1). */
+  --color-sun: #d6a43a;
+  --color-sun-ink: #7a5710;
 
-  /* Timeline lane colours, used in the editor mock-up. */
-  --color-lane-text: #b8860b;
-  --color-lane-music: #137d6f;
-  --color-lane-voice: #7b5bd6;
-  --color-lane-sticker: #e07a2e;
-  --color-lane-effect: #a3c93a;
+  /* Shadow blue marks what the light has left: past times, secondary text. */
+  --color-shadow: #4e5c6b; /* on limewash 6.0:1, on mortar 5.0:1 */
+  --color-dusk: #a7b0ba; /* secondary text on the slab (7.5:1) */
+  --color-dusk-2: #7d8b9a; /* past times on the slab (4.8:1) */
 
+  --font-display: "Barlow Condensed", "Roboto Flex Variable", sans-serif;
   --font-sans: "Roboto Flex Variable", "Roboto Flex", system-ui, sans-serif;
   --font-mono: "Roboto Mono Variable", "Roboto Mono", ui-monospace, monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @layer base {
   html {
-    color-scheme: dark;
-    background-color: var(--color-ink-0);
-    color: var(--color-fg);
+    color-scheme: light;
+    background-color: var(--color-lime);
+    color: var(--color-poche);
     font-family: var(--font-sans);
     -webkit-tap-highlight-color: transparent;
+    scrollbar-color: var(--color-stone) var(--color-lime);
+    scroll-padding-top: 5rem;
   }
 
   body {
     min-height: 100dvh;
+    /* Limewash: a faint mineral grain over the plaster colour. */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .32 0 0 0 0 .28 0 0 0 .55 -.3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  }
+
+  ::selection {
+    background: var(--color-sun);
+    color: var(--color-poche);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-accent);
+    outline: 2px solid var(--color-poche);
     outline-offset: 3px;
   }
-}
 
-/* Motion. Things move only for people who haven't asked their device for reduced motion,
-   and only transform and opacity change, so animations never shift the layout. */
-@keyframes enter-rise {
-  from {
-    opacity: 0;
-    translate: 0 1.5rem;
+  /* On the charcoal slab the focus ring is gold. */
+  .slab :focus-visible {
+    outline-color: var(--color-sun);
+  }
+
+  :where(a) {
+    text-underline-offset: 0.2em;
+  }
+
+  /* No single word stranded on a paragraph's last line. */
+  :where(p, li, dd) {
+    text-wrap: pretty;
   }
 }
 
-/* Rises in on page load. Stagger with style="--enter-delay: 0.2s". */
-@utility enter {
-  @media (prefers-reduced-motion: no-preference) {
-    animation: enter-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1)
-      var(--enter-delay, 0s) both;
-  }
+/* Architect's lettering: inclined, condensed capitals, tracked wide. */
+@utility lettering {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
-/* Rises in as it scrolls into view. Browsers without scroll-driven animations just show it. */
-@utility reveal {
-  @media (prefers-reduced-motion: no-preference) {
-    /* Longhands on purpose: the minifier folds a timeline into the `animation`
-       shorthand, which browsers reject. */
-    @supports (animation-timeline: view()) {
-      animation-name: enter-rise;
-      animation-timing-function: linear;
-      animation-fill-mode: both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 60%;
-    }
-  }
+/* Small inclined caps for labels on drawings and readouts. */
+@utility label {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 0.8125rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+
+/* Times and measures: upright, tabular, so digits never shift as they change. */
+@utility tabular {
+  font-family: var(--font-display);
+  font-style: normal;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+}
+
+/* The charcoal ground slab: dark sections, the final call and the footer. */
+@utility slab {
+  background-color: var(--color-poche);
+  color: var(--color-lime);
+}
+
+/* A hairline rule, as drawn on the sheet. */
+@utility hairline {
+  border-color: color-mix(in srgb, var(--color-poche) 55%, transparent);
+}
+
+/* Sections well below the first screen are laid out only when they come near it,
+   which keeps the first load light on slow phones (measured on the W2 page: the
+   biggest style task went from 17 to 11 ms). The height is a guess until the first render. */
+@utility below-fold {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
 }

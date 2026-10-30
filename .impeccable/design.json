@@ -1,0 +1,437 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-30T00:00:00Z",
+  "title": "Design System: PreCut",
+  "extensions": {
+    "colorMeta": {
+      "limewash": {
+        "role": "neutral",
+        "displayName": "Limewash",
+        "canonical": "#f2efea",
+        "tonalRamp": [
+          "#0c0b09",
+          "#262420",
+          "#423f3b",
+          "#605d59",
+          "#82807b",
+          "#a7a49f",
+          "#cdcac6",
+          "#f0eeea"
+        ]
+      },
+      "shaded-plaster": {
+        "role": "neutral",
+        "displayName": "Shaded Plaster",
+        "canonical": "#e7e3dc",
+        "tonalRamp": [
+          "#0d0b08",
+          "#26241f",
+          "#423f3a",
+          "#615d57",
+          "#838079",
+          "#a8a49d",
+          "#cecac4",
+          "#f1eee9"
+        ]
+      },
+      "mortar": {
+        "role": "neutral",
+        "displayName": "Mortar",
+        "canonical": "#d9dcdd",
+        "tonalRamp": [
+          "#0a0b0c",
+          "#222425",
+          "#3e4041",
+          "#5b5e5f",
+          "#7e8182",
+          "#a2a5a6",
+          "#c8cbcc",
+          "#eceff0"
+        ]
+      },
+      "stone": {
+        "role": "neutral",
+        "displayName": "Stone",
+        "canonical": "#a8a39a",
+        "tonalRamp": [
+          "#0d0b06",
+          "#27241d",
+          "#433f37",
+          "#625d55",
+          "#848077",
+          "#a9a49b",
+          "#cfcac1",
+          "#f2eee7"
+        ]
+      },
+      "poche": {
+        "role": "neutral",
+        "displayName": "Poché",
+        "canonical": "#1c1f22",
+        "tonalRamp": [
+          "#090b0d",
+          "#212427",
+          "#3d4043",
+          "#5a5e62",
+          "#7d8184",
+          "#a1a5a9",
+          "#c7cbcf",
+          "#eceff2"
+        ]
+      },
+      "poche-raised": {
+        "role": "neutral",
+        "displayName": "Raised Poché",
+        "canonical": "#272b30",
+        "tonalRamp": [
+          "#090b0f",
+          "#212429",
+          "#3c4045",
+          "#595e64",
+          "#7c8187",
+          "#a0a5ab",
+          "#c6cbd1",
+          "#ebeff4"
+        ]
+      },
+      "sunbeam": {
+        "role": "primary",
+        "displayName": "Sunbeam Gold",
+        "canonical": "#d6a43a",
+        "tonalRamp": [
+          "#1e0200",
+          "#401700",
+          "#613400",
+          "#825300",
+          "#a77700",
+          "#cd9c2f",
+          "#f2c365",
+          "#ffe99f"
+        ]
+      },
+      "sun-ink": {
+        "role": "primary",
+        "displayName": "Sun Ink",
+        "canonical": "#7a5710",
+        "tonalRamp": [
+          "#1a0500",
+          "#3a1c00",
+          "#593800",
+          "#79560f",
+          "#9e7939",
+          "#c49e5e",
+          "#e9c489",
+          "#ffeab9"
+        ]
+      },
+      "shadow-blue": {
+        "role": "secondary",
+        "displayName": "Shadow Blue",
+        "canonical": "#4e5c6b",
+        "tonalRamp": [
+          "#050c14",
+          "#1a2531",
+          "#34414f",
+          "#515f6e",
+          "#738292",
+          "#97a6b7",
+          "#bdccdd",
+          "#e4f0fe"
+        ]
+      },
+      "dusk": {
+        "role": "secondary",
+        "displayName": "Dusk",
+        "canonical": "#a7b0ba",
+        "tonalRamp": [
+          "#070c11",
+          "#1e252c",
+          "#394149",
+          "#565f67",
+          "#79818b",
+          "#9da6b0",
+          "#c3ccd5",
+          "#e8eff7"
+        ]
+      },
+      "dusk-deep": {
+        "role": "secondary",
+        "displayName": "Deep Dusk",
+        "canonical": "#7d8b9a",
+        "tonalRamp": [
+          "#050c14",
+          "#1a2530",
+          "#35414e",
+          "#525f6d",
+          "#748291",
+          "#98a6b6",
+          "#beccdb",
+          "#e4f0fd"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display lettering",
+        "purpose": "Hero and final-call headlines; inclined condensed caps, lit last line at weight 400."
+      },
+      "headline": {
+        "displayName": "Section headline",
+        "purpose": "Section titles on the sheet."
+      },
+      "title": {
+        "displayName": "Room title",
+        "purpose": "Feature room titles and download-page subheads."
+      },
+      "inscription": {
+        "displayName": "Inscription",
+        "purpose": "Inclined mixed-case Barlow for FAQ summaries, privacy stops, note values, prose h2s and the tagline."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Running text in Roboto Flex, upright; max 38rem in rooms, 62ch in prose."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Inclined caps tracked 0.16em for names on drawings, nav links and dt elements."
+      },
+      "readout": {
+        "displayName": "Readout",
+        "purpose": "Upright tabular figures for times, versions, sizes and dates."
+      },
+      "code": {
+        "displayName": "Fingerprint mono",
+        "purpose": "Roboto Mono for SHA-256 and signing certificates only."
+      }
+    },
+    "shadows": [
+      {
+        "name": "device",
+        "value": "inset 0 0 0 1px #3a3f45, 0 34px 44px -26px rgb(28 31 34 / 0.55)",
+        "purpose": "The poché phone body standing in the drawing; the only object that casts."
+      },
+      {
+        "name": "app-dialog",
+        "value": "0 24px 36px -24px rgb(28 31 34 / 0.6)",
+        "purpose": "The replica of the app's consent dialog only."
+      },
+      {
+        "name": "point-ring",
+        "value": "0 0 0 2px #1c1f22",
+        "purpose": "Separates gold leader dots (2px) and scrubber knobs (4px) from what lies under them."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "The single easing for every state change."
+      },
+      {
+        "name": "plate",
+        "value": "0.2s",
+        "purpose": "Button plate colour; icon slides 0.15em over 0.25s."
+      },
+      {
+        "name": "room-state",
+        "value": "0.6s",
+        "purpose": "Room marker and time moving between ahead, lit and past."
+      },
+      {
+        "name": "room-light",
+        "value": "0.9s",
+        "purpose": "The lit room's skewed gold light fading and sliding in."
+      },
+      {
+        "name": "beam-in",
+        "value": "1.2s, 0.15s delay",
+        "purpose": "The hero sunbeam wiping in across the last headline line."
+      },
+      {
+        "name": "scrub",
+        "value": "18s linear infinite, -7s delay",
+        "purpose": "Hero scrubber and EditorDemo on one clock starting at 0:07."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "none",
+        "purpose": "Editor holds its 0:07 still frame; rooms still change state on scroll without transitions; beam static."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "phone-zoom",
+        "value": "25rem"
+      },
+      {
+        "name": "sm",
+        "value": "40rem"
+      },
+      {
+        "name": "md",
+        "value": "48rem"
+      },
+      {
+        "name": "lg",
+        "value": "64rem"
+      },
+      {
+        "name": "xl",
+        "value": "80rem"
+      }
+    ],
+    "provenance": {
+      "rasters": "Every shipping raster embeds its origin (impeccable embed-prompt --read <file>).",
+      "screens": "src/assets/screens/*.png rendered from the owner's Claude Design canvas https://claude.ai/artifact/7f63Ei5FQWe3ug2rdiN2TQ (artboards E-03, E-04, U-04, T-06, X-04c3, P-04, EX-01) with headless Chromium at 2x on 2026-10-30; rendered designs, not device captures.",
+      "og": "public/og.jpg composed in HTML from the hero.",
+      "world": "Daylight section, chosen by the owner 2026-10-30; sunbeam gold chosen over the app's pink."
+    },
+    "knownDetectorFindings": [
+      {
+        "id": "cream-palette",
+        "status": "kept",
+        "reason": "The world's limewash ground, owner-pinned."
+      },
+      {
+        "id": "tiny-text / stripe-gradients",
+        "status": "kept, scoped",
+        "reason": "10px text and stripe gradients exist only inside the role=img EditorDemo mock, copied from the app design; not site rules."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Sun Plate (primary download)",
+      "kind": "button",
+      "refersTo": "button-sun",
+      "description": "The gold chamfered plate: the one primary action, Download for Android.",
+      "html": "<a href=\"#\" class=\"ds-plate ds-plate-sun\"><span>Download for Android</span><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 3.5v11M7 10l5 5 5-5M4.5 20h15\"/></svg></a>",
+      "css": ":host{--color-lime:#f2efea;--color-lime-2:#e7e3dc;--color-mortar:#d9dcdd;--color-stone:#a8a39a;--color-poche:#1c1f22;--color-poche-2:#272b30;--color-sun:#d6a43a;--color-sun-ink:#7a5710;--color-shadow:#4e5c6b;--color-dusk:#a7b0ba;--font-display:'Barlow Condensed','Roboto Flex Variable',sans-serif;--font-sans:'Roboto Flex Variable','Roboto Flex',system-ui,sans-serif;--ease-out-expo:cubic-bezier(0.16,1,0.3,1)} .ds-plate{--cut:0.7rem;position:relative;isolation:isolate;display:inline-flex;align-items:center;justify-content:center;gap:0.9rem;min-height:3.5rem;padding-inline:calc(var(--cut) + 1rem);font-family:var(--font-display);font-style:italic;font-weight:500;font-size:1.125rem;text-transform:uppercase;letter-spacing:0.14em;text-decoration:none;white-space:nowrap;transition:color .2s var(--ease-out-expo)}.ds-plate::before,.ds-plate::after{content:'';position:absolute;z-index:-1;clip-path:polygon(var(--cut) 0,100% 0,calc(100% - var(--cut)) 100%,0 100%);transition:background-color .2s var(--ease-out-expo)}.ds-plate::before{inset:0;background:var(--plate)}.ds-plate::after{inset:1.5px 2px;background:var(--face,transparent)}.ds-plate:focus-visible{outline:2px solid var(--color-poche);outline-offset:3px}.ds-plate svg{width:1.25em;height:1.25em;transition:translate .25s var(--ease-out-expo)}.ds-plate:hover svg{translate:0.15em 0}.ds-plate-sun{--plate:var(--color-sun);color:var(--color-poche)}.ds-plate-sun:hover{--plate:#e2b44f}.ds-plate-sun:active{--plate:#c4932c}"
+    },
+    {
+      "name": "Poché Plate (header download)",
+      "kind": "button",
+      "refersTo": "button-poche",
+      "description": "Small charcoal plate with a gold label, used in the header.",
+      "html": "<a href=\"#\" class=\"ds-plate ds-plate-poche\"><span>Download</span><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 3.5v11M7 10l5 5 5-5M4.5 20h15\"/></svg></a>",
+      "css": ":host{--color-lime:#f2efea;--color-lime-2:#e7e3dc;--color-mortar:#d9dcdd;--color-stone:#a8a39a;--color-poche:#1c1f22;--color-poche-2:#272b30;--color-sun:#d6a43a;--color-sun-ink:#7a5710;--color-shadow:#4e5c6b;--color-dusk:#a7b0ba;--font-display:'Barlow Condensed','Roboto Flex Variable',sans-serif;--font-sans:'Roboto Flex Variable','Roboto Flex',system-ui,sans-serif;--ease-out-expo:cubic-bezier(0.16,1,0.3,1)} .ds-plate{--cut:0.7rem;position:relative;isolation:isolate;display:inline-flex;align-items:center;justify-content:center;gap:0.9rem;min-height:3.5rem;padding-inline:calc(var(--cut) + 1rem);font-family:var(--font-display);font-style:italic;font-weight:500;font-size:1.125rem;text-transform:uppercase;letter-spacing:0.14em;text-decoration:none;white-space:nowrap;transition:color .2s var(--ease-out-expo)}.ds-plate::before,.ds-plate::after{content:'';position:absolute;z-index:-1;clip-path:polygon(var(--cut) 0,100% 0,calc(100% - var(--cut)) 100%,0 100%);transition:background-color .2s var(--ease-out-expo)}.ds-plate::before{inset:0;background:var(--plate)}.ds-plate::after{inset:1.5px 2px;background:var(--face,transparent)}.ds-plate:focus-visible{outline:2px solid var(--color-poche);outline-offset:3px}.ds-plate svg{width:1.25em;height:1.25em;transition:translate .25s var(--ease-out-expo)}.ds-plate:hover svg{translate:0.15em 0}.ds-plate-poche{--cut:0.5rem;min-height:2.5rem;font-size:0.875rem;gap:0.6rem;padding-inline:calc(var(--cut) + 0.7rem);--plate:var(--color-poche);color:var(--color-sun)}.ds-plate-poche:hover{--plate:var(--color-poche-2)}"
+    },
+    {
+      "name": "Outline Plate",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary action on limewash: a charcoal line plate.",
+      "html": "<a href=\"#\" class=\"ds-plate ds-plate-outline\"><span>See it work</span><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 4v15M6 13l6 6 6-6\"/></svg></a>",
+      "css": ":host{--color-lime:#f2efea;--color-lime-2:#e7e3dc;--color-mortar:#d9dcdd;--color-stone:#a8a39a;--color-poche:#1c1f22;--color-poche-2:#272b30;--color-sun:#d6a43a;--color-sun-ink:#7a5710;--color-shadow:#4e5c6b;--color-dusk:#a7b0ba;--font-display:'Barlow Condensed','Roboto Flex Variable',sans-serif;--font-sans:'Roboto Flex Variable','Roboto Flex',system-ui,sans-serif;--ease-out-expo:cubic-bezier(0.16,1,0.3,1)} .ds-plate{--cut:0.7rem;position:relative;isolation:isolate;display:inline-flex;align-items:center;justify-content:center;gap:0.9rem;min-height:3.5rem;padding-inline:calc(var(--cut) + 1rem);font-family:var(--font-display);font-style:italic;font-weight:500;font-size:1.125rem;text-transform:uppercase;letter-spacing:0.14em;text-decoration:none;white-space:nowrap;transition:color .2s var(--ease-out-expo)}.ds-plate::before,.ds-plate::after{content:'';position:absolute;z-index:-1;clip-path:polygon(var(--cut) 0,100% 0,calc(100% - var(--cut)) 100%,0 100%);transition:background-color .2s var(--ease-out-expo)}.ds-plate::before{inset:0;background:var(--plate)}.ds-plate::after{inset:1.5px 2px;background:var(--face,transparent)}.ds-plate:focus-visible{outline:2px solid var(--color-poche);outline-offset:3px}.ds-plate svg{width:1.25em;height:1.25em;transition:translate .25s var(--ease-out-expo)}.ds-plate:hover svg{translate:0.15em 0}.ds-plate-outline{min-height:3rem;font-size:1rem;--plate:var(--color-poche);--face:var(--color-lime);color:var(--color-poche)}.ds-plate-outline:hover{--face:var(--color-lime-2)}"
+    },
+    {
+      "name": "Header",
+      "kind": "nav",
+      "refersTo": "slab",
+      "description": "Sticky limewash title bar: mark and wordmark, subtitle, label links, tabular clock with gold colon, poché download plate, gold progress edge.",
+      "html": "<header class=\"ds-header\"><span class=\"ds-word\">PreCut</span><span class=\"ds-tag\">Video editor for Android</span><nav class=\"ds-nav\"><a href=\"#\">Features</a><a href=\"#\">Privacy</a><a href=\"#\">Questions</a></nav><span class=\"ds-clock\">0<span class=\"ds-colon\">:</span>07</span><span class=\"ds-progress\"></span></header>",
+      "css": ":host{--color-lime:#f2efea;--color-lime-2:#e7e3dc;--color-mortar:#d9dcdd;--color-stone:#a8a39a;--color-poche:#1c1f22;--color-poche-2:#272b30;--color-sun:#d6a43a;--color-sun-ink:#7a5710;--color-shadow:#4e5c6b;--color-dusk:#a7b0ba;--font-display:'Barlow Condensed','Roboto Flex Variable',sans-serif;--font-sans:'Roboto Flex Variable','Roboto Flex',system-ui,sans-serif;--ease-out-expo:cubic-bezier(0.16,1,0.3,1)} .ds-header{position:relative;display:flex;align-items:center;gap:1rem;height:4.5rem;padding-inline:1.5rem;background:var(--color-lime);color:var(--color-poche);border-bottom:1px solid color-mix(in srgb,var(--color-poche) 55%,transparent)}.ds-word{font-family:var(--font-display);font-style:italic;font-weight:500;font-size:1.5rem;letter-spacing:0.14em;text-transform:uppercase}.ds-tag,.ds-nav a{font-family:var(--font-display);font-style:italic;font-weight:500;text-transform:uppercase;letter-spacing:0.16em}.ds-tag{padding-left:1rem;border-left:1px solid color-mix(in srgb,var(--color-poche) 40%,transparent);color:var(--color-shadow);font-size:0.75rem}.ds-nav{margin-left:auto;display:flex;gap:0.5rem}.ds-nav a{padding:0.75rem 0.9rem;font-size:0.875rem;color:inherit;text-decoration:none}.ds-nav a:hover{text-decoration:underline;text-decoration-color:var(--color-sun);text-decoration-thickness:2px}.ds-nav a:focus-visible{outline:2px solid var(--color-poche);outline-offset:3px}.ds-clock{padding-left:1.25rem;border-left:1px solid color-mix(in srgb,var(--color-poche) 40%,transparent);font-family:var(--font-display);font-variant-numeric:tabular-nums;letter-spacing:0.04em;font-size:1.25rem}.ds-colon{color:var(--color-sun-ink)}.ds-progress{position:absolute;left:0;bottom:-1px;height:2px;width:40%;background:var(--color-sun)}"
+    },
+    {
+      "name": "Readouts",
+      "kind": "custom",
+      "refersTo": "readout",
+      "description": "App facts as drawing readouts: icon, inclined label, tabular value, split by vertical hairlines.",
+      "html": "<dl class=\"ds-readouts\"><div class=\"ds-readout\"><dt>Version</dt><dd>1.0.0</dd></div><div class=\"ds-readout\"><dt>Size</dt><dd>8.9 MB</dd></div><div class=\"ds-readout\"><dt>Android</dt><dd>8.0 or newer</dd></div><div class=\"ds-readout\"><dt>Price</dt><dd>Free</dd></div></dl>",
+      "css": ":host{--color-lime:#f2efea;--color-lime-2:#e7e3dc;--color-mortar:#d9dcdd;--color-stone:#a8a39a;--color-poche:#1c1f22;--color-poche-2:#272b30;--color-sun:#d6a43a;--color-sun-ink:#7a5710;--color-shadow:#4e5c6b;--color-dusk:#a7b0ba;--font-display:'Barlow Condensed','Roboto Flex Variable',sans-serif;--font-sans:'Roboto Flex Variable','Roboto Flex',system-ui,sans-serif;--ease-out-expo:cubic-bezier(0.16,1,0.3,1)} .ds-readouts{display:flex;flex-wrap:wrap;margin:0;background:var(--color-lime);color:var(--color-poche)}.ds-readout{padding:0.15rem 1.4rem;border-left:1px solid color-mix(in srgb,var(--color-poche) 30%,transparent)}.ds-readout:first-child{padding-left:0;border-left:0}.ds-readout dt{font-family:var(--font-display);font-style:italic;font-weight:500;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.16em;color:var(--color-shadow)}.ds-readout dd{margin:0.15rem 0 0;font-family:var(--font-display);font-variant-numeric:tabular-nums;letter-spacing:0.04em;font-size:1.125rem;line-height:1.2}"
+    },
+    {
+      "name": "Leader-line Note",
+      "kind": "custom",
+      "refersTo": "device",
+      "description": "A gold dot on a part, a dashed gold leader, then a label over an inscription value.",
+      "html": "<div class=\"ds-stage\"><span class=\"ds-note\"><span class=\"ds-note-text\"><span class=\"ds-lbl\">Preview</span><span class=\"ds-val\">Plays as you edit</span></span></span></div>",
+      "css": ":host{--color-lime:#f2efea;--color-lime-2:#e7e3dc;--color-mortar:#d9dcdd;--color-stone:#a8a39a;--color-poche:#1c1f22;--color-poche-2:#272b30;--color-sun:#d6a43a;--color-sun-ink:#7a5710;--color-shadow:#4e5c6b;--color-dusk:#a7b0ba;--font-display:'Barlow Condensed','Roboto Flex Variable',sans-serif;--font-sans:'Roboto Flex Variable','Roboto Flex',system-ui,sans-serif;--ease-out-expo:cubic-bezier(0.16,1,0.3,1)} .ds-stage{position:relative;height:5rem;width:22rem;background:var(--color-lime)}.ds-note{position:absolute;top:50%;left:1rem;width:6rem;border-top:1px dashed var(--color-sun)}.ds-note::before{content:'';position:absolute;top:-4px;left:-4px;width:7px;height:7px;border-radius:50%;background:var(--color-sun);box-shadow:0 0 0 2px var(--color-poche)}.ds-note-text{position:absolute;top:0;left:calc(100% + 0.75rem);display:flex;flex-direction:column;gap:0.2rem;width:11rem;translate:0 -50%}.ds-lbl{font-family:var(--font-display);font-style:italic;font-weight:500;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.16em;color:var(--color-shadow)}.ds-val{font-family:var(--font-display);font-style:italic;font-size:1.0625rem;line-height:1.2;color:var(--color-poche)}"
+    },
+    {
+      "name": "Sunbeam Headline",
+      "kind": "custom",
+      "refersTo": "slab",
+      "description": "Inclined display caps whose last line stands on a gold beam skewed -14deg from beyond the left edge.",
+      "html": "<h1 class=\"ds-head\">Pro-level video<br>editing on your phone.<br><span class=\"ds-lit\"><span class=\"ds-beam\"></span>No watermark.</span></h1>",
+      "css": ":host{--color-lime:#f2efea;--color-lime-2:#e7e3dc;--color-mortar:#d9dcdd;--color-stone:#a8a39a;--color-poche:#1c1f22;--color-poche-2:#272b30;--color-sun:#d6a43a;--color-sun-ink:#7a5710;--color-shadow:#4e5c6b;--color-dusk:#a7b0ba;--font-display:'Barlow Condensed','Roboto Flex Variable',sans-serif;--font-sans:'Roboto Flex Variable','Roboto Flex',system-ui,sans-serif;--ease-out-expo:cubic-bezier(0.16,1,0.3,1)} .ds-head{margin:0;padding:1rem 1rem 1rem 2rem;overflow:hidden;background:var(--color-lime);color:var(--color-poche);font-family:var(--font-display);font-style:italic;font-weight:300;text-transform:uppercase;letter-spacing:0.08em;font-size:2.5rem;line-height:1}.ds-lit{position:relative;isolation:isolate;display:inline-block;margin-top:0.12em;padding-right:0.15em;font-weight:400}.ds-beam{position:absolute;z-index:-1;inset:0.04em -0.2em -0.02em -100vw;background:var(--color-sun);transform:skewX(-14deg);transform-origin:bottom}"
+    },
+    {
+      "name": "Notes Panel",
+      "kind": "card",
+      "refersTo": "notes-panel",
+      "description": "A ruled mortar box for notes on the download and legal pages; square, bordered, shadowless.",
+      "html": "<div class=\"ds-panel\"><p class=\"ds-panel-title\">PreCut is on Android for now</p><p>iPhone visitors can read about it here; the app runs on Android 8.0 or newer.</p></div>",
+      "css": ":host{--color-lime:#f2efea;--color-lime-2:#e7e3dc;--color-mortar:#d9dcdd;--color-stone:#a8a39a;--color-poche:#1c1f22;--color-poche-2:#272b30;--color-sun:#d6a43a;--color-sun-ink:#7a5710;--color-shadow:#4e5c6b;--color-dusk:#a7b0ba;--font-display:'Barlow Condensed','Roboto Flex Variable',sans-serif;--font-sans:'Roboto Flex Variable','Roboto Flex',system-ui,sans-serif;--ease-out-expo:cubic-bezier(0.16,1,0.3,1)} .ds-panel{padding:1.5rem;border:1px solid var(--color-poche);background:var(--color-mortar);color:var(--color-poche);font-family:var(--font-sans);line-height:1.6;max-width:28rem}.ds-panel p{margin:0.75rem 0 0}.ds-panel-title{margin:0!important;font-family:var(--font-display);font-style:italic;font-weight:300;text-transform:uppercase;letter-spacing:0.08em;font-size:1.75rem;line-height:1.05}"
+    },
+    {
+      "name": "FAQ Row",
+      "kind": "custom",
+      "refersTo": "readout",
+      "description": "Ruled details row: inscription summary, a plus drawn in two strokes that flattens when open.",
+      "html": "<details class=\"ds-faq\"><summary><span>Is PreCut free?</span><span class=\"ds-sign\"></span></summary><p>Yes. Every tool, no watermark, no ads, no account.</p></details>",
+      "css": ":host{--color-lime:#f2efea;--color-lime-2:#e7e3dc;--color-mortar:#d9dcdd;--color-stone:#a8a39a;--color-poche:#1c1f22;--color-poche-2:#272b30;--color-sun:#d6a43a;--color-sun-ink:#7a5710;--color-shadow:#4e5c6b;--color-dusk:#a7b0ba;--font-display:'Barlow Condensed','Roboto Flex Variable',sans-serif;--font-sans:'Roboto Flex Variable','Roboto Flex',system-ui,sans-serif;--ease-out-expo:cubic-bezier(0.16,1,0.3,1)} .ds-faq{max-width:40rem;border-top:1px solid var(--color-poche);border-bottom:1px solid color-mix(in srgb,var(--color-poche) 40%,transparent);background:var(--color-lime);color:var(--color-poche)}.ds-faq summary{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;min-height:3.75rem;padding-block:0.9rem;cursor:pointer;list-style:none;font-family:var(--font-display);font-style:italic;font-size:1.375rem;line-height:1.25}.ds-faq summary::-webkit-details-marker{display:none}.ds-faq summary:hover span:first-child{text-decoration:underline;text-decoration-color:var(--color-sun);text-decoration-thickness:2px}.ds-faq summary:focus-visible{outline:2px solid var(--color-poche);outline-offset:3px}.ds-sign{position:relative;flex:none;width:1rem;height:1rem}.ds-sign::before,.ds-sign::after{content:'';position:absolute;top:50%;left:0;width:100%;height:1.5px;background:var(--color-poche);transition:rotate .3s var(--ease-out-expo)}.ds-sign::after{rotate:90deg}.ds-faq[open] .ds-sign::after{rotate:0deg}.ds-faq p{margin:0;padding-bottom:1.25rem;font-family:var(--font-sans);font-size:1.0625rem;line-height:1.65;color:color-mix(in srgb,var(--color-poche) 88%,var(--color-lime))}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Daylight Section",
+    "overview": "**Creative North Star: \"The Daylight Section\"**\n\nThe site is an architect's section drawn through an edit. The timeline is the building, the playhead is a sunbeam, and the visitor's scroll carries that light from 0:00 to the export. The owner chose this world on 2026-10-30; it replaces the earlier dark, app-coloured site. Pages are a sheet of limewash plaster. Charcoal poché marks what the section cuts through: the phone body, the ground slab, the footer. One gold beam of light marks the primary action, the playhead and the time that is lit now.\n\nDensity is that of a working drawing. Everything sits on hairline rules. Parts are named by leader lines that end in dots. Facts are readouts split by vertical hairlines. Headings are inclined, condensed capitals tracked wide, like hand lettering on a drawing. Body copy stays in an upright sans so it reads easily. The app's own colours belong to the app: they appear only inside rendered app screens and the EditorDemo mock, never in site chrome.\n\nThe world rejects the dark, glowing phone on a gradient above a grid of feature cards.",
+    "keyCharacteristics": [
+      "Limewash ground with a faint mineral grain; charcoal poché for cuts, slabs and the device; one gold sunbeam.",
+      "Inclined Barlow Condensed capitals for display, labels and readouts; Roboto Flex upright for reading.",
+      "Hairline rules, dashed gold leader lines ending in dots, dimension lines, ruled readouts.",
+      "Chamfered parallelogram plates for buttons; everything else square-cornered except the phone and point marks.",
+      "Scroll is the playhead: rooms are ahead, lit, or past (shadow blue)."
+    ],
+    "rules": [
+      {
+        "name": "The Gold Is Light Rule",
+        "body": "Sunbeam Gold is a fill or a line, never text on limewash (2.0:1). Gold-toned words on the light ground use Sun Ink. On the slab, gold may be text.",
+        "section": "colors"
+      },
+      {
+        "name": "The App Stays In Its Frame Rule",
+        "body": "The app's palette (#0E0E10, #17171A, #FF4D6D, #D92B50, its lane colours) appears only inside app screens, the EditorDemo mock and the consent-dialog replica. Site chrome never borrows it.",
+        "section": "colors"
+      },
+      {
+        "name": "The Stone Draws Rule",
+        "body": "Stone is for drawn lines only. If it would carry a word, use Shadow Blue.",
+        "section": "colors"
+      },
+      {
+        "name": "The Upright Numbers Rule",
+        "body": "Lettering leans and figures stand. Every time and measure is set upright in tabular figures. In the scrubber and header clock, the colon is gold: Sunbeam on the slab, Sun Ink on limewash.",
+        "section": "typography"
+      },
+      {
+        "name": "The Reading Face Rule",
+        "body": "Paragraphs are never set in Barlow. The lettering is for naming things, and Roboto Flex is for reading.",
+        "section": "typography"
+      },
+      {
+        "name": "The Only Objects Cast Rule",
+        "body": "Panels, plates, posts and sections never get shadows. A shadow means a physical object (the phone, the app's own dialog).",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do keep one Sunbeam plate per view as the download action; the header carries the charcoal plate.",
+      "Do use Sun Ink (#7A5710) for gold-toned text on limewash, and Sunbeam only as fill, line, or text on the slab.",
+      "Do set times and measures upright in tabular figures with a gold colon.",
+      "Do separate sections with hairlines and tone, and annotate with leader lines ending in dots.",
+      "Do keep the app's colours inside app screens and the EditorDemo mock.",
+      "Do keep scroll-driven room states working under reduced motion, without transitions.",
+      "Do embed provenance in every shipping raster (`impeccable embed-prompt`). Screens are rendered from the owner's design canvas, not device captures."
+    ],
+    "donts": [
+      "Don't set Sunbeam text on limewash or shaded plaster (2.0:1).",
+      "Don't set any text in Stone.",
+      "Don't put shadows on panels, plates or sections; only the phone and the app dialog cast shadows.",
+      "Don't round site chrome; radius belongs to the phone and to point marks.",
+      "Don't use the app's pink (#FF4D6D) or near-black (#0E0E10) as site chrome.",
+      "Don't set paragraphs in Barlow Condensed.",
+      "Don't return to a dark, glowing phone on a gradient above a grid of feature cards."
+    ]
+  }
+}

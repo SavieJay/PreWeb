@@ -1,8 +1,41 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
+import Features from "../components/home/Features.astro";
+import Privacy from "../components/home/Privacy.astro";
+import Faq from "../components/home/Faq.astro";
+import FinalCta from "../components/home/FinalCta.astro";
+import { apk, app, legalName } from "../config";
+
+const description =
+  "PreCut is a video editor for Android: a full timeline, effects, text, music and 4K export, with no watermark, no ads and no account.";
+
+// Structured data, so search engines can show PreCut as an app.
+const softwareApplication = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: app.name,
+  description,
+  applicationCategory: "MultimediaApplication",
+  operatingSystem: `Android ${app.minAndroid} or newer`,
+  softwareVersion: app.version,
+  fileSize: `${Math.round(apk.sizeBytes / 100_000) / 10} MB`,
+  downloadUrl: new URL("/download", Astro.site).href,
+  url: new URL("/", Astro.site).href,
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  publisher: { "@type": "Organization", name: legalName },
+};
 ---
 
-<BaseLayout description="PreCut is a video editor for Android: a full timeline, effects, text, music and 4K export, with no watermark, no ads and no account.">
+<BaseLayout description={description} playhead>
+  <script
+    slot="head"
+    type="application/ld+json"
+    set:html={JSON.stringify(softwareApplication)}
+  />
   <Hero />
+  <Features />
+  <Privacy />
+  <Faq />
+  <FinalCta />
 </BaseLayout>

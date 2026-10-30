@@ -9,6 +9,16 @@ export const app = {
   minAndroid: "8.0",
 };
 
+/** What's in the app at `app.version`, from its store listing. Update with each release. */
+export const catalogue = {
+  filters: 62,
+  effects: 46,
+  transitions: 30,
+  fonts: 24,
+  textTemplates: 35,
+  templates: 12,
+};
+
 /** Google Play. While `live` is false the site offers the APK as the main download. */
 export const play = {
   live: false,

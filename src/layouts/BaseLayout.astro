@@ -1,8 +1,13 @@
 ---
 import "@fontsource-variable/roboto-flex";
 import "@fontsource-variable/roboto-mono";
+import "@fontsource/barlow-condensed/300-italic.css";
+import "@fontsource/barlow-condensed/400-italic.css";
+import "@fontsource/barlow-condensed/400.css";
+import "@fontsource/barlow-condensed/500-italic.css";
 import "../styles/global.css";
 import robotoFlexLatin from "@fontsource-variable/roboto-flex/files/roboto-flex-latin-wght-normal.woff2?url";
+import barlowLightItalic from "@fontsource/barlow-condensed/files/barlow-condensed-latin-300-italic.woff2?url";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { app } from "../config";
@@ -11,15 +16,19 @@ interface Props {
   /** Page name; the home page leaves it out. */
   title?: string;
   description: string;
+  /** The scroll playhead in the header (home page only). */
+  playhead?: boolean;
 }
 
-const { title, description } = Astro.props;
+const { title, description, playhead = false } = Astro.props;
 const fullTitle = title
   ? `${title} · ${app.name}`
   : `${app.name}: video editor for Android`;
 // Pages build as files (download.html) but are served without the extension (/download).
 const path = Astro.url.pathname.replace(/(index)?\.html$/, "");
 const canonical = Astro.site && new URL(path, Astro.site);
+// The picture shown when a page is shared (1200 × 630, made from the hero).
+const shareImage = Astro.site && new URL("/og.jpg", Astro.site);
 ---
 
 <!doctype html>
@@ -30,8 +39,28 @@ const canonical = Astro.site && new URL(path, Astro.site);
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     {canonical && <link rel="canonical" href={canonical} />}
-    <meta name="theme-color" content="#0E0E10" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={app.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    {shareImage && <meta property="og:image" content={shareImage} />}
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content={`${app.name}: pro-level video editing on your phone, no watermark`}
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#F2EFEA" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="preload"
+      href={barlowLightItalic}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <link
       rel="preload"
       href={robotoFlexLatin}
@@ -44,14 +73,65 @@ const canonical = Astro.site && new URL(path, Astro.site);
   <body class="flex flex-col">
     <a
       href="#main"
-      class="sr-only rounded-full bg-ink-2 px-4 py-2 focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60]"
+      class="label sr-only bg-poche px-4 py-3 text-lime focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60]"
     >
       Skip to content
     </a>
-    <Header />
+    <Header playhead={playhead} />
     <main id="main" class="flex-1">
       <slot />
     </main>
     <Footer />
+    {
+      playhead && (
+        <script is:inline>
+          // The playhead: the room nearest the middle of the screen is lit, the ones
+          // above it are past, and the header's clock shows its time.
+          (() => {
+            const clock = document.querySelector("[data-clock]");
+            const bar = document.querySelector(".progress");
+            const rooms = [...document.querySelectorAll("[data-time]")];
+            const scrollTimeline = CSS.supports("animation-timeline: scroll()");
+            let current = null;
+            let queued = false;
+
+            function update() {
+              queued = false;
+              const line = innerHeight * 0.55;
+              let active = -1;
+              rooms.forEach((room, i) => {
+                if (room.getBoundingClientRect().top < line) active = i;
+              });
+              if (active !== current) {
+                current = active;
+                rooms.forEach((room, i) => {
+                  room.dataset.state =
+                    i < active ? "past" : i === active ? "lit" : "ahead";
+                });
+                clock.textContent =
+                  active < 0 ? "00" : rooms[active].dataset.time.slice(-2);
+              }
+              if (!scrollTimeline && bar) {
+                const end = document.documentElement.scrollHeight - innerHeight;
+                bar.style.setProperty("--progress", end > 0 ? scrollY / end : 0);
+              }
+            }
+
+            addEventListener(
+              "scroll",
+              () => {
+                if (!queued) {
+                  queued = true;
+                  requestAnimationFrame(update);
+                }
+              },
+              { passive: true },
+            );
+            addEventListener("resize", update);
+            update();
+          })();
+        </script>
+      )
+    }
   </body>
 </html>

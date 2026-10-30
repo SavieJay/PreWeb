@@ -1,0 +1,167 @@
+---
+// The most common questions; the full list is on /support. Ruled like a drawing's
+// schedule: each question a row, opening to its answer.
+import { app } from "../../config";
+
+const items = [
+  {
+    q: `Is ${app.name} free?`,
+    a: "Yes. Every tool is free, with no watermark on exports, no ads and no account.",
+  },
+  {
+    q: `Does ${app.name} upload my videos?`,
+    a: "No. Your videos, photos and projects stay on your phone. Optional cloud AI features send only the sound, and only after you agree each time.",
+  },
+  {
+    q: "Which phones does it work on?",
+    a: `Android phones running Android ${app.minAndroid} or newer.`,
+  },
+  {
+    q: "Why isn't it on Google Play?",
+    a: `${app.name} isn't on Google Play yet. Until it is, this website is the place to get it, and the download page shows how to install it.`,
+  },
+  {
+    q: "How do I update?",
+    a: "Download the new version from the download page and install it over the old one. Your projects stay.",
+  },
+  {
+    q: "Is there an iPhone version?",
+    a: `Not yet. ${app.name} is on Android for now.`,
+  },
+];
+---
+
+<section
+  id="questions"
+  class="below-fold faq"
+  aria-labelledby="questions-title"
+  data-time="0:17"
+  data-state="ahead"
+>
+  <div class="in">
+    <h2 id="questions-title" class="lettering">Questions</h2>
+    <div class="list">
+      {items.map((item) => (
+        <details>
+          <summary>
+            <span>{item.q}</span>
+            <span class="sign" aria-hidden="true" />
+          </summary>
+          <p>{item.a}</p>
+        </details>
+      ))}
+      <p class="more">
+        More answers on the <a href="/support">support page</a>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq {
+    border-top: 1px solid color-mix(in srgb, var(--color-poche) 55%, transparent);
+  }
+  .in {
+    display: grid;
+    gap: 2.5rem;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding: 5rem 1rem 6rem;
+  }
+  @media (min-width: 64rem) {
+    .in {
+      grid-template-columns: minmax(0, 20rem) minmax(0, 46rem);
+      gap: 4rem;
+      padding: 7rem 1.5rem 8rem 9.5rem;
+    }
+  }
+  h2 {
+    font-size: clamp(2rem, 6.4vw, 3.75rem);
+    line-height: 1.02;
+  }
+
+  .list {
+    border-top: 1px solid var(--color-poche);
+  }
+  details {
+    border-bottom: 1px solid color-mix(in srgb, var(--color-poche) 40%, transparent);
+  }
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    min-height: 3.75rem;
+    padding-block: 0.9rem;
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-size: 1.375rem;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.25;
+    list-style: none;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  summary:hover span:first-child {
+    text-decoration: underline;
+    text-decoration-color: var(--color-sun);
+    text-decoration-thickness: 2px;
+  }
+  /* A plus drawn in two strokes; the upright one turns flat when open. */
+  .sign {
+    position: relative;
+    flex: none;
+    width: 1rem;
+    height: 1rem;
+  }
+  .sign::before,
+  .sign::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1.5px;
+    background: var(--color-poche);
+    transition: rotate 0.3s var(--ease-out-expo);
+  }
+  .sign::after {
+    rotate: 90deg;
+  }
+  details[open] .sign::after {
+    rotate: 0deg;
+  }
+  /* High-contrast mode drops background colours, which would hide the plus and minus. */
+  @media (forced-colors: active) {
+    .sign::before,
+    .sign::after {
+      background: CanvasText;
+    }
+  }
+  details p {
+    max-width: 40rem;
+    padding-bottom: 1.25rem;
+    color: color-mix(in srgb, var(--color-poche) 88%, var(--color-lime));
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+  .more {
+    margin-top: 1.5rem;
+    color: var(--color-shadow);
+  }
+  .more a {
+    color: var(--color-poche);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: var(--color-sun);
+    text-decoration-thickness: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sign::before,
+    .sign::after {
+      transition: none;
+    }
+  }
+</style>

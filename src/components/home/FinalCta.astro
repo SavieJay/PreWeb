@@ -1,0 +1,108 @@
+---
+// The close, on the ground slab: the playhead reaches 0:18, the export, and the
+// page ends on the download.
+import AppFacts from "../AppFacts.astro";
+import DownloadButton from "../DownloadButton.astro";
+---
+
+<section
+  class="slab below-fold close"
+  aria-labelledby="close-title"
+  data-time="0:18"
+  data-state="ahead"
+>
+  <div class="in">
+    <div class="rail" aria-hidden="true">
+      <span class="tabular">0:00</span>
+      <span class="line"><span class="knob"></span></span>
+      <span class="tabular end">0:18</span>
+    </div>
+    <h2 id="close-title" class="lettering">
+      Your next video starts
+      <span class="lit"><span class="beam" aria-hidden="true"></span>on your phone</span>
+    </h2>
+    <div class="actions">
+      <DownloadButton id="final" size="lg" class="w-full sm:w-auto" />
+    </div>
+    <div class="facts"><AppFacts tone="slab" /></div>
+  </div>
+</section>
+
+<style>
+  .close {
+    overflow-x: clip;
+  }
+  .in {
+    max-width: 80rem;
+    margin-inline: auto;
+    padding: 4.5rem 1rem 5rem;
+  }
+  @media (min-width: 64rem) {
+    .in {
+      padding: 6rem 1.5rem 7rem 9.5rem;
+    }
+  }
+
+  /* The scrubber, run to the end. */
+  .rail {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    max-width: 40rem;
+    color: var(--color-dusk);
+    font-size: 1rem;
+  }
+  .rail .end {
+    color: var(--color-sun);
+  }
+  .line {
+    position: relative;
+    flex: 1;
+    height: 2px;
+    background: var(--color-sun);
+  }
+  .knob {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--color-sun);
+    box-shadow: 0 0 0 4px var(--color-poche);
+    translate: 50% -50%;
+  }
+
+  h2 {
+    max-width: 52rem;
+    margin-top: 2.5rem;
+    font-size: clamp(2.25rem, 8vw, 4.5rem);
+    line-height: 1.05;
+  }
+  /* Its own line, so the beam only crosses the margin to its left. */
+  .lit {
+    position: relative;
+    isolation: isolate;
+    display: block;
+    width: fit-content;
+    margin-top: 0.1em;
+    padding-right: 0.15em;
+    color: var(--color-poche);
+    font-weight: 400;
+  }
+  .beam {
+    position: absolute;
+    z-index: -1;
+    inset: 0.04em -0.2em -0.02em -100vw;
+    background: var(--color-sun);
+    transform: skewX(-14deg);
+    transform-origin: bottom;
+  }
+  .actions {
+    margin-top: 2.5rem;
+  }
+  .facts {
+    max-width: 44rem;
+    margin-top: 2rem;
+  }
+</style>

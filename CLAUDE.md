@@ -18,7 +18,9 @@ The full plan and task list live in `docs/PLAN.md`. Read it before starting work
 5. Ask the user for real content you cannot invent: app screenshots, demo video, prices, legal company name, contact email, Play Store URL.
 
 ## Design rules
-- Match the app: dark (#0E0E10 background, #17171A surfaces), accent #FF4D6D, Roboto Flex, Roboto Mono for numbers.
+- The site's own visual world, "Daylight section" (chosen by the user, 2026-10-30): drawn like an architect's section through an edit. Limewash ground #F2EFEA, charcoal poché #1C1F22, one sunbeam gold #D6A43A for the playhead and the primary action, shadow blue for past and secondary. Barlow Condensed inclined caps for display and labels, Roboto Flex for body. Full system in `DESIGN.md`; product facts in `PRODUCT.md`. The app's own colours appear only inside app screens.
+- App screens come from the owner's design canvas (https://claude.ai/artifact/7f63Ei5FQWe3ug2rdiN2TQ), rendered to `src/assets/screens/`; the hero's animated editor rebuilds artboard E-03 in `src/components/editor/`. Swap in real device captures when they exist.
+- The `impeccable` design skill is installed in `.claude/skills/impeccable`; use it (`/impeccable`) for design work and run its detector on rendered pages.
 - Mobile first: most visitors arrive on Android phones. Test at 360px wide.
 - Every page has one clear primary action: download.
 - Fast: Lighthouse performance and accessibility ≥ 95; images in AVIF/WebP with explicit sizes; video lazy-loaded with a poster.

@@ -1,0 +1,552 @@
+---
+// The features as rooms along the edit's timeline. A rail runs down the left with each
+// room's time; the room the playhead has reached is lit (a sunbeam behind its phone),
+// rooms it has passed fall to shadow blue. Each room shows a real screen from the app's
+// design canvas, annotated like a drawing: leader lines on wide screens, a list on phones.
+import { Picture } from "astro:assets";
+import { catalogue } from "../../config";
+import clipSelected from "../../assets/screens/clip-selected.png";
+import beats from "../../assets/screens/beats.png";
+import filters from "../../assets/screens/filters.png";
+import textGlow from "../../assets/screens/text-glow.png";
+import chromaKey from "../../assets/screens/chroma-key.png";
+import exportSheet from "../../assets/screens/export.png";
+
+// Numbers in running text keep the body face, with figures of equal width.
+const n = (value: number | string) => `<span class="tabular-nums">${value}</span>`;
+
+interface Note {
+  /** Where the leader line starts, as percentages of the screen. */
+  x: number;
+  y: number;
+  label: string;
+  value: string;
+}
+
+interface Room {
+  time: string;
+  /** Show only this band of the screen (percent of its height), cut like a section. */
+  crop?: { from: number; to: number };
+  title: string;
+  body: string;
+  screen: ImageMetadata;
+  alt: string;
+  notes: Note[];
+}
+
+const rooms: Room[] = [
+  {
+    time: "0:02",
+    title: "Edit on a timeline",
+    body: `Trim, split, reorder and replace clips, with snapping to edges, beats and the playhead. Speed from ${n("0.1x")} to ${n("100x")} with smooth curves, reverse and freeze frames. Every change can be undone, and drafts save as you go.`,
+    screen: clipSelected,
+    crop: { from: 65, to: 100 },
+    alt: "PreCut's editor with a clip selected: trim handles on both ends, a 5.6-second badge, and the Split, Trim, Audio, Speed, Volume and Fade tools below",
+    notes: [
+      { x: 27, y: 76, label: "Trim", value: "Drag either edge" },
+      { x: 55, y: 91.5, label: "Speed", value: "0.1x to 100x" },
+    ],
+  },
+  {
+    time: "0:04",
+    title: "AutoCut and templates",
+    body: `Pick your clips and a song: AutoCut finds the beats and cuts each clip to them. Or start from one of ${n(catalogue.templates)} templates, drop in your clips and change the words. Any project can become a template.`,
+    screen: beats,
+    crop: { from: 62, to: 100 },
+    alt: "PreCut's Beats panel: 24 beats marked as yellow dots along the music track, with a button to remove the beat at 0:07",
+    notes: [
+      { x: 42, y: 77, label: "Beats", value: "Dots on the music" },
+      { x: 4, y: 88.5, label: "Snap", value: "Clips and text land on them" },
+    ],
+  },
+  {
+    time: "0:07",
+    title: "Filters, effects and transitions",
+    body: `${n(catalogue.filters)} filters plus your own .cube LUTs, ${n(catalogue.effects)} effects from glitch to light leaks, and ${n(catalogue.transitions)} transitions. Keyframes with easing curves animate movement, opacity, masks and colour.`,
+    screen: filters,
+    crop: { from: 68.5, to: 100 },
+    alt: "PreCut's Filters panel: filter groups such as Life, Film and Retro, a row of filter previews with Teal & Orange selected, and an intensity slider at 80",
+    notes: [
+      { x: 28, y: 83, label: "Filters", value: `${catalogue.filters} and your LUTs` },
+      { x: 70, y: 94, label: "Intensity", value: "0 to 100" },
+    ],
+  },
+  {
+    time: "0:09",
+    title: "Text and stickers",
+    body: `Styled text in ${n(catalogue.fonts)} fonts or your own, with outline, glow, curved text and animations. ${n(catalogue.textTemplates)} one-tap text templates, text to speech, emoji, animated and 3D stickers, GIFs and drawing.`,
+    screen: textGlow,
+    crop: { from: 32, to: 92 },
+    alt: "PreCut's text style panel: the caption LAGOS NIGHTS on the preview with a glow effect, and controls for glow colour, strength and spread",
+    notes: [
+      { x: 27, y: 39, label: "Text", value: `${catalogue.fonts} fonts or yours` },
+      { x: 46, y: 84, label: "Glow", value: "Colour, strength, spread" },
+    ],
+  },
+  {
+    time: "0:12",
+    title: "Layers, music and voice",
+    body: "Picture-in-picture with blend modes, masks and chroma key. Several music tracks with their own volume and fades, voiceovers with voice effects, and the sound from any video.",
+    screen: chromaKey,
+    alt: "PreCut's chroma key panel: a green-screen clip on its own layer, a colour picker on the preview and sliders for intensity and shadow",
+    notes: [
+      { x: 33, y: 17, label: "Chroma key", value: "Pick the colour to remove" },
+      { x: 50, y: 65.5, label: "Layer", value: "Its own lane" },
+    ],
+  },
+  {
+    time: "0:15",
+    title: "Export up to 4K, no watermark",
+    body: `${n("480p")} to ${n("4K")} at ${n("24")} to ${n("60")} fps, H.264 or HEVC, and HDR where your phone supports it. Exports keep running in the background. Save a GIF, just the audio, or a single frame as a photo.`,
+    screen: exportSheet,
+    crop: { from: 30, to: 100 },
+    alt: "PreCut's Export sheet: resolution from 480p to 4K, frame rate from 24 to 60, bitrate, H.264 or HEVC, an estimated size of 86 MB, and Export video, Audio only and Save frame buttons",
+    notes: [
+      { x: 4, y: 46, label: "Resolution", value: "480p to 4K" },
+      { x: 4, y: 74, label: "Codec", value: "H.264 or HEVC" },
+      { x: 4, y: 86.7, label: "Export", value: "No watermark" },
+    ],
+  },
+];
+
+// A note's height on the band of the screen that shows.
+const noteY = (room: Room, y: number) =>
+  room.crop ? ((y - room.crop.from) / (room.crop.to - room.crop.from)) * 100 : y;
+
+// The band's frame, and where the screen sits inside it (object-position).
+function band(room: Room) {
+  if (!room.crop) return undefined;
+  const { from, to } = room.crop;
+  const height = (915 * (to - from)) / 100;
+  const pos = to - from === 100 ? 0 : (from / (100 - (to - from))) * 100;
+  return `aspect-ratio:412/${height.toFixed(1)};--pos:${pos.toFixed(2)}%`;
+}
+---
+
+<section id="features" class="features" aria-labelledby="features-title">
+  <div class="in">
+    <header class="intro">
+      <h2 id="features-title" class="lettering">
+        Everything you need to edit, right on your phone
+      </h2>
+      <p>
+        A full timeline and the tools around it. Every one of them free, with no
+        watermark.
+      </p>
+    </header>
+
+    <div class="rooms">
+      {rooms.map((room, i) => (
+        <article class:list={["room", i % 2 && "flip"]} data-time={room.time} data-state="ahead">
+          <span class="marker" aria-hidden="true" />
+          <span class="time tabular" aria-hidden="true">{room.time}</span>
+
+          <div class="text">
+            <h3 class="lettering">{room.title}</h3>
+            <p set:html={room.body} />
+          </div>
+
+          <figure class="fig">
+            <div class="stand">
+              <div
+                class:list={[
+                  "device",
+                  room.crop && "cut",
+                  room.crop && room.crop.to < 100 && "cut-both",
+                ]}
+              >
+                <div class="window" style={band(room)}>
+                  <Picture
+                    src={room.screen}
+                    alt={room.alt}
+                    widths={[236, 280, 472, 560]}
+                    sizes="(min-width: 64rem) 280px, 236px"
+                    formats={["avif", "webp"]}
+                    class="screen-img"
+                  />
+                </div>
+              </div>
+              <ul class="notes">
+                {room.notes.map((note) => (
+                  <li class="note" style={`--x:${note.x}%;--y:${noteY(room, note.y).toFixed(1)}%`}>
+                    <span class="note-text">
+                      <span class="label">{note.label}</span>
+                      <span class="note-value">{note.value}</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </figure>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .features {
+    border-top: 1px solid color-mix(in srgb, var(--color-poche) 55%, transparent);
+  }
+  .in {
+    max-width: 80rem;
+    margin-inline: auto;
+    padding: 5rem 1rem 2rem;
+  }
+  @media (min-width: 64rem) {
+    .in {
+      padding: 7rem 1.5rem 3rem;
+    }
+  }
+
+  .intro {
+    max-width: 44rem;
+    margin-left: var(--content-x);
+  }
+  .intro h2 {
+    font-size: clamp(2rem, 6.4vw, 3.75rem);
+    line-height: 1.02;
+    text-wrap: balance;
+  }
+  .intro p {
+    max-width: 34rem;
+    margin-top: 1.25rem;
+    color: var(--color-shadow);
+    font-size: 1.125rem;
+    line-height: 1.6;
+  }
+
+  /* The rail: a hairline down the left, a marker and a time per room. */
+  .features {
+    --rail-x: 0.35rem;
+    --content-x: 2.1rem;
+  }
+  @media (min-width: 64rem) {
+    .features {
+      --rail-x: 5.5rem;
+      --content-x: 8rem;
+    }
+  }
+  .rooms {
+    position: relative;
+    margin-top: 3.5rem;
+  }
+  .rooms::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--rail-x);
+    border-left: 1px solid color-mix(in srgb, var(--color-poche) 45%, transparent);
+  }
+
+  .room {
+    position: relative;
+    display: grid;
+    gap: 2.25rem;
+    padding: 3rem 0 3.5rem var(--content-x);
+  }
+  /* Each room stands on its own floor slab, drawn from the rail outwards. */
+  .room::after {
+    content: "";
+    position: absolute;
+    left: var(--rail-x);
+    right: 0;
+    bottom: 0;
+    border-bottom: 2px solid var(--color-poche);
+  }
+  @media (min-width: 64rem) {
+    .room {
+      grid-template-columns: minmax(0, 27rem) minmax(0, 1fr);
+      grid-template-areas: "text fig";
+      align-items: center;
+      /* Wide enough that the lit room's sunbeam never reaches the text. */
+      gap: 5.5rem;
+      padding-block: 3.5rem;
+    }
+    .room.flip {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 27rem);
+      grid-template-areas: "fig text";
+    }
+    .text {
+      grid-area: text;
+    }
+    .fig {
+      grid-area: fig;
+    }
+  }
+
+  .marker {
+    position: absolute;
+    top: 3.35rem;
+    left: var(--rail-x);
+    width: 11px;
+    height: 11px;
+    border: 1px solid var(--color-poche);
+    background: var(--color-lime);
+    translate: -5px 0;
+    transition:
+      background-color 0.6s var(--ease-out-expo),
+      border-color 0.6s var(--ease-out-expo);
+  }
+  .time {
+    position: absolute;
+    top: 4.6rem;
+    left: var(--rail-x);
+    font-size: 0.9375rem;
+    line-height: 1;
+    /* Written along the rail on phones. */
+    writing-mode: vertical-rl;
+    translate: -50% 0;
+    transition: color 0.6s var(--ease-out-expo);
+  }
+  @media (min-width: 64rem) {
+    .marker {
+      top: auto;
+      bottom: calc(50% - 5px);
+    }
+    .time {
+      top: auto;
+      right: calc(100% - var(--rail-x) + 1rem);
+      bottom: calc(50% - 0.7rem);
+      left: auto;
+      font-size: 1.5rem;
+      writing-mode: horizontal-tb;
+      translate: none;
+    }
+  }
+  .room[data-state="lit"] .marker {
+    border-color: var(--color-poche);
+    background: var(--color-sun);
+  }
+  .room[data-state="lit"] .time {
+    color: var(--color-sun-ink);
+  }
+  .room[data-state="past"] .marker {
+    border-color: var(--color-shadow);
+    background: var(--color-shadow);
+  }
+  .room[data-state="past"] .time {
+    color: var(--color-shadow);
+  }
+
+  .text h3 {
+    font-size: clamp(1.875rem, 5.4vw, 2.75rem);
+    line-height: 1.04;
+    text-wrap: balance;
+  }
+  .text p {
+    max-width: 38rem;
+    margin-top: 1rem;
+    color: color-mix(in srgb, var(--color-poche) 88%, var(--color-lime));
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+
+  /* The figure: the phone, with the room's light falling behind it when lit. */
+  .fig {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    justify-items: center;
+  }
+  .fig::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: 22% -1rem 34% calc(-1 * var(--content-x));
+    background: var(--color-sun);
+    opacity: 0;
+    transform: skewY(-14deg);
+    transition:
+      opacity 0.9s var(--ease-out-expo),
+      translate 0.9s var(--ease-out-expo);
+    translate: -1.5rem 0;
+  }
+  @media (min-width: 64rem) {
+    /* Wider than the phone, so the light shows on both sides of it. */
+    .fig::before {
+      inset: 18% 6% 26% -2.5rem;
+    }
+    .flip .fig::before {
+      inset: 18% -2.5rem 26% 6%;
+    }
+  }
+  .room[data-state="lit"] .fig::before {
+    opacity: 1;
+    translate: 0 0;
+  }
+
+  .stand {
+    position: relative;
+  }
+  .device {
+    position: relative;
+    padding: 9px;
+    border-radius: 34px;
+    background: var(--color-poche);
+    box-shadow:
+      inset 0 0 0 1px #3a3f45,
+      0 34px 44px -26px rgb(28 31 34 / 0.55);
+  }
+  .window {
+    width: 236px;
+    overflow: hidden;
+    border-radius: 26px;
+  }
+  .device :global(.screen-img) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  @media (min-width: 64rem) {
+    .device {
+      padding: 10px;
+      border-radius: 38px;
+    }
+    .window {
+      width: 280px;
+    }
+  }
+
+  /* A device cut in section: only the band that shows the feature, the cut drawn as
+     a thick straight wall of poché instead of the phone's rounded top. */
+  /* The notes beside the device read the cut sizes from here. */
+  .stand:has(> .cut) {
+    --cut-top: 16px;
+  }
+  .stand:has(> .cut-both) {
+    --cut-bottom: 16px;
+  }
+  .device.cut {
+    padding-top: var(--cut-top);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+  .cut .window {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+  .cut :global(.screen-img) {
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% var(--pos);
+  }
+  .device.cut-both {
+    padding-bottom: var(--cut-bottom);
+    border-radius: 0;
+  }
+  .cut-both .window {
+    border-radius: 0;
+  }
+  /* On wide screens the phone keeps to the text side, leaving the outer side for notes. */
+  @media (min-width: 80rem) {
+    .fig {
+      justify-items: start;
+    }
+    .flip .fig {
+      justify-items: end;
+    }
+  }
+
+  /* Notes: a ruled list under the phone on narrow screens... */
+  .notes {
+    margin-top: 1.75rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-poche) 30%, transparent);
+  }
+  .note {
+    padding-block: 0.7rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-poche) 30%, transparent);
+  }
+  .note-text {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .note-text .label {
+    color: var(--color-shadow);
+    font-size: 0.75rem;
+    padding-top: 0.2rem;
+  }
+  .note-value {
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-style: italic;
+    line-height: 1.2;
+    text-align: right;
+  }
+
+  /* ...and leader lines from the screen out past the phone on wide ones. */
+  @media (min-width: 80rem) {
+    /* Over the screen inside the phone's 10 px wall, so percentages are the screen's. */
+    .notes {
+      position: absolute;
+      inset: var(--cut-top, 10px) 10px var(--cut-bottom, 10px);
+      margin: 0;
+      border: 0;
+      pointer-events: none;
+    }
+    .note {
+      position: absolute;
+      top: var(--y);
+      left: var(--x);
+      right: -3.25rem;
+      height: 0;
+      padding: 0;
+      border-bottom: 0;
+      border-top: 1px dashed var(--color-sun);
+    }
+    .flip .note {
+      right: auto;
+      left: -3.25rem;
+      width: calc(var(--x) + 3.25rem);
+    }
+    .note::before {
+      content: "";
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--color-sun);
+      box-shadow: 0 0 0 2px var(--color-poche);
+    }
+    .flip .note::before {
+      right: -4px;
+      left: auto;
+    }
+    .note-text {
+      position: absolute;
+      top: 0;
+      left: calc(100% + 0.75rem);
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 0.2rem;
+      width: 10.5rem;
+      translate: 0 -50%;
+    }
+    .flip .note-text {
+      right: calc(100% + 0.75rem);
+      left: auto;
+      align-items: flex-end;
+    }
+    .note-text .label {
+      padding: 0;
+    }
+    .note-value {
+      text-align: left;
+    }
+    .flip .note-value {
+      text-align: right;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marker,
+    .time,
+    .fig::before {
+      transition: none;
+    }
+  }
+</style>
