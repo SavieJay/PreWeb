@@ -62,6 +62,15 @@ Reasons: different stack and tooling, deploys on its own schedule, and the app's
 
 **Acceptance:** Lighthouse ≥ 95 on mobile for performance, accessibility and SEO; looks right at 360px, 768px and 1280px.
 
+## Redesign — Daylight section (2026-10-30)
+*Requested by the user with the `impeccable` design skill; the user chose the "Daylight section" direction and sunbeam gold. Replaces the dark glow look on every page; legal text unchanged.*
+- [x] `PRODUCT.md` (product facts) and the direction contract in `.impeccable/surfaces/`
+- [x] New tokens, type (Barlow Condensed + Roboto Flex), chamfered buttons, readouts, header with a scroll playhead, footer on the charcoal slab
+- [x] Home: hero with the E-03 editor design animated in HTML/CSS and a synced scrubber; feature "rooms" with real screens rendered from the design canvas; privacy drawn as the sound's path; questions; closing download
+- [x] Download page and the four text pages in the same world; new share image and favicon ground
+- [ ] Real device captures or a demo clip to replace the rendered design screens
+- [x] `DESIGN.md` written from the build
+
 ## Phase W3 — Download, pricing, changelog
 *The download items were brought forward on 2026-10-29 at the user's request.*
 - [x] Publish the signed release APK as a GitHub Release (`v<version>`, `PreCut-<version>.apk`) with its SHA-256; size and checksum in `src/config.ts`

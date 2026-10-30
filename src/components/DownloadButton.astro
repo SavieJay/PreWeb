@@ -1,10 +1,12 @@
 ---
+import Button from "./Button.astro";
 import { downloadHref } from "../lib/download";
 
 interface Props {
   /** Names the button in the Play referrer and in click counts, e.g. "header" or "hero". */
   id: string;
-  size?: "sm" | "lg";
+  /** compact: the header's charcoal plate. lg: the gold plate of a page's main call. */
+  size?: "compact" | "lg";
   class?: string;
   /** Overrides where the button goes, e.g. straight to the APK on the download page. */
   href?: string;
@@ -14,68 +16,35 @@ interface Props {
 
 const {
   id,
-  size = "sm",
+  size = "compact",
   class: className,
   href = downloadHref(id),
   label = "Download for Android",
 } = Astro.props;
-const large = size === "lg";
 ---
 
-<a
-  href={href}
-  data-download={id}
-  class:list={[
-    "inline-flex items-center justify-center gap-2 rounded-full bg-accent-fill font-semibold text-white shadow-[0_10px_28px_-10px_rgb(217_43_80/0.8)] transition-[background-color,translate,box-shadow] duration-200 hover:-translate-y-0.5 hover:bg-accent-fill-pressed hover:shadow-[0_14px_32px_-10px_rgb(217_43_80/0.9)] active:translate-y-0 active:bg-accent-fill-pressed motion-reduce:hover:translate-y-0",
-    large
-      ? "shine relative h-14 overflow-hidden px-7 text-base"
-      : "h-11 px-5 text-sm",
-    className,
-  ]}
->
-  <svg
-    aria-hidden="true"
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    class={large ? "size-6" : "size-5"}
-  >
-    <path d="M5 20h14v-2H5v2zm14-11h-4V3H9v6H5l7 7 7-7z"></path>
-  </svg>
-  {large ? (
-    <span>{label}</span>
+{
+  size === "lg" ? (
+    <Button
+      href={href}
+      variant="sun"
+      size="lg"
+      icon="download"
+      class={className}
+      data-download={id}
+    >
+      {label}
+    </Button>
   ) : (
-    <span>
+    <Button
+      href={href}
+      variant="poche"
+      size="sm"
+      icon="download"
+      class={className}
+      data-download={id}
+    >
       Download<span class="sr-only"> PreCut</span>
-    </span>
-  )}
-</a>
-
-<style>
-  /* Now and then a band of light sweeps across the large button. */
-  .shine::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: linear-gradient(
-      105deg,
-      transparent 30%,
-      rgb(255 255 255 / 0.35) 50%,
-      transparent 70%
-    );
-    translate: -100% 0;
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .shine::after {
-      animation: button-shine 6s ease-in-out 2.4s infinite;
-    }
-  }
-
-  @keyframes button-shine {
-    25%,
-    100% {
-      translate: 100% 0;
-    }
-  }
-</style>
+    </Button>
+  )
+}

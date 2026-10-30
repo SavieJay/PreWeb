@@ -1,111 +1,254 @@
 ---
-// "Private by design", with the app's own consent dialog (its texts at PreCut 6b2636a).
+// "Private by design", drawn as the path the sound takes when someone uses cloud AI:
+// a section down through each stop, with the app's own consent dialog at the gate
+// (its texts at PreCut 6b2636a). Facts match /privacy.
+import Icon from "../Icon.astro";
 import { app } from "../../config";
+
+const stops = [
+  {
+    icon: "phone",
+    title: "On your phone: videos, photos and projects",
+    detail: "Edited here, and they never leave. No account, no ads, no analytics.",
+  },
+  {
+    icon: "lock",
+    title: "Only if you say yes: the sound, never the picture",
+    detail: `${app.name} shows what it is about to send and asks first. Say no and nothing is sent.`,
+    gate: true,
+  },
+  {
+    icon: "wave",
+    title: `${app.name}'s server in Ireland keeps no audio and no words`,
+    detail: "Only a random ID for this phone and the minutes it used, deleted after 13 months unused.",
+  },
+  {
+    icon: "file",
+    title: "ElevenLabs turns the sound into words",
+    detail: "Under its own privacy policy, then the words and their timings come back to your phone.",
+  },
+] as const;
 ---
 
-<section class="below-fold border-y border-white/5 bg-ink-1/60">
-  <div class="mx-auto grid max-w-6xl items-center gap-12 px-4 py-20 sm:py-24 lg:grid-cols-2">
-    <div class="reveal">
-      <h2 class="text-3xl font-bold tracking-tight sm:text-5xl">
-        Private by design
-      </h2>
-      <p class="mt-5 text-lg leading-relaxed text-fg/85">
+<section
+  id="privacy"
+  class="below-fold privacy"
+  aria-labelledby="privacy-title"
+  data-time="0:16"
+  data-state="ahead"
+>
+  <div class="in">
+    <div class="text">
+      <h2 id="privacy-title" class="lettering">Private by design</h2>
+      <p>
         Your videos, photos and projects stay on your phone. There's no account,
         no ads and no analytics.
       </p>
-      <p class="mt-4 text-lg leading-relaxed text-fg/85">
+      <p>
         Cloud AI is optional, and {app.name} asks before every upload. Then only
         the sound is sent, never the picture, and {app.name}'s server keeps no
         audio and no words.
       </p>
-      <a
-        href="/privacy"
-        class="mt-6 inline-block py-2 text-accent underline underline-offset-4 hover:decoration-2"
-      >
-        Read the privacy policy
-      </a>
+      <a href="/privacy" class="more">Read the privacy policy</a>
     </div>
 
-    <div class="reveal flex justify-center">
-      <figure class="dialog">
-        <figcaption class="sr-only">
-          What {app.name} shows before it sends anything:
-        </figcaption>
-        <p class="title">Send a test phrase?</p>
-        <ul>
-          <li>
-            <strong>What:</strong> a test phrase your phone just spoke,
-            <span class="font-mono">3.0</span>s long
-            (<span class="font-mono">96</span>&nbsp;kB). Only sound.
-          </li>
-          <li>
-            <strong>Where:</strong>
-            {app.name}'s server in Ireland, then ElevenLabs turns it into words.
-          </li>
-          <li>
-            <strong>Kept:</strong>
-            {app.name}'s server keeps no audio or words. ElevenLabs handles it
-            under its own privacy policy.
-          </li>
-          <li>
-            Google Play checks this is the genuine {app.name} on a genuine phone.
-          </li>
-        </ul>
-        <div class="actions" aria-hidden="true">
-          <span class="cancel">Cancel</span>
-          <span class="send">Send</span>
-        </div>
-      </figure>
-    </div>
+    <ol class="path" aria-label="Where the sound goes when you use cloud AI">
+      {stops.map((stop) => (
+        <li class="stop">
+          <span class="post" aria-hidden="true">
+            <Icon name={stop.icon} class="post-icon" />
+          </span>
+          <div class="stop-text">
+            <strong>{stop.title}</strong>
+            <p>{stop.detail}</p>
+            {"gate" in stop && (
+              <figure class="dialog">
+                <figcaption class="sr-only">
+                  What {app.name} shows before it sends anything:
+                </figcaption>
+                <p class="dialog-title">Send a test phrase?</p>
+                <ul>
+                  <li>
+                    <b>What:</b> a test phrase your phone just spoke,{" "}
+                    <span class="nums">3.0</span>s long (<span class="nums">96</span>&nbsp;kB). Only sound.
+                  </li>
+                  <li>
+                    <b>Where:</b> {app.name}'s server in Ireland, then ElevenLabs turns it into words.
+                  </li>
+                  <li>
+                    <b>Kept:</b> {app.name}'s server keeps no audio or words. ElevenLabs handles it under its own privacy policy.
+                  </li>
+                  <li>
+                    Google Play checks this is the genuine {app.name} on a genuine phone.
+                  </li>
+                </ul>
+                <p class="dialog-actions" aria-hidden="true">
+                  <span class="cancel">Cancel</span>
+                  <span class="send">Send</span>
+                </p>
+              </figure>
+            )}
+          </div>
+        </li>
+      ))}
+    </ol>
   </div>
 </section>
 
 <style>
-  .dialog {
-    width: 100%;
-    max-width: 22rem;
-    padding: 1.5rem;
-    border: 1px solid rgb(255 255 255 / 0.06);
-    border-radius: 1.75rem;
-    background: var(--color-ink-2);
-    box-shadow:
-      0 30px 60px -20px rgb(0 0 0 / 0.8),
-      0 0 80px -30px rgb(255 77 109 / 0.5);
+  .privacy {
+    border-top: 1px solid color-mix(in srgb, var(--color-poche) 55%, transparent);
+    background: var(--color-lime-2);
   }
-  .title {
+  .in {
+    display: grid;
+    gap: 3rem;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding: 5rem 1rem;
+  }
+  @media (min-width: 64rem) {
+    .in {
+      grid-template-columns: minmax(0, 27rem) minmax(0, 1fr);
+      gap: 5rem;
+      padding: 7rem 1.5rem 7rem 9.5rem;
+    }
+  }
+
+  .text h2 {
+    font-size: clamp(2rem, 6.4vw, 3.75rem);
+    line-height: 1.02;
+  }
+  .text p {
+    margin-top: 1.1rem;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+  .text h2 + p {
+    margin-top: 1.5rem;
+  }
+  .more {
+    display: inline-block;
+    margin-top: 1.25rem;
+    padding-block: 0.5rem;
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: var(--color-sun);
+    text-decoration-thickness: 2px;
+  }
+  .more:hover {
+    text-decoration-color: var(--color-poche);
+  }
+
+  /* The path: posts on a line, like a section down through the floors. */
+  .path {
+    position: relative;
+    display: grid;
+    gap: 2.25rem;
+  }
+  .path::before {
+    content: "";
+    position: absolute;
+    top: 1.5rem;
+    bottom: 1.5rem;
+    left: 1.5rem;
+    border-left: 2px dashed var(--color-stone);
+    transition: border-color 0.8s var(--ease-out-expo);
+  }
+  .privacy[data-state="lit"] .path::before,
+  .privacy[data-state="past"] .path::before {
+    border-color: var(--color-sun);
+  }
+  .stop {
+    position: relative;
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1fr);
+    gap: 1.25rem;
+  }
+  .post {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    background: var(--color-poche);
+    color: var(--color-lime);
+  }
+  .post :global(.post-icon) {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  .stop-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding-top: 0.15rem;
+  }
+  .stop-text strong {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.15;
+  }
+  .stop-text > p {
+    max-width: 34rem;
+    color: color-mix(in srgb, var(--color-poche) 88%, var(--color-lime));
+    line-height: 1.6;
+  }
+
+  /* The app's own dialog, drawn in the app's colours. */
+  .dialog {
+    max-width: 22rem;
+    margin-top: 0.9rem;
+    padding: 1.4rem;
+    border-radius: 1.75rem;
+    background: #222226;
+    color: #f2f2f5;
+    box-shadow: 0 24px 36px -24px rgb(28 31 34 / 0.6);
+  }
+  .dialog-title {
     font-size: 1.25rem;
     font-weight: 600;
   }
-  ul {
+  .dialog ul {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-    margin-top: 1rem;
-    color: var(--color-fg-muted);
-    font-size: 0.9rem;
+    gap: 0.7rem;
+    margin-top: 0.9rem;
+    color: #9a9aa3;
+    font-size: 0.875rem;
     line-height: 1.5;
   }
-  strong {
-    color: var(--color-fg);
+  .dialog b {
+    color: #f2f2f5;
     font-weight: 600;
   }
-  .actions {
+  .nums {
+    font-variant-numeric: tabular-nums;
+  }
+  .dialog-actions {
     display: flex;
     justify-content: flex-end;
     gap: 0.5rem;
-    margin-top: 1.5rem;
-    font-size: 0.9rem;
+    margin-top: 1.25rem;
+    font-size: 0.875rem;
     font-weight: 600;
   }
-  .actions span {
+  .dialog-actions span {
     padding: 0.55rem 1.1rem;
     border-radius: 99px;
   }
   .cancel {
-    color: var(--color-accent);
+    color: #ff4d6d;
   }
   .send {
-    background: var(--color-accent-fill);
+    background: #d92b50;
     color: #fff;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .path::before {
+      transition: none;
+    }
   }
 </style>

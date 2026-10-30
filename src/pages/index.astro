@@ -1,7 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
-import StatStrip from "../components/home/StatStrip.astro";
 import Features from "../components/home/Features.astro";
 import Privacy from "../components/home/Privacy.astro";
 import Faq from "../components/home/Faq.astro";
@@ -28,14 +27,13 @@ const softwareApplication = {
 };
 ---
 
-<BaseLayout description={description}>
+<BaseLayout description={description} playhead>
   <script
     slot="head"
     type="application/ld+json"
     set:html={JSON.stringify(softwareApplication)}
   />
   <Hero />
-  <StatStrip />
   <Features />
   <Privacy />
   <Faq />

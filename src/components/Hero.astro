@@ -1,221 +1,417 @@
 ---
-// Hero in the style of the design reference: a glowing arc, ribbed light streaks
-// on both sides, a two-tone headline and the phone with floating glass tiles.
-import DownloadButton from "./DownloadButton.astro";
-import PhoneMockup from "./PhoneMockup.astro";
+// The first viewport, drawn as a section: a title block, the phone standing on a
+// charcoal ground slab with its parts annotated, and a time scrubber on the slab that
+// plays on the editor's clock (18 s, starting at 0:07).
 import AppFacts from "./AppFacts.astro";
+import Button from "./Button.astro";
+import DownloadButton from "./DownloadButton.astro";
+import EditorDemo from "./editor/EditorDemo.astro";
 import { app } from "../config";
+
+// Leader-line notes, pinned to parts of the phone (percentages of its height and width).
+// "above" sets the note over its line instead of centred on it.
+const notes = [
+  { y: 7.5, x: 95, label: "Export", value: "No watermark" },
+  { y: 37, x: 72, label: "Preview", value: "Plays as you edit" },
+  // On the playhead, in the gap between the text lane and the music lane.
+  { y: 81.5, x: 50, label: "Lanes", value: "Text and music, beats marked", place: "above" },
+];
+
+// The scrubber's marks: the cuts between clips, as fractions of 18 s.
+const marks = [
+  { at: 0, time: "0:00", name: "Beach" },
+  { at: 4.2 / 18, time: "0:04", name: "City" },
+  { at: 9.8 / 18, time: "0:10", name: "Park" },
+  { at: 1, time: "0:18", name: "Export" },
+];
+const digits = Array.from({ length: 19 }, (_, s) => String(s).padStart(2, "0"));
 ---
 
-<section class="relative isolate overflow-hidden">
-  <div class="glow" aria-hidden="true">
-    <div class="arc"></div>
-  </div>
-  <div class="streaks-in" aria-hidden="true">
-    <div class="streaks streaks-left"></div>
-    <div class="streaks streaks-right"></div>
-  </div>
-
-  <div class="relative mx-auto max-w-6xl px-4 pt-[clamp(8rem,34vw,15rem)] pb-20">
-    <h1 class="text-center">
-      <span
-        class="enter block text-[clamp(1.375rem,5vw,2.75rem)] leading-tight font-light tracking-tight text-balance"
-        style="--enter-delay: 0.1s"
-      >
-        Pro-level video editing on your phone.
-      </span>
-      <span class="accent mt-2 block text-[clamp(2.75rem,12vw,8rem)] leading-[0.95] font-bold tracking-[-0.03em]">
-        No watermark.
-      </span>
-    </h1>
-
-    <div class="mt-12 grid items-center gap-14 lg:mt-16 lg:grid-cols-[1fr_1.15fr]">
-      <div class="mx-auto max-w-md lg:mx-0">
-        <span
-          class="bar block h-2 w-14 rounded-full bg-accent"
-          aria-hidden="true"
-        ></span>
-        <p
-          class="enter mt-5 text-lg leading-relaxed text-fg/90 sm:text-xl"
-          style="--enter-delay: 0.35s"
-        >
-          {app.name} puts a full timeline, effects, text, music and 4K export in
-          your pocket. No ads, no account, and nothing leaves your phone without
-          your say-so.
-        </p>
-        <div class="enter mt-8" style="--enter-delay: 0.45s">
-          <DownloadButton id="hero" size="lg" class="w-full sm:w-auto" />
-        </div>
-        <AppFacts
-          class="enter mt-4 text-sm text-fg-muted"
-          style="--enter-delay: 0.55s"
-        />
+<section class="hero" aria-labelledby="hero-title">
+  <div class="sheet">
+    <div class="title-block">
+      <h1 id="hero-title" class="lettering headline">
+        <span class="line">Pro-level video</span>
+        <span class="line">editing on</span>
+        <span class="line">your phone.</span>
+        <span class="line lit"><span class="beam" aria-hidden="true"></span>No watermark.</span>
+      </h1>
+      <p class="tagline">
+        {app.name} puts a full timeline, effects, text, music and 4K export in your
+        pocket. No ads, no account, and nothing leaves your phone without your
+        say-so.
+      </p>
+      <div class="actions">
+        <DownloadButton id="hero" size="lg" class="w-full sm:w-auto" />
+        <Button href="#features" variant="outline" icon="arrow-down" class="w-full sm:w-auto">
+          See it work
+        </Button>
       </div>
-      {/* On small screens the phone is below the fold, so it rises in on scroll there. */}
-      <div class="max-lg:reveal">
-        <PhoneMockup />
+      <div class="facts"><AppFacts /></div>
+    </div>
+
+    <div class="stage">
+      <EditorDemo />
+      <ul class="notes" aria-hidden="true">
+        {notes.map((note) => (
+          <li class:list={["note", note.place]} style={`--y:${note.y}%;--x:${note.x}%`}>
+            <span class="note-text">
+              <span class="label">{note.label}</span>
+              <span class="note-value">{note.value}</span>
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <div class="slab ground">
+    <div class="scrub" aria-hidden="true">
+      <div class="scrub-in">
+        <div class="dim" style={`--from:${5 / 18};--to:${9 / 18}`}>
+          <span class="label">Text · Lagos nights</span>
+        </div>
+        <div class="rail">
+          <div class="run"></div>
+        </div>
+        <div class="knob-run">
+          <span class="knob"></span>
+          <span class="now tabular">
+            0<span class="colon">:</span><span class="digits"><span class="strip">{digits.map((d) => <span>{d}</span>)}</span></span>
+          </span>
+        </div>
+        <ol class="marks">
+          {marks.map((mark) => (
+            <li style={`--at:${mark.at}`}>
+              <span class="tabular mark-time">{mark.time}</span>
+              <span class="label mark-name">{mark.name}</span>
+            </li>
+          ))}
+        </ol>
       </div>
     </div>
   </div>
 </section>
 
 <style>
-  /* A dark planet whose lower rim catches the accent light; the sides fade out. */
-  .glow {
-    position: absolute;
-    inset: 0 0 auto;
-    z-index: -1;
-    height: clamp(26rem, 95vw, 46rem);
-    pointer-events: none;
-    background: radial-gradient(
-      60% 55% at 55% 0%,
-      rgb(92 20 38 / 0.6),
-      transparent 70%
-    );
-    mask-image: linear-gradient(
-      90deg,
-      transparent 2%,
-      #000 32%,
-      #000 74%,
-      transparent 100%
-    );
+  .hero {
+    position: relative;
+    overflow-x: clip;
+  }
+  .sheet {
+    display: grid;
+    gap: 3rem;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding: 2.25rem 1rem 0;
+  }
+  @media (min-width: 64rem) {
+    .sheet {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
+      gap: 2rem;
+      padding: 3.5rem 1.5rem 0;
+    }
+  }
+  @media (min-width: 80rem) {
+    .sheet {
+      /* Room on the right for the leader-line notes. */
+      padding-right: 15rem;
+    }
   }
 
-  .arc {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: max(56rem, 220vw);
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background: var(--color-ink-0);
-    box-shadow:
-      0 2px 0 0 rgb(255 130 150 / 0.9),
-      0 8px 24px -2px rgb(255 77 109 / 0.7);
-    translate: -50% calc(-100% + clamp(5.5rem, 26vw, 12rem));
+  .headline {
+    display: flex;
+    flex-direction: column;
+    font-size: clamp(2.25rem, 9.6vw, 4.5rem);
+    line-height: 1;
+    text-wrap: nowrap;
   }
-  /* The wide glow is its own layer, so it can breathe on the GPU. */
-  .arc::after {
+  .lit {
+    position: relative;
+    isolation: isolate;
+    align-self: flex-start;
+    margin-top: 0.12em;
+    padding-right: 0.15em;
+    font-weight: 400;
+  }
+  /* A sunbeam falling across the last line, from beyond the left edge of the page. */
+  .beam {
+    position: absolute;
+    z-index: -1;
+    inset: 0.04em -0.2em -0.02em -100vw;
+    background: var(--color-sun);
+    transform: skewX(-14deg);
+    transform-origin: bottom;
+  }
+
+  .tagline {
+    max-width: 34rem;
+    margin-top: 1.75rem;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-style: italic;
+    line-height: 1.45;
+    letter-spacing: 0.02em;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+    margin-top: 2rem;
+  }
+  .facts {
+    margin-top: 2rem;
+  }
+
+  .stage {
+    position: relative;
+    z-index: 1;
+    justify-self: center;
+  }
+  .notes {
+    display: none;
+  }
+  @media (min-width: 80rem) {
+    .notes {
+      display: block;
+    }
+  }
+  /* A dot on the part, a dashed leader out past the phone, then the note. */
+  .note {
+    position: absolute;
+    top: var(--y);
+    left: var(--x);
+    right: -2.5rem;
+    height: 0;
+    border-top: 1px dashed var(--color-sun);
+  }
+  .note::before {
     content: "";
     position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    box-shadow: 0 30px 90px 10px rgb(217 43 80 / 0.35);
+    top: -4px;
+    left: -4px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-sun);
+    box-shadow: 0 0 0 2px var(--color-poche);
+  }
+  .note-text {
+    position: absolute;
+    top: 0;
+    left: calc(100% + 0.75rem);
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    width: 11rem;
+    translate: 0 -50%;
+  }
+  .note-text .label {
+    color: var(--color-shadow);
+    font-size: 0.75rem;
+  }
+  .note-value {
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-style: italic;
+    line-height: 1.2;
+  }
+  .note.above .note-text {
+    translate: 0 calc(-100% - 0.4rem);
   }
 
-  /* Vertical folds of light, like the reference's curtain, brightest at mid-height. */
-  .streaks-in {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
+  /* The ground slab: the phone stands in it, the scrubber runs along it. */
+  .ground {
+    margin-top: -9rem;
+    padding: 11rem 0 3rem;
   }
-  .streaks {
-    position: absolute;
-    top: 16%;
-    bottom: 0;
-    width: clamp(7rem, 32%, 26rem);
-    pointer-events: none;
-    background:
-      repeating-linear-gradient(
-        90deg,
-        transparent 0 7px,
-        rgb(255 77 109 / 0.22) 9px,
-        transparent 11px 16px
-      ),
-      repeating-linear-gradient(
-        90deg,
-        transparent 0 19px,
-        rgb(255 140 160 / 0.12) 22px,
-        transparent 25px 33px
-      );
-    mask-image: radial-gradient(
-      100% 45% at var(--edge) 55%,
-      #000 0%,
-      rgb(0 0 0 / 0.5) 45%,
-      transparent 100%
-    );
+  @media (min-width: 64rem) {
+    .ground {
+      margin-top: -7rem;
+      padding: 3.5rem 0 3.25rem;
+    }
   }
-  .streaks-left {
+  /* Same box as the sheet above, so the scrubber lines up with the title block. */
+  .scrub {
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+  @media (min-width: 64rem) {
+    .scrub {
+      /* Clear of the phone's base: its width plus a gap. */
+      padding-left: 1.5rem;
+      padding-right: 24rem;
+    }
+  }
+  @media (min-width: 80rem) {
+    .scrub {
+      padding-right: 39rem;
+    }
+  }
+  /* Room above the rail for the dimension line, and below it for the moving time. */
+  .scrub-in {
+    position: relative;
+    padding-top: 5.5rem;
+  }
+
+  .rail {
+    position: relative;
+    height: 2px;
+    overflow: hidden;
+    background: color-mix(in srgb, var(--color-lime) 28%, transparent);
+  }
+  .run,
+  .knob-run {
+    position: absolute;
+    top: 0;
     left: 0;
-    --edge: 0%;
+    width: 100%;
+    translate: calc((7 / 18 - 1) * 100%) 0; /* 0:07 */
   }
-  .streaks-right {
+  .run {
+    height: 2px;
+    background: var(--color-sun);
+  }
+  .knob-run {
+    top: 5.5rem;
+    pointer-events: none;
+  }
+  .knob {
+    position: absolute;
+    top: 1px;
     right: 0;
-    --edge: 100%;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--color-sun);
+    box-shadow: 0 0 0 4px var(--color-poche);
+    translate: 50% -50%;
+  }
+  .now {
+    position: absolute;
+    right: 0;
+    bottom: 0.9rem;
+    color: var(--color-sun);
+    font-size: 1.25rem;
+    line-height: 1;
+    translate: 50% 0;
+  }
+  .digits {
+    display: inline-block;
+    height: 1em;
+    overflow: hidden;
+    vertical-align: top;
+  }
+  .strip {
+    display: flex;
+    flex-direction: column;
+    translate: 0 -7em;
   }
 
-  .accent {
-    color: var(--color-accent);
-    filter: drop-shadow(0 0 32px rgb(255 77 109 / 0.25));
+  .marks {
+    position: relative;
+    height: 3rem;
+    margin-top: 0.9rem;
   }
-  @supports (background-clip: text) {
-    .accent {
-      background-image: linear-gradient(
-        100deg,
-        #e0335a 0%,
-        var(--color-accent) 40%,
-        #ff8fa3 100%
-      );
-      background-clip: text;
-      color: transparent;
-    }
+  .marks li {
+    position: absolute;
+    left: calc(var(--at) * 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding-left: 0.5rem;
+    border-left: 1px solid color-mix(in srgb, var(--color-lime) 40%, transparent);
+  }
+  .marks li:last-child {
+    align-items: flex-end;
+    padding-right: 0.5rem;
+    padding-left: 0;
+    border-right: 1px solid color-mix(in srgb, var(--color-lime) 40%, transparent);
+    border-left: 0;
+    translate: -100% 0;
+  }
+  .mark-time {
+    color: var(--color-lime);
+    font-size: 1rem;
+  }
+  .mark-name {
+    color: var(--color-dusk);
+    font-size: 0.6875rem;
   }
 
-  .bar {
-    transform-origin: left;
+  /* An architect's dimension line over the caption's span, 0:05 to 0:09. */
+  .dim {
+    position: absolute;
+    top: 1.6rem;
+    left: calc(var(--from) * 100%);
+    width: calc((var(--to) - var(--from)) * 100%);
+    height: 1.1rem;
+    border-inline: 1px solid var(--color-dusk);
+  }
+  .dim::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-top: 1px solid var(--color-dusk);
+  }
+  /* Set above the extension lines, so no hairline crosses the words. */
+  .dim .label {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 0.35rem);
+    color: var(--color-dusk);
+    font-size: 0.6875rem;
+    white-space: nowrap;
+    translate: -50% 0;
   }
 
-  /* Only opacity and transforms animate, one animation per element, so the GPU runs them
-     all; that's why the entrances sit on wrappers and the breathing on a separate layer. */
   @media (prefers-reduced-motion: no-preference) {
-    .glow {
-      animation: glow-in 1.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+    .beam {
+      animation: beam-in 1.2s var(--ease-out-expo) 0.15s both;
     }
-    .arc::after {
-      animation: breathe 5s ease-in-out 1.6s infinite alternate;
+    .run,
+    .knob-run,
+    .strip {
+      animation-duration: 18s;
+      animation-delay: -7s;
+      animation-iteration-count: infinite;
     }
-    .streaks-in {
-      animation: fade-in 1.8s ease-out 0.3s both;
+    .run,
+    .knob-run {
+      animation-name: scrub;
+      animation-timing-function: linear;
     }
-    .streaks {
-      animation: shimmer 4.5s ease-in-out 2.1s infinite alternate;
-    }
-    .streaks-right {
-      animation-duration: 6s;
-    }
-    .accent {
-      animation: enter-rise 1s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
-    }
-    .bar {
-      animation: draw 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+    .strip {
+      animation-name: tick;
+      animation-timing-function: steps(18, jump-end);
     }
   }
-
-  @keyframes glow-in {
+  @keyframes beam-in {
     from {
-      opacity: 0;
-      translate: 0 -3rem;
+      clip-path: inset(0 100% 0 0);
     }
-  }
-  @keyframes breathe {
     to {
-      opacity: 0.4;
+      clip-path: inset(0 0 0 0);
     }
   }
-  @keyframes fade-in {
+  @keyframes scrub {
     from {
-      opacity: 0;
+      translate: -100% 0;
     }
-  }
-  @keyframes shimmer {
     to {
-      opacity: 0.45;
+      translate: 0 0;
     }
   }
-  @keyframes draw {
+  @keyframes tick {
     from {
-      scale: 0 1;
+      translate: 0 0;
+    }
+    to {
+      translate: 0 -18em;
     }
   }
 </style>

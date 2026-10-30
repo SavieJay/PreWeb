@@ -1,0 +1,723 @@
+---
+// PreCut's editor (design canvas artboard E-03, "Editor – default") rebuilt in HTML and
+// CSS, playing its 18-second project "Lagos weekend" on a loop. The screen is laid out at
+// the design's own 412 × 915 px and scaled with `zoom`, so every measurement matches
+// the canvas. Timeline scale as in the app: 32 px = 1 s, playhead fixed at x = 205 px.
+//
+// Without motion it holds the canvas's frame at 0:07. With motion the same frame is
+// where playback starts (a -7 s delay), and the hero's scrubber shares the clock.
+import { icons, type IconName } from "./icons";
+
+// Seconds labelled on the ruler, and where 0:00 sits on the track at 0:07.
+const rulerSeconds = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18];
+const x = (s: number) => -18 + 32 * s;
+const digits = Array.from({ length: 19 }, (_, s) => String(s).padStart(2, "0"));
+
+const tools: { icon: IconName; label: string }[] = [
+  { icon: "content_cut", label: "Split" },
+  { icon: "width", label: "Trim" },
+  { icon: "music_note", label: "Audio" },
+  { icon: "speed", label: "Speed" },
+  { icon: "volume_up", label: "Volume" },
+  { icon: "gradient", label: "Fade" },
+  { icon: "audio_file", label: "Extract" },
+];
+---
+
+<div
+  class="phone"
+  role="img"
+  aria-label="PreCut's editor playing a project called Lagos weekend: a video preview above a timeline with three clips, a caption and two music tracks"
+>
+  <div class="screen">
+    <div class="inset-t"></div>
+    <div class="tb">
+      <span class="ib"><svg viewBox="0 -960 960 960" class="ms"><path d={icons.arrow_back} /></svg></span>
+      <span class="ttl">
+        Lagos weekend
+        <svg viewBox="0 -960 960 960" class="ms s18 sec"><path d={icons.edit} /></svg>
+      </span>
+      <span class="ib"><svg viewBox="0 -960 960 960" class="ms"><path d={icons.undo} /></svg></span>
+      <span class="ib dim"><svg viewBox="0 -960 960 960" class="ms"><path d={icons.redo} /></svg></span>
+      <span class="pill">Export</span>
+    </div>
+
+    <div class="pv">
+      <div class="vid">
+        <span class="scene s-beach"></span>
+        <span class="scene s-city"></span>
+        <span class="scene s-dog"></span>
+        <span class="cap">Lagos nights</span>
+      </div>
+    </div>
+
+    <div class="pb">
+      <span class="tc">
+        0:<span class="digits"><span class="strip">{digits.map((d) => <span>{d}</span>)}</span></span>
+        <span class="sec"> / 0:18</span>
+      </span>
+      <span class="ib play">
+        <svg viewBox="0 -960 960 960" class="ms s32 icon-play"><path d={icons.play_arrow} /></svg>
+        <svg viewBox="0 -960 960 960" class="ms s32 icon-pause"><path d={icons.pause} /></svg>
+      </span>
+      <span class="ib r"><svg viewBox="0 -960 960 960" class="ms"><path d={icons.fullscreen} /></svg></span>
+    </div>
+
+    <div class="tl">
+      <div class="track">
+        <div class="lane ru">
+          {rulerSeconds.map((s) => (
+            <span class="rl" style={`left:${x(s)}px`}>0:{String(s).padStart(2, "0")}</span>
+          ))}
+          <div class="ticks" style={`left:${x(0)}px;width:${32 * 18 + 1}px`}></div>
+        </div>
+        <div class="lane main">
+          <div class="clip s-beach" style="left:-18px;width:133px"></div>
+          <div class="clip s-city" style="left:117px;width:177px"></div>
+          <div class="clip s-dog" style="left:296px;width:262px"></div>
+        </div>
+        <div class="lane">
+          <div class="bar b-txt" style="left:142px;width:128px">
+            <svg viewBox="0 -960 960 960" class="ms"><path d={icons.title} /></svg><span>Lagos nights</span>
+          </div>
+        </div>
+        <div class="lane au">
+          <div class="bar b-mus" style="left:-18px;width:384px">
+            <div class="wave"></div><div class="beats"></div>
+            <svg viewBox="0 -960 960 960" class="ms"><path d={icons.music_note} /></svg><span>Afrobeat Sunrise</span>
+          </div>
+        </div>
+        <div class="lane au">
+          <div class="bar b-mus" style="left:238px;width:256px">
+            <div class="wave"></div>
+            <svg viewBox="0 -960 960 960" class="ms"><path d={icons.music_note} /></svg><span>Ocean waves</span>
+          </div>
+        </div>
+      </div>
+      <div class="pins">
+        <span class="pinl"><span class="mutebtn"><svg viewBox="0 -960 960 960" class="ms"><path d={icons.volume_up} /></svg></span></span>
+        <span class="pinr"><span class="addbtn"><svg viewBox="0 -960 960 960" class="ms"><path d={icons.add} /></svg></span></span>
+      </div>
+      <div class="phd"></div>
+    </div>
+
+    <div class="bot">
+      <div class="tbar">
+        {tools.map((tool) => (
+          <span class="tool">
+            <svg viewBox="0 -960 960 960" class="ms"><path d={icons[tool.icon]} /></svg>
+            {tool.label}
+          </span>
+        ))}
+      </div>
+      <div class="inset-b"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* The phone drawn as poché: a charcoal body cut in section around the screen. */
+  .phone {
+    --zoom: 0.5728; /* 236 px screen */
+    position: relative;
+    width: fit-content;
+    padding: 9px;
+    border-radius: 34px;
+    background: var(--color-poche);
+    box-shadow:
+      inset 0 0 0 1px #3a3f45,
+      0 34px 44px -26px rgb(28 31 34 / 0.55);
+  }
+  @media (min-width: 25rem) {
+    .phone {
+      --zoom: 0.6311; /* 260 px */
+    }
+  }
+  @media (min-width: 64rem) {
+    .phone {
+      --zoom: 0.7039; /* 290 px */
+      padding: 11px;
+      border-radius: 40px;
+    }
+  }
+  @media (min-width: 80rem) {
+    .phone {
+      --zoom: 0.7573; /* 312 px */
+    }
+  }
+
+  /* From here on, sizes are the design canvas's px (precut.css), scaled by zoom. */
+  .screen {
+    zoom: var(--zoom);
+    /* App tokens (ui/theme/Color.kt), local to the screen. */
+    --ink0: #0e0e10;
+    --ink1: #17171a;
+    --ink2: #222226;
+    --tp: #f2f2f5;
+    --ts: #9a9aa3;
+    --td: rgb(242 242 245 / 0.38);
+    --accf: #d92b50;
+    --clipbg: #34343a;
+    --tick: #6b6b74;
+    --beat: #ffd43b;
+    --txt: #b8860b;
+    --mus: #137d6f;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 412px;
+    height: 915px;
+    overflow: hidden;
+    border-radius: 26px;
+    background: var(--ink0);
+    color: var(--tp);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .ms {
+    flex: none;
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+  }
+  .s18 {
+    width: 18px;
+    height: 18px;
+  }
+  .s32 {
+    width: 32px;
+    height: 32px;
+  }
+  .sec {
+    color: var(--ts);
+  }
+  .inset-t {
+    flex: none;
+    height: 28px;
+  }
+  .inset-b {
+    flex: none;
+    height: 24px;
+  }
+
+  .tb {
+    display: flex;
+    flex: none;
+    align-items: center;
+    height: 56px;
+    padding: 0 12px 0 4px;
+  }
+  .ib {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    color: var(--tp);
+  }
+  .ib.dim {
+    color: var(--td);
+  }
+  .ttl {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: 4px;
+    min-width: 0;
+    padding: 0 4px;
+    overflow: hidden;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    white-space: nowrap;
+  }
+  .pill {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    height: 36px;
+    margin-left: 4px;
+    padding: 0 16px;
+    border-radius: 18px;
+    background: var(--accf);
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .pv {
+    position: relative;
+    display: flex;
+    flex: 1 1 0;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+    overflow: hidden;
+    background: #000;
+  }
+  .vid {
+    position: relative;
+    height: 100%;
+    aspect-ratio: 9 / 16;
+    overflow: hidden;
+    background: var(--clipbg);
+  }
+  .scene {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+  }
+  .vid .s-city {
+    opacity: 1;
+  }
+  .cap {
+    position: absolute;
+    top: 64%;
+    left: 0;
+    right: 0;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 26px;
+    text-align: center;
+    text-shadow: 0 1px 4px rgb(0 0 0 / 0.6);
+    white-space: nowrap;
+  }
+
+  .pb {
+    display: grid;
+    flex: none;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    height: 48px;
+    padding: 0 4px 0 16px;
+  }
+  .pb .r {
+    justify-self: end;
+  }
+  .tc {
+    font-size: 13px;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    line-height: 16px;
+    white-space: nowrap;
+  }
+  /* A column of seconds behind a one-line window; it steps up a line each second. */
+  .digits {
+    display: inline-block;
+    height: 16px;
+    overflow: hidden;
+    vertical-align: top;
+  }
+  .strip {
+    display: flex;
+    flex-direction: column;
+    translate: 0 -112px; /* 0:07 */
+  }
+  .icon-pause {
+    display: none;
+  }
+
+  .tl {
+    position: relative;
+    flex: none;
+    height: 176px;
+    padding: 2px 0 10px;
+    overflow: hidden;
+    background: var(--ink0);
+  }
+  .track {
+    position: relative;
+  }
+  .lane {
+    position: relative;
+    height: 22px;
+    margin-top: 4px;
+  }
+  .lane.ru {
+    height: 18px;
+    margin-top: 0;
+  }
+  .lane.main {
+    height: 56px;
+    margin-top: 6px;
+  }
+  .lane.main + .lane {
+    margin-top: 6px;
+  }
+  .lane.au {
+    height: 24px;
+  }
+  .rl {
+    position: absolute;
+    top: 1px;
+    color: var(--ts);
+    font-size: 10px;
+    font-variant-numeric: tabular-nums;
+    line-height: 12px;
+    white-space: nowrap;
+    translate: -50% 0;
+  }
+  .ticks {
+    position: absolute;
+    bottom: 0;
+    height: 4px;
+    background-image: repeating-linear-gradient(
+      90deg,
+      var(--tick) 0 1px,
+      transparent 1px 16px
+    );
+  }
+  .clip {
+    position: absolute;
+    top: 0;
+    height: 56px;
+    overflow: hidden;
+    border-radius: 6px;
+    background-color: var(--clipbg);
+    background-repeat: repeat-x;
+    background-size: 42px 56px;
+  }
+  .clip::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent 0 41px,
+      rgb(0 0 0 / 0.35) 41px 42px
+    );
+  }
+  .bar {
+    position: absolute;
+    top: 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 100%;
+    padding: 0 6px;
+    overflow: hidden;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 14px;
+    white-space: nowrap;
+  }
+  .bar > span,
+  .bar > .ms {
+    position: relative;
+    z-index: 1;
+  }
+  .bar .ms {
+    width: 14px;
+    height: 14px;
+  }
+  .b-txt {
+    background: var(--txt);
+    color: var(--ink0);
+  }
+  .b-mus {
+    background: var(--mus);
+  }
+  .wave {
+    position: absolute;
+    inset: 3px 0;
+    opacity: 0.42;
+    background-image:
+      repeating-linear-gradient(90deg, #fff 0 1.5px, transparent 1.5px 4px),
+      repeating-linear-gradient(90deg, #fff 0 1.5px, transparent 1.5px 10px),
+      repeating-linear-gradient(90deg, #fff 0 1.5px, transparent 1.5px 14px),
+      repeating-linear-gradient(90deg, #fff 0 1.5px, transparent 1.5px 22px);
+    background-position:
+      0 50%,
+      2px 50%,
+      6px 50%,
+      12px 50%;
+    background-repeat: no-repeat;
+    background-size:
+      100% 30%,
+      100% 60%,
+      100% 85%,
+      100% 100%;
+  }
+  .beats {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 1px;
+    z-index: 1;
+    height: 4px;
+    background-image: radial-gradient(
+      circle at 2px 2px,
+      var(--beat) 0 2px,
+      transparent 2.5px
+    );
+    background-position: 8px 0;
+    background-repeat: repeat-x;
+    background-size: 16px 4px;
+  }
+
+  /* The mute and add buttons stay put while the clips scroll under them. */
+  .pins {
+    position: absolute;
+    top: 26px;
+    left: 0;
+    right: 0;
+    height: 56px;
+  }
+  .pinl,
+  .pinr {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 7;
+    display: flex;
+    align-items: center;
+    width: 64px;
+  }
+  .pinl {
+    left: 0;
+    padding-left: 8px;
+    background: linear-gradient(90deg, var(--ink0) 72%, rgb(14 14 16 / 0));
+  }
+  .pinr {
+    right: 0;
+    justify-content: flex-end;
+    padding-right: 8px;
+    background: linear-gradient(270deg, var(--ink0) 72%, rgb(14 14 16 / 0));
+  }
+  .mutebtn,
+  .addbtn {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+  }
+  .mutebtn {
+    border-radius: 20px;
+    background: var(--ink2);
+  }
+  .mutebtn .ms {
+    width: 20px;
+    height: 20px;
+  }
+  .addbtn {
+    border-radius: 8px;
+    background: #fff;
+    color: var(--ink0);
+  }
+  .phd {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 205px;
+    z-index: 6;
+    width: 2px;
+    border-radius: 1px;
+    background: #fff;
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 0.35);
+  }
+  .phd::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -4px;
+    width: 10px;
+    height: 12px;
+    border-radius: 3px;
+    background: #fff;
+  }
+
+  .bot {
+    flex: none;
+    background: var(--ink1);
+  }
+  .tbar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 72px;
+    padding: 4px;
+    overflow: hidden;
+  }
+  .tbar::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 48px;
+    background: linear-gradient(90deg, rgb(23 23 26 / 0), var(--ink1));
+  }
+  .tool {
+    display: flex;
+    flex: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    width: 64px;
+    height: 64px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 14px;
+    white-space: nowrap;
+  }
+
+  /* Stand-in footage from the design canvas (swap for real thumbnails). */
+  .s-beach {
+    background-image:
+      radial-gradient(circle at 50% 44%, #ffe7a8 0 7%, rgb(255 231 168 / 0) 8%),
+      linear-gradient(
+        180deg,
+        #f6b26b 0%,
+        #f08a5d 30%,
+        #c8576b 46%,
+        #2b6f8f 47%,
+        #1d4e6b 66%,
+        #d9b98c 67%,
+        #c9a274 100%
+      );
+  }
+  .s-city {
+    background-image:
+      radial-gradient(circle at 18% 70%, #ffc45a 0 1.6%, rgb(0 0 0 / 0) 2.2%),
+      radial-gradient(circle at 44% 72%, #ffc45a 0 1.6%, rgb(0 0 0 / 0) 2.2%),
+      radial-gradient(circle at 71% 69%, #7cc8ff 0 1.6%, rgb(0 0 0 / 0) 2.2%),
+      radial-gradient(circle at 86% 73%, #ffc45a 0 1.6%, rgb(0 0 0 / 0) 2.2%),
+      linear-gradient(
+        180deg,
+        #0b1a3a 0%,
+        #25386b 42%,
+        #6a3f66 62%,
+        #14121c 63%,
+        #221e2c 100%
+      );
+  }
+  .s-dog {
+    background-image:
+      radial-gradient(ellipse 15% 10% at 50% 34%, #e6b571 0 80%, rgb(0 0 0 / 0) 86%),
+      radial-gradient(ellipse 29% 21% at 50% 57%, #d9a35a 0 80%, rgb(0 0 0 / 0) 86%),
+      linear-gradient(180deg, #a9cdeb 0 42%, #6fa34a 42% 100%);
+  }
+  .scene.s-beach,
+  .scene.s-city,
+  .scene.s-dog {
+    background-size: 100% 100%;
+  }
+
+  /* Playback: one 18-second clock for the track, the timecode, the cuts and the caption,
+     started at 0:07 so the first frame is the still one. Only transforms and opacity move. */
+  @media (prefers-reduced-motion: no-preference) {
+    .icon-play {
+      display: none;
+    }
+    .icon-pause {
+      display: block;
+    }
+    .track,
+    .strip,
+    .scene,
+    .cap {
+      animation-duration: 18s;
+      animation-delay: -7s;
+      animation-iteration-count: infinite;
+    }
+    .track {
+      animation-name: play-track;
+      animation-timing-function: linear;
+    }
+    .strip {
+      animation-name: tick;
+      animation-timing-function: steps(18, jump-end);
+    }
+    .scene.s-beach {
+      animation-name: cut-beach;
+    }
+    .scene.s-city {
+      animation-name: cut-city;
+    }
+    .scene.s-dog {
+      animation-name: cut-dog;
+    }
+    .cap {
+      animation-name: caption;
+    }
+  }
+
+  @keyframes play-track {
+    from {
+      translate: 224px 0; /* 0:00 under the playhead */
+    }
+    to {
+      translate: -352px 0; /* 0:18 */
+    }
+  }
+  @keyframes tick {
+    from {
+      translate: 0 0;
+    }
+    to {
+      translate: 0 -288px;
+    }
+  }
+  /* Cuts at 4.2 s and 9.8 s, where the clips meet. */
+  @keyframes cut-beach {
+    0%,
+    23.3% {
+      opacity: 1;
+    }
+    23.4%,
+    100% {
+      opacity: 0;
+    }
+  }
+  @keyframes cut-city {
+    0%,
+    23.3% {
+      opacity: 0;
+    }
+    23.4%,
+    54.4% {
+      opacity: 1;
+    }
+    54.5%,
+    100% {
+      opacity: 0;
+    }
+  }
+  @keyframes cut-dog {
+    0%,
+    54.4% {
+      opacity: 0;
+    }
+    54.5%,
+    100% {
+      opacity: 1;
+    }
+  }
+  /* The caption's text bar runs from 0:05 to 0:09. */
+  @keyframes caption {
+    0%,
+    27.7% {
+      opacity: 0;
+      scale: 0.85;
+    }
+    27.8% {
+      opacity: 1;
+      scale: 0.85;
+    }
+    29.5%,
+    50% {
+      opacity: 1;
+      scale: 1;
+    }
+    50.1%,
+    100% {
+      opacity: 0;
+      scale: 1;
+    }
+  }
+</style>
