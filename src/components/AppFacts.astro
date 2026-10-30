@@ -32,11 +32,11 @@ const facts: Fact[] = [
 <dl class:list={["readouts", `tone-${tone}`, className]}>
   {facts.map((fact) => (
     <div class="readout">
-      <Icon name={fact.icon} class="readout-icon" />
-      <div>
-        <dt class="label">{fact.label}</dt>
-        <dd class="tabular readout-value">{fact.value}</dd>
-      </div>
+      <dt class="label">
+        <Icon name={fact.icon} class="readout-icon" />
+        {fact.label}
+      </dt>
+      <dd class="tabular readout-value">{fact.value}</dd>
     </div>
   ))}
 </dl>
@@ -47,15 +47,16 @@ const facts: Fact[] = [
     grid-template-columns: repeat(2, minmax(0, 1fr));
     border-top: 1px solid var(--rule);
   }
+  /* A dt/dd pair; the icon lives in the dt (so the list stays valid) and is drawn
+     in the pair's left padding, centred on both lines. */
   .readout {
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    padding: 0.85rem 0.75rem 0.85rem 0;
+    --pad: 0rem;
+    position: relative;
+    padding: 0.85rem 0.75rem 0.85rem calc(var(--pad) + 2.3rem);
     border-bottom: 1px solid var(--rule);
   }
   .readout:nth-child(even) {
-    padding-left: 0.9rem;
+    --pad: 0.9rem;
     border-left: 1px solid var(--rule);
   }
   @media (min-width: 40rem) {
@@ -66,12 +67,14 @@ const facts: Fact[] = [
     }
     .readout,
     .readout:nth-child(even) {
-      padding: 0.15rem 1.4rem;
+      --pad: 1.4rem;
+      padding-block: 0.15rem;
+      padding-right: 1.4rem;
       border-bottom: 0;
       border-left: 1px solid var(--rule);
     }
     .readout:first-child {
-      padding-left: 0;
+      --pad: 0rem;
       border-left: 0;
     }
   }
@@ -86,9 +89,13 @@ const facts: Fact[] = [
   }
 
   .readout :global(.readout-icon) {
+    position: absolute;
+    top: 50%;
+    left: var(--pad);
     width: 1.6rem;
     height: 1.6rem;
     color: var(--label);
+    translate: 0 -50%;
   }
   dt {
     color: var(--label);
