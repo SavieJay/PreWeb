@@ -6,7 +6,7 @@
       <stop offset="1" stop-color="#9C9DA3"/>
     </linearGradient>
   </defs>
-  <rect width="108" height="108" rx="24" fill="#0E0E10"/>
+  <rect width="108" height="108" rx="24" fill="#1C1F22"/>
   <g transform="translate(54 54) scale(1.12) translate(-54 -54)">
     <path fill="url(#silver)" fill-rule="evenodd" d="M33,22 H60 C73,22 84,32 84,45 C84,58 73,67 60,67 H54 V82 C54,85 52,87 49,87 H35 C32,87 30,85 30,82 V25 C30,23 31,22 33,22 Z M41,31 C39.5,30.5 38.6,31.6 39,33 L45,60 C45.4,61.6 46.8,62 48,61 L70,44 C71.3,43 71,41.5 69.4,41 Z"/>
     <path fill="url(#silver)" fill-rule="evenodd" d="M43,45 a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 Z M46.2,42.5 a1.8,1.8 0 1,0 3.6,0 a1.8,1.8 0 1,0 -3.6,0 Z M50.6,43.6 a1.8,1.8 0 1,0 3.6,0 a1.8,1.8 0 1,0 -3.6,0 Z M47.6,48 a1.8,1.8 0 1,0 3.6,0 a1.8,1.8 0 1,0 -3.6,0 Z"/>

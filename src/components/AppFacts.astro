@@ -1,37 +1,103 @@
 ---
-// "Version 1.0.0 · Android 8.0 or newer · 8.9 MB · Free", numbers in Roboto Mono.
-// Built from a list so the separators' spaces survive line wrapping in the source.
+// The app's facts as a drawing's readouts: an icon, a small inclined label and a
+// tabular value, split by vertical hairlines. Two by two on narrow phones.
+import Icon from "./Icon.astro";
 import { apk, app } from "../config";
 import { formatSize } from "../lib/download";
 
 interface Props {
   class?: string;
-  style?: string;
+  /** Which ground the readouts sit on. */
+  tone?: "lime" | "slab";
 }
 
-const facts = [
-  { before: "Version ", number: app.version, after: "" },
-  { before: "Android ", number: app.minAndroid, after: " or newer" },
+const { class: className, tone = "lime" } = Astro.props;
+
+interface Fact {
+  icon: "tag" | "file" | "phone" | "sun";
+  label: string;
+  value: string;
+}
+
+const facts: Fact[] = [
+  { icon: "tag", label: "Version", value: app.version },
   ...(apk.sizeBytes
-    ? [
-        {
-          before: "",
-          number: formatSize(apk.sizeBytes).replace(" MB", ""),
-          after: " MB",
-        },
-      ]
+    ? [{ icon: "file", label: "Size", value: formatSize(apk.sizeBytes) } as Fact]
     : []),
-  { before: "Free", number: "", after: "" },
+  { icon: "phone", label: "Android", value: `${app.minAndroid} or newer` },
+  { icon: "sun", label: "Price", value: "Free" },
 ];
 ---
 
-<p class={Astro.props.class} style={Astro.props.style}>
-  {facts.map((fact, i) => (
-    <>
-      {i > 0 && " · "}
-      {fact.before}
-      {fact.number && <span class="font-mono">{fact.number}</span>}
-      {fact.after}
-    </>
+<dl class:list={["readouts", `tone-${tone}`, className]}>
+  {facts.map((fact) => (
+    <div class="readout">
+      <Icon name={fact.icon} class="readout-icon" />
+      <div>
+        <dt class="label">{fact.label}</dt>
+        <dd class="tabular readout-value">{fact.value}</dd>
+      </div>
+    </div>
   ))}
-</p>
+</dl>
+
+<style>
+  .readouts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 1px solid var(--rule);
+  }
+  .readout {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.85rem 0.75rem 0.85rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .readout:nth-child(even) {
+    padding-left: 0.9rem;
+    border-left: 1px solid var(--rule);
+  }
+  @media (min-width: 40rem) {
+    .readouts {
+      display: flex;
+      flex-wrap: wrap;
+      border-top: 0;
+    }
+    .readout,
+    .readout:nth-child(even) {
+      padding: 0.15rem 1.4rem;
+      border-bottom: 0;
+      border-left: 1px solid var(--rule);
+    }
+    .readout:first-child {
+      padding-left: 0;
+      border-left: 0;
+    }
+  }
+
+  .tone-lime {
+    --rule: color-mix(in srgb, var(--color-poche) 30%, transparent);
+    --label: var(--color-shadow);
+  }
+  .tone-slab {
+    --rule: color-mix(in srgb, var(--color-lime) 22%, transparent);
+    --label: var(--color-dusk);
+  }
+
+  .readout :global(.readout-icon) {
+    width: 1.6rem;
+    height: 1.6rem;
+    color: var(--label);
+  }
+  dt {
+    color: var(--label);
+    font-size: 0.75rem;
+  }
+  .readout-value {
+    margin-top: 0.15rem;
+    font-size: 1.125rem;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+</style>

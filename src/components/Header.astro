@@ -1,22 +1,177 @@
 ---
-import logo from "../assets/logo.svg";
+// The sheet's title bar. On the home page it also carries the playhead: a timecode and a
+// gold line that advance as the visitor scrolls through the edit (script in BaseLayout).
 import DownloadButton from "./DownloadButton.astro";
+import Logo from "./Logo.astro";
 import { app } from "../config";
+
+interface Props {
+  /** Show the scroll playhead (home page only). */
+  playhead?: boolean;
+}
+
+const { playhead = false } = Astro.props;
+
+const links = [
+  { href: "/#features", label: "Features" },
+  { href: "/#privacy", label: "Privacy" },
+  { href: "/#questions", label: "Questions" },
+];
 ---
 
-<header class="sticky top-0 z-50 border-b border-white/5 bg-ink-0/75 backdrop-blur-md">
-  <div class="mx-auto flex h-16 max-w-6xl items-center gap-4 px-4">
-    <a href="/" class="flex items-center gap-2.5">
-      <img src={logo.src} width="23" height="28" alt="" />
-      <span class="text-xl font-semibold tracking-tight">{app.name}</span>
+<header class="site-header">
+  <div class="bar">
+    <a href="/" class="brand">
+      <Logo class="brand-mark" />
+      <span class="wordmark">{app.name}</span>
     </a>
-    <span
-      aria-hidden="true"
-      class="hidden h-8 w-px rotate-[20deg] bg-fg/40 sm:block"
-    ></span>
-    <span class="hidden text-sm text-fg-muted sm:block">
-      Video editor for Android
-    </span>
-    <DownloadButton id="header" class="ml-auto" />
+    <span class="label tag">Video editor for Android</span>
+    <nav aria-label="Main" class="nav">
+      <ul>
+        {links.map((link) => (
+          <li>
+            <a href={link.href} class="label">{link.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    {playhead && (
+      <span class="clock tabular" aria-hidden="true">
+        0<span class="colon">:</span><span data-clock>00</span>
+      </span>
+    )}
+    <DownloadButton id="header" class="ml-auto lg:ml-0" />
   </div>
+  {playhead && <span class="progress" aria-hidden="true" />}
 </header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-poche) 55%, transparent);
+    background: var(--color-lime);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    max-width: 80rem;
+    height: 4rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+  @media (min-width: 64rem) {
+    .bar {
+      height: 4.5rem;
+      padding-inline: 1.5rem;
+    }
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+  }
+  .brand :global(.brand-mark) {
+    width: 1.35rem;
+    height: auto;
+  }
+  .wordmark {
+    padding-top: 0.1em;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-style: italic;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  /* The drawing's subtitle, set off by a slanted stroke. */
+  .tag {
+    display: none;
+    padding-left: 1rem;
+    border-left: 1px solid color-mix(in srgb, var(--color-poche) 40%, transparent);
+    color: var(--color-shadow);
+    font-size: 0.75rem;
+  }
+  @media (min-width: 48rem) {
+    .tag {
+      display: block;
+    }
+  }
+
+  .nav {
+    display: none;
+    margin-left: auto;
+  }
+  @media (min-width: 64rem) {
+    .nav {
+      display: block;
+    }
+  }
+  .nav ul {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .nav a {
+    display: block;
+    padding: 0.75rem 0.9rem;
+    font-size: 0.875rem;
+    text-decoration: none;
+  }
+  .nav a:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--color-sun);
+    text-decoration-thickness: 2px;
+  }
+
+  .clock {
+    margin-left: auto;
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+  @media (min-width: 64rem) {
+    .clock {
+      margin-left: 0.5rem;
+      padding-left: 1.25rem;
+      border-left: 1px solid color-mix(in srgb, var(--color-poche) 40%, transparent);
+    }
+  }
+  .clock + :global(a) {
+    margin-left: 0;
+  }
+  .colon {
+    color: var(--color-sun-ink);
+  }
+
+  /* The light's edge: how far through the page the playhead has come. */
+  .progress {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 2px;
+    background: var(--color-sun);
+    transform-origin: left;
+    scale: var(--progress, 0) 1;
+  }
+  @supports (animation-timeline: scroll()) {
+    .progress {
+      animation-name: fill;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: scroll(root);
+    }
+  }
+  @keyframes fill {
+    from {
+      scale: 0 1;
+    }
+    to {
+      scale: 1 1;
+    }
+  }
+</style>
