@@ -34,9 +34,11 @@ const items = [
   <h2 class="reveal text-center text-3xl font-bold tracking-tight sm:text-5xl">
     Questions
   </h2>
-  <div class="mt-10 space-y-3">
+  {/* The reveal sits on the list, not on each item: an item that opens grows, and its
+     scroll-linked fade would replay half-way. */}
+  <div class="reveal mt-10 space-y-3">
     {items.map((item) => (
-      <details class="reveal faq">
+      <details class="faq">
         <summary>{item.q}</summary>
         <p>{item.a}</p>
       </details>
@@ -87,6 +89,13 @@ const items = [
     padding: 0 1.25rem 1.25rem;
     color: var(--color-fg-muted);
     line-height: 1.65;
+  }
+  /* High-contrast mode drops background colours, which would hide the plus and minus. */
+  @media (forced-colors: active) {
+    summary::before,
+    summary::after {
+      background: CanvasText;
+    }
   }
   @media (prefers-reduced-motion: reduce) {
     summary::before,

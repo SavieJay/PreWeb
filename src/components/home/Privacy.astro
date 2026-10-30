@@ -26,14 +26,17 @@ import { app } from "../../config";
       </a>
     </div>
 
-    <div class="reveal flex justify-center" aria-hidden="true">
-      <div class="dialog">
+    <div class="reveal flex justify-center">
+      <figure class="dialog">
+        <figcaption class="sr-only">
+          What {app.name} shows before it sends anything:
+        </figcaption>
         <p class="title">Send a test phrase?</p>
         <ul>
           <li>
             <strong>What:</strong> a test phrase your phone just spoke,
-            <span class="font-mono">3</span>&nbsp;s long
-            (<span class="font-mono">96</span>&nbsp;KB). Only sound.
+            <span class="font-mono">3.0</span>s long
+            (<span class="font-mono">96</span>&nbsp;kB). Only sound.
           </li>
           <li>
             <strong>Where:</strong>
@@ -44,12 +47,15 @@ import { app } from "../../config";
             {app.name}'s server keeps no audio or words. ElevenLabs handles it
             under its own privacy policy.
           </li>
+          <li>
+            Google Play checks this is the genuine {app.name} on a genuine phone.
+          </li>
         </ul>
-        <div class="actions">
+        <div class="actions" aria-hidden="true">
           <span class="cancel">Cancel</span>
           <span class="send">Send</span>
         </div>
-      </div>
+      </figure>
     </div>
   </div>
 </section>

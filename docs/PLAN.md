@@ -51,13 +51,14 @@ Reasons: different stack and tooling, deploys on its own schedule, and the app's
 **Acceptance:** all pages render on a phone and the user has approved the legal text.
 
 ## Phase W2 — Home page
-- [ ] Hero: headline, one-line promise ("Pro-level video editing. Free tools, no watermark."), Play badge, phone mockup with a short looping demo video (poster image first, video lazy-loaded)
-- [ ] Feature sections (4–6), each with a short looping clip or screenshot: timeline editing, templates and AutoCut, captions, effects and filters, AI Edit
-- [ ] "Free forever" vs "Pro" comparison table (from the app's Phase 26 split)
-- [ ] Social proof placeholder (ratings once live)
-- [ ] FAQ (5–8 questions)
-- [ ] Final call to action with the Play badge
-- [ ] SEO: title, description, Open Graph and Twitter images, sitemap, robots.txt, structured data (`SoftwareApplication`)
+*Built 2026-10-30 without screenshots or video (none yet): drawn CSS illustrations stand in, ready to be replaced. Every claim checked against the published app (PreCut `6b2636a`); five reviewers plus skeptics checked accuracy, copy, accessibility, SEO and layout.*
+- [x] Hero: headline, one-line promise ("Pro-level video editing. Free tools, no watermark."), Play badge, phone mockup with a short looping demo video (poster image first, video lazy-loaded) (APK button until Play; the phone is drawn and animated in CSS until a demo clip exists)
+- [x] Feature sections (4–6), each with a short looping clip or screenshot: timeline editing, templates and AutoCut, captions, effects and filters, AI Edit (six cards with drawn illustrations; no captions or AI Edit card, since the published app has neither)
+- [ ] "Free forever" vs "Pro" comparison table (from the app's Phase 26 split) (waits for Pro to exist; a "Private by design" section is there for now)
+- [ ] Social proof placeholder (ratings once live) (nothing to show yet; nothing invented)
+- [x] FAQ (5–8 questions)
+- [x] Final call to action with the Play badge (APK button until Play)
+- [x] SEO: title, description, Open Graph and Twitter images, sitemap, robots.txt, structured data (`SoftwareApplication`)
 
 **Acceptance:** Lighthouse ≥ 95 on mobile for performance, accessibility and SEO; looks right at 360px, 768px and 1280px.
 

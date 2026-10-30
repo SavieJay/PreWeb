@@ -115,14 +115,9 @@ const tools = [
 
       <div class="controls">
         <span class="time font-mono">
-          00:
-          <span class="digits">
-            <span class="strip">
-              {seconds.map((s) => (
-                <span>{s}</span>
-              ))}
-            </span>
-          </span>{" "}
+          00:<span class="digits"
+            ><span class="strip">{seconds.map((s) => <span>{s}</span>)}</span
+          ></span>
           / 00:24
         </span>
         <svg viewBox="0 0 24 24" fill="currentColor" class="play icon-play">

@@ -11,7 +11,7 @@ export const app = {
 
 /** What's in the app at `app.version`, from its store listing. Update with each release. */
 export const catalogue = {
-  filters: 61,
+  filters: 62,
   effects: 46,
   transitions: 30,
   fonts: 24,

@@ -8,7 +8,7 @@ import DownloadButton from "../DownloadButton.astro";
   <div class="glow" aria-hidden="true">
     <div class="arc"></div>
   </div>
-  <h2 class="reveal text-[clamp(2rem,7vw,4rem)] leading-tight font-bold tracking-tight">
+  <h2 class="reveal text-[clamp(2rem,7vw,4rem)] leading-tight font-bold tracking-tight text-balance">
     Your next video starts
     <span class="text-accent">on your phone</span>
   </h2>
@@ -30,13 +30,12 @@ import DownloadButton from "../DownloadButton.astro";
       rgb(92 20 38 / 0.5),
       transparent 70%
     );
-    mask-image: linear-gradient(
-      90deg,
-      transparent 2%,
-      #000 30%,
-      #000 70%,
-      transparent 98%
-    );
+    /* Fade the sides, and the top edge, where the section would otherwise cut the
+       glow at the ends of the rim in a hard line on wide screens. */
+    mask-image:
+      linear-gradient(90deg, transparent 2%, #000 30%, #000 70%, transparent 98%),
+      linear-gradient(transparent, #000 3rem);
+    mask-composite: intersect;
   }
   .arc {
     position: absolute;
