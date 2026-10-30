@@ -1,0 +1,55 @@
+---
+// The closing download, under the same glowing arc as the hero.
+import AppFacts from "../AppFacts.astro";
+import DownloadButton from "../DownloadButton.astro";
+---
+
+<section class="relative isolate overflow-hidden px-4 pt-36 pb-24 text-center sm:pt-44">
+  <div class="glow" aria-hidden="true">
+    <div class="arc"></div>
+  </div>
+  <h2 class="reveal text-[clamp(2rem,7vw,4rem)] leading-tight font-bold tracking-tight">
+    Your next video starts
+    <span class="text-accent">on your phone</span>
+  </h2>
+  <div class="reveal mt-8 flex flex-col items-center">
+    <DownloadButton id="final" size="lg" class="w-full max-w-xs sm:w-auto" />
+    <AppFacts class="mt-4 text-sm text-fg-muted" />
+  </div>
+</section>
+
+<style>
+  .glow {
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: -1;
+    height: 22rem;
+    pointer-events: none;
+    background: radial-gradient(
+      60% 60% at 50% 0%,
+      rgb(92 20 38 / 0.5),
+      transparent 70%
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent 2%,
+      #000 30%,
+      #000 70%,
+      transparent 98%
+    );
+  }
+  .arc {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: max(56rem, 220vw);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--color-ink-0);
+    box-shadow:
+      0 2px 0 0 rgb(255 130 150 / 0.9),
+      0 8px 24px -2px rgb(255 77 109 / 0.7),
+      0 30px 90px 10px rgb(217 43 80 / 0.35);
+    translate: -50% calc(-100% + 5rem);
+  }
+</style>

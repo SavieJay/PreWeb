@@ -5,3 +5,6 @@ package-lock.json
 # Hand-written project docs
 CLAUDE.md
 docs/
+# .astro pages: prettier-plugin-astro re-wraps text next to tags, and its line breaks
+# change what's shown ("GitHub</a>," became "GitHub ,"). Format these by hand.
+*.astro

@@ -1,0 +1,38 @@
+---
+// The catalogue in numbers, right under the hero.
+import { catalogue } from "../../config";
+
+const stats = [
+  { value: String(catalogue.filters), label: "filters" },
+  { value: String(catalogue.effects), label: "effects" },
+  { value: String(catalogue.transitions), label: "transitions" },
+  { value: String(catalogue.textTemplates), label: "text templates" },
+  { value: "4K", label: "export" },
+];
+---
+
+<section
+  aria-label="PreCut in numbers"
+  class="reveal border-y border-white/5 bg-ink-1/60"
+>
+  <dl class="mx-auto grid max-w-6xl grid-cols-2 gap-x-4 gap-y-6 px-4 py-8 sm:grid-cols-5">
+    {stats.map((stat, i) => (
+      <div
+        class:list={[
+          "text-center",
+          i === stats.length - 1 && "col-span-2 sm:col-span-1",
+        ]}
+      >
+        <dt class="sr-only">{stat.label}</dt>
+        <dd>
+          <span class="block font-mono text-3xl font-semibold text-fg sm:text-4xl">
+            {stat.value}
+          </span>
+          <span class="mt-1 block text-sm text-fg-muted" aria-hidden="true">
+            {stat.label}
+          </span>
+        </dd>
+      </div>
+    ))}
+  </dl>
+</section>

@@ -1,0 +1,105 @@
+---
+// "Private by design", with the app's own consent dialog (its texts at PreCut 6b2636a).
+import { app } from "../../config";
+---
+
+<section class="border-y border-white/5 bg-ink-1/60">
+  <div class="mx-auto grid max-w-6xl items-center gap-12 px-4 py-20 sm:py-24 lg:grid-cols-2">
+    <div class="reveal">
+      <h2 class="text-3xl font-bold tracking-tight sm:text-5xl">
+        Private by design
+      </h2>
+      <p class="mt-5 text-lg leading-relaxed text-fg/85">
+        Your videos, photos and projects stay on your phone. There's no account,
+        no ads and no analytics.
+      </p>
+      <p class="mt-4 text-lg leading-relaxed text-fg/85">
+        Cloud AI is optional, and {app.name} asks before every upload. Then only
+        the sound is sent, never the picture, and {app.name}'s server keeps no
+        audio and no words.
+      </p>
+      <a
+        href="/privacy"
+        class="mt-6 inline-block py-2 text-accent underline underline-offset-4 hover:decoration-2"
+      >
+        Read the privacy policy
+      </a>
+    </div>
+
+    <div class="reveal flex justify-center" aria-hidden="true">
+      <div class="dialog">
+        <p class="title">Send a test phrase?</p>
+        <ul>
+          <li>
+            <strong>What:</strong> a test phrase your phone just spoke,
+            <span class="font-mono">3</span>&nbsp;s long
+            (<span class="font-mono">96</span>&nbsp;KB). Only sound.
+          </li>
+          <li>
+            <strong>Where:</strong>
+            {app.name}'s server in Ireland, then ElevenLabs turns it into words.
+          </li>
+          <li>
+            <strong>Kept:</strong>
+            {app.name}'s server keeps no audio or words. ElevenLabs handles it
+            under its own privacy policy.
+          </li>
+        </ul>
+        <div class="actions">
+          <span class="cancel">Cancel</span>
+          <span class="send">Send</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .dialog {
+    width: 100%;
+    max-width: 22rem;
+    padding: 1.5rem;
+    border: 1px solid rgb(255 255 255 / 0.06);
+    border-radius: 1.75rem;
+    background: var(--color-ink-2);
+    box-shadow:
+      0 30px 60px -20px rgb(0 0 0 / 0.8),
+      0 0 80px -30px rgb(255 77 109 / 0.5);
+  }
+  .title {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    color: var(--color-fg-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  strong {
+    color: var(--color-fg);
+    font-weight: 600;
+  }
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  .actions span {
+    padding: 0.55rem 1.1rem;
+    border-radius: 99px;
+  }
+  .cancel {
+    color: var(--color-accent);
+  }
+  .send {
+    background: var(--color-accent-fill);
+    color: #fff;
+  }
+</style>
