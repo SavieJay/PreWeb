@@ -1,0 +1,169 @@
+---
+// What's new: every release, newest first, from src/content/changelog/*.md. Each one is
+// a ruled entry with its version and date as readouts beside the notes.
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import DownloadButton from "../components/DownloadButton.astro";
+import { app } from "../config";
+
+const byVersion = (version: string) =>
+  version.split(".").map((part) => Number(part));
+const releases = (await getCollection("changelog")).sort((a, b) => {
+  const [x, y] = [byVersion(a.data.version), byVersion(b.data.version)];
+  for (let i = 0; i < 3; i++) if (x[i] !== y[i]) return y[i] - x[i];
+  return 0;
+});
+const dated = new Intl.DateTimeFormat("en-GB", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+  timeZone: "UTC",
+});
+const entries = await Promise.all(
+  releases.map(async (release) => ({
+    ...release.data,
+    Content: (await render(release)).Content,
+  })),
+);
+---
+
+<BaseLayout
+  title="What's new"
+  description={`Every version of ${app.name}, the video editor for Android, and what changed in it.`}
+>
+  <div class="sheet">
+    <header class="head">
+      <h1 class="lettering">What's new</h1>
+      <p class="lede">
+        Every version of {app.name}, newest first. Your projects stay when you
+        update.
+      </p>
+      <DownloadButton
+        id="changelog"
+        size="lg"
+        label={`Get ${app.name} ${app.version}`}
+        class="w-full sm:w-auto"
+      />
+    </header>
+
+    <ol class="releases">
+      {
+        entries.map(({ version, date, summary, Content }) => (
+          <li class="release" id={`v${version}`}>
+            <p class="meta">
+              <span class="label">Version</span>
+              <span class="tabular version">{version}</span>
+              <time class="tabular" datetime={date.toISOString().slice(0, 10)}>
+                {dated.format(date)}
+              </time>
+            </p>
+            <div class="notes">
+              <h2>{summary}</h2>
+              <Content />
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</BaseLayout>
+
+<style>
+  .sheet {
+    display: grid;
+    gap: 3rem;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding: 3rem 1rem 5rem;
+  }
+  @media (min-width: 64rem) {
+    .sheet {
+      grid-template-columns: minmax(0, 22rem) minmax(0, 46rem);
+      gap: 4rem;
+      padding: 5rem 1.5rem 7rem;
+    }
+    .head {
+      position: sticky;
+      top: 7.5rem;
+      align-self: start;
+    }
+  }
+  h1 {
+    font-size: clamp(2.5rem, 10vw, 4.5rem);
+    line-height: 1;
+  }
+  .lede {
+    max-width: 30rem;
+    margin-block: 1.25rem 2rem;
+    color: var(--color-shadow);
+    font-size: 1.125rem;
+    line-height: 1.6;
+  }
+
+  .releases {
+    border-top: 1px solid var(--color-poche);
+  }
+  .release {
+    display: grid;
+    gap: 1rem;
+    padding-block: 1.75rem 2.25rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-poche) 40%, transparent);
+  }
+  @media (min-width: 48rem) {
+    .release {
+      grid-template-columns: 9rem minmax(0, 1fr);
+      gap: 2rem;
+    }
+  }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 0.9rem;
+  }
+  @media (min-width: 48rem) {
+    .meta {
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+  }
+  .meta .label {
+    color: var(--color-shadow);
+    font-size: 0.75rem;
+  }
+  .version {
+    font-size: 1.75rem;
+    line-height: 1;
+  }
+  time {
+    color: var(--color-shadow);
+    font-size: 1rem;
+  }
+  .notes h2 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+  .notes :global(ul) {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    padding-left: 1.25rem;
+    color: color-mix(in srgb, var(--color-poche) 90%, var(--color-lime));
+    line-height: 1.65;
+    list-style: square;
+  }
+  .notes :global(li::marker) {
+    color: var(--color-sun-ink);
+  }
+  .notes :global(strong) {
+    color: var(--color-poche);
+    font-weight: 600;
+  }
+  .notes :global(p) {
+    margin-top: 1rem;
+    line-height: 1.65;
+  }
+</style>

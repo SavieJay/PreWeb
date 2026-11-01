@@ -2,11 +2,14 @@
 // The most common questions; the full list is on /support. Ruled like a drawing's
 // schedule: each question a row, opening to its answer.
 import { app } from "../../config";
+import { proOnSale } from "../../lib/pro";
 
 const items = [
   {
     q: `Is ${app.name} free?`,
-    a: "Yes. Every tool is free, with no watermark on exports, no ads and no account.",
+    a: proOnSale
+      ? `Yes. Every editing tool is free, with no watermark on exports, no ads and no account. ${app.name} Pro, an optional subscription, adds more cloud AI and time-saving tools.`
+      : "Yes. Every tool is free, with no watermark on exports, no ads and no account.",
   },
   {
     q: `Does ${app.name} upload my videos?`,

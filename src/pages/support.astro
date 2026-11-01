@@ -1,6 +1,7 @@
 ---
 import ProseLayout from "../layouts/ProseLayout.astro";
 import { app, contactEmail } from "../config";
+import { proOnSale } from "../lib/pro";
 
 const mail = `mailto:${contactEmail}`;
 ---
@@ -23,7 +24,18 @@ const mail = `mailto:${contactEmail}`;
     </dd>
 
     <dt>Is {app.name} free?</dt>
-    <dd>Yes. No watermark on exports, no ads and no account.</dd>
+    <dd>
+      Yes. No watermark on exports, no ads and no account.
+      {
+        proOnSale && (
+          <>
+            {" "}
+            {app.name} Pro, an optional subscription, adds more cloud AI and
+            time-saving tools; see <a href="/pricing">pricing</a>.
+          </>
+        )
+      }
+    </dd>
 
     <dt>Why isn't it on Google Play?</dt>
     <dd>

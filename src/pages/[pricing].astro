@@ -1,0 +1,138 @@
+---
+// /pricing: Free vs Pro with prices. The file name is a route parameter only so the page
+// can be left out of the build: it exists once Pro is on sale on Google Play (proOnSale),
+// and before that /pricing is a 404, as the site shows no Pro until then.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import DownloadButton from "../components/DownloadButton.astro";
+import Readouts from "../components/Readouts.astro";
+import type { Fact } from "../components/Readouts.astro";
+import PlanTable from "../components/pro/PlanTable.astro";
+import { app, pro } from "../config";
+import { proOnSale } from "../lib/pro";
+
+export function getStaticPaths() {
+  return proOnSale ? [{ params: { pricing: "pricing" } }] : [];
+}
+
+// getStaticPaths only builds this page while Pro is on sale, so prices are set.
+const prices = pro.prices ?? { monthly: "", yearly: "", trialDays: 0 };
+const facts: Fact[] = [
+  { icon: "sun", label: "Free", value: "Every editing tool" },
+  { icon: "tag", label: "Pro monthly", value: `${prices.monthly} a month` },
+  { icon: "tag", label: "Pro yearly", value: `${prices.yearly} a year` },
+];
+---
+
+<BaseLayout
+  title="Pricing"
+  description={`${app.name} is free, with no watermark and no ads. ${app.name} Pro adds more cloud AI and time-saving tools: ${prices.monthly} a month or ${prices.yearly} a year.`}
+>
+  <div class="sheet">
+    <section class="title-block" aria-labelledby="pricing-title">
+      <h1 id="pricing-title" class="lettering">Free, and Pro</h1>
+      <p class="lede">
+        Every tool that edits on your phone is free, with no watermark and no
+        ads. Pro is for people who want more AI and less busywork.
+      </p>
+      <div class="facts"><Readouts facts={facts} /></div>
+      {
+        prices.trialDays > 0 && (
+          <p class="trial">
+            Pro starts with a {prices.trialDays}-day free trial for new
+            subscribers. Cancel before it ends and you pay nothing.
+          </p>
+        )
+      }
+      <div class="action">
+        <DownloadButton
+          id="pricing"
+          size="lg"
+          label={`Get ${app.name} free`}
+          class="w-full sm:w-auto"
+        />
+      </div>
+      <ul class="notes">
+        <li>Prices may vary by country; Google Play shows yours before you pay.</li>
+        <li>
+          Buy Pro inside {app.name}, in Settings → {app.name} Pro. Google Play
+          takes the payment and lets you cancel any time; on a new phone,
+          Restore purchases brings Pro back.
+        </li>
+        <li>
+          Cloud features use the month's caption minutes or AI edit requests.
+          They start again each month.
+        </li>
+      </ul>
+    </section>
+
+    <section class="compare" aria-labelledby="compare-title">
+      <h2 id="compare-title" class="lettering">What's in each</h2>
+      <PlanTable class="table" />
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .sheet {
+    display: grid;
+    gap: 3.5rem;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding: 3rem 1rem 5rem;
+  }
+  @media (min-width: 64rem) {
+    .sheet {
+      grid-template-columns: minmax(0, 26rem) minmax(0, 1fr);
+      column-gap: 5rem;
+      padding: 5rem 1.5rem 7rem;
+    }
+    .title-block {
+      position: sticky;
+      top: 7.5rem;
+      align-self: start;
+    }
+  }
+  h1 {
+    font-size: clamp(2.5rem, 10vw, 4.5rem);
+    line-height: 1;
+  }
+  h2 {
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
+    line-height: 1.05;
+  }
+  .lede {
+    max-width: 34rem;
+    margin-top: 1.25rem;
+    color: var(--color-shadow);
+    font-size: 1.125rem;
+    line-height: 1.6;
+  }
+  .facts {
+    margin-top: 1.75rem;
+  }
+  .trial {
+    margin-top: 1.25rem;
+    line-height: 1.6;
+  }
+  .action {
+    margin-top: 2rem;
+  }
+  .notes {
+    display: grid;
+    gap: 0.6rem;
+    margin-top: 2rem;
+    padding-top: 1.25rem;
+    padding-left: 1.25rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-poche) 40%, transparent);
+    color: var(--color-shadow);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    list-style: square;
+  }
+  .notes li::marker {
+    color: var(--color-sun-ink);
+  }
+  .compare :global(.table) {
+    margin-top: 1.75rem;
+  }
+</style>

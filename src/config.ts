@@ -43,5 +43,44 @@ export const legalName = "SavieCode";
 /** When the privacy policy and terms last changed; shown on both pages. */
 export const legalUpdated = "29 October 2026";
 
-// PreCut Pro doesn't exist yet (app Phase 25); prices are set in Play Console.
-export const prices = null;
+/** Pro's prices as Play Console shows them, e.g. "$4.99"; prices vary by country. */
+export interface ProPrices {
+  monthly: string;
+  yearly: string;
+  /** Days of the free-trial offer; 0 for none. */
+  trialDays: number;
+}
+
+/**
+ * PreCut Pro: an optional subscription, sold only through Google Play, so it starts with
+ * the first version on Play. Until then (`play.live` false, or no `prices`) the site shows
+ * no Pro, no prices and no pricing page. Every editing tool on the phone stays free.
+ * The numbers match the app: cloud limits are its server's defaults (`cloud_config`), free
+ * tries are its `ProFeature` list. Change them together.
+ */
+export const pro = {
+  prices: null as ProPrices | null,
+  /** Cloud AI each month, free and with Pro. */
+  captionMinutes: { free: 30, pro: 300 },
+  aiEditRequests: { free: 10, pro: 100 },
+  /** Free tries each month of the Pro tools (no limit with Pro). */
+  freeTries: {
+    transcript: 3,
+    shorts: 2,
+    formats: 2,
+    translate: 2,
+    hookCoach: 3,
+    broll: 5,
+    brandKit: 0,
+  },
+};
+
+/**
+ * Privacy-friendly visitor counts and download-button clicks (Plausible: no cookies, no
+ * personal data). Off while null. To switch it on, add the site in Plausible and paste the
+ * script address from its Site Installation settings (https://plausible.io/js/pa-….js);
+ * the privacy policy then mentions it.
+ */
+export const analytics = {
+  plausibleScript: null as string | null,
+};

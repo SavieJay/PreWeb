@@ -10,7 +10,7 @@ import robotoFlexLatin from "@fontsource-variable/roboto-flex/files/roboto-flex-
 import barlowLightItalic from "@fontsource/barlow-condensed/files/barlow-condensed-latin-300-italic.woff2?url";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import { app } from "../config";
+import { analytics, app } from "../config";
 
 interface Props {
   /** Page name; the home page leaves it out. */
@@ -73,6 +73,36 @@ const shareImage = Astro.site && new URL("/og.jpg", Astro.site);
       type="font/woff2"
       crossorigin
     />
+    {
+      analytics.plausibleScript && (
+        <>
+          <script is:inline async src={analytics.plausibleScript} />
+          <script is:inline>
+            // Plausible's loader (as in its Site Installation snippet; if the one shown
+            // there differs, use that), then a count of each download button's clicks.
+            window.plausible =
+              window.plausible ||
+              function () {
+                (plausible.q = plausible.q || []).push(arguments);
+              };
+            plausible.init =
+              plausible.init ||
+              function (options) {
+                plausible.o = options || {};
+              };
+            plausible.init();
+            addEventListener("click", (event) => {
+              const button = event.target.closest?.("[data-download]");
+              if (button) {
+                plausible("Download", {
+                  props: { button: button.dataset.download },
+                });
+              }
+            });
+          </script>
+        </>
+      )
+    }
     <slot name="head" />
   </head>
   <body class="flex flex-col">
