@@ -18,9 +18,11 @@ interface Props {
   description: string;
   /** The scroll playhead in the header (home page only). */
   playhead?: boolean;
+  /** Keep the page out of search results (shared templates, the 404 page). */
+  noindex?: boolean;
 }
 
-const { title, description, playhead = false } = Astro.props;
+const { title, description, playhead = false, noindex = false } = Astro.props;
 const fullTitle = title
   ? `${title} · ${app.name}`
   : `${app.name}: video editor for Android`;
@@ -38,6 +40,7 @@ const shareImage = Astro.site && new URL("/og.jpg", Astro.site);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
     {canonical && <link rel="canonical" href={canonical} />}
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={app.name} />
@@ -54,6 +57,8 @@ const shareImage = Astro.site && new URL("/og.jpg", Astro.site);
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#F2EFEA" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <link
       rel="preload"
       href={barlowLightItalic}

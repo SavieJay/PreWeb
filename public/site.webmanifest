@@ -1,0 +1,15 @@
+{
+  "name": "PreCut",
+  "short_name": "PreCut",
+  "description": "Video editor for Android",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#F2EFEA",
+  "theme_color": "#F2EFEA",
+  "icons": [
+    { "src": "/favicon.svg", "type": "image/svg+xml", "sizes": "any" },
+    { "src": "/icon-192.png", "type": "image/png", "sizes": "192x192" },
+    { "src": "/icon-512.png", "type": "image/png", "sizes": "512x512" }
+  ],
+  "related_applications": [{ "platform": "play", "id": "com.savie.precut" }]
+}

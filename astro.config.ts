@@ -1,4 +1,4 @@
-import { defineConfig } from "astro/config";
+import { defineConfig, envField } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
@@ -11,6 +11,19 @@ export default defineConfig({
   // Astro's HTML compression drops the space at a line break before a tag inside
   // layout slots ("Android\n<span>8.0" became "Android8.0"). Netlify gzips anyway.
   compressHTML: false,
+  env: {
+    schema: {
+      // PreCut's cloud function (the app's `cloudUrl` in cloud.properties), which shared
+      // templates' pages (/t/<id>) read. Set in Netlify's environment variables; without
+      // it those pages still offer the app but can't show the template.
+      PUBLIC_CLOUD_URL: envField.string({
+        context: "client",
+        access: "public",
+        optional: true,
+        url: true,
+      }),
+    },
+  },
   vite: {
     plugins: [tailwindcss()],
   },

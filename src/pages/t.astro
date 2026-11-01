@@ -1,0 +1,418 @@
+---
+// A shared template (the app's template links, https://<site>/t/<id>; Netlify serves
+// this page for every /t/<id>). Phones with PreCut open such links in the app, so this
+// page is mostly for people without it: what the template is, drawn as a section of
+// its timeline, and the download. The template is read in the browser from PreCut's
+// cloud function (PUBLIC_CLOUD_URL); its title is the maker's words, so it's only ever
+// set as text.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import DeviceClass from "../components/DeviceClass.astro";
+import DownloadButton from "../components/DownloadButton.astro";
+import QrPlate from "../components/QrPlate.astro";
+import Readouts from "../components/Readouts.astro";
+import type { Fact } from "../components/Readouts.astro";
+import { app } from "../config";
+
+const facts: Fact[] = [
+  { icon: "film", label: "Your clips", value: "", key: "slots" },
+  { icon: "clock", label: "Length", value: "", key: "length" },
+  { icon: "type", label: "Texts to change", value: "", key: "texts" },
+];
+---
+
+<BaseLayout
+  title="Shared template"
+  description={`A video template made in ${app.name}. Open it in ${app.name} on Android and add your own clips.`}
+  noindex
+>
+  <DeviceClass slot="head" />
+
+  <div class="sheet" data-template>
+    <section class="title-block" aria-labelledby="template-title">
+      <p class="label kicker" data-kicker>Shared template</p>
+      <h1 id="template-title" class="lettering" data-title>
+        A {app.name} template
+      </h1>
+      <div class="facts" data-facts hidden><Readouts facts={facts} /></div>
+      <p class="status" role="status" data-status></p>
+
+      <div data-for="android desktop" class="action">
+        <DownloadButton
+          id="template"
+          size="lg"
+          label={`Get ${app.name}`}
+          class="w-full sm:w-auto"
+        />
+        <a data-for="android" data-open href="/download" class="link" hidden>
+          Have {app.name}? Open the template in it
+        </a>
+      </div>
+      <p data-for="android desktop" class="lede">
+        {app.name} is a free video editor for Android. Install it, then open this
+        link again to use the template.
+      </p>
+
+      <div data-for="ios" class="panel">
+        <h2 class="lettering">{app.name} is on Android for now</h2>
+        <p>
+          There's no iPhone or iPad version yet. Open this link on an Android
+          phone with {app.name} to use the template.
+        </p>
+      </div>
+    </section>
+
+    <section class="about" aria-labelledby="gets-title">
+      <figure class="drawing" data-drawing hidden>
+        <p class="dimension" aria-hidden="true">
+          <span class="tabular" data-total></span>
+        </p>
+        <div class="track" data-track role="img"></div>
+        <figcaption class="legend">
+          <span><i class="key key-slot"></i>Your clips</span>
+          <span><i class="key key-fixed"></i>Part of the template</span>
+        </figcaption>
+      </figure>
+
+      <h2 id="gets-title" class="lettering">What comes with it</h2>
+      <ul class="gets">
+        <li>
+          <strong>The edit:</strong> cuts and timing, transitions, filters, effects
+          and texts.
+        </li>
+        <li>
+          <strong>Your clips:</strong> pick videos or photos for the marked parts,
+          and {app.name} fits them to the template's timing.
+        </li>
+        <li>
+          <strong>Your music:</strong> templates come without music. Add a song of
+          your own, and {app.name} can cut to its beat.
+        </li>
+        <li>
+          <strong>All of it editable:</strong> change any text, clip or effect
+          afterwards.
+        </li>
+      </ul>
+    </section>
+
+    <section
+      data-for="desktop"
+      data-scan
+      class="scan"
+      aria-labelledby="scan-title"
+      hidden
+    >
+      <QrPlate label="QR code that opens this template" />
+      <div>
+        <h2 id="scan-title" class="lettering">Scan with your Android phone</h2>
+        <p>
+          Point your phone's camera at the code to open this template there.
+        </p>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<script>
+  import { PUBLIC_CLOUD_URL } from "astro:env/client";
+  import { app } from "../config";
+  import {
+    formatLength,
+    openInAppUrl,
+    templateId,
+    templateView,
+    type TemplateView,
+  } from "../lib/template";
+
+  const page = document.querySelector<HTMLElement>("[data-template]")!;
+  const find = <T extends HTMLElement>(name: string) =>
+    page.querySelector<T>(`[data-${name}]`)!;
+  const status = find("status");
+  const id = templateId(location.pathname, location.search);
+
+  function show(view: TemplateView) {
+    document.title = `${view.title} · ${app.name}`;
+    find("title").textContent = view.title;
+    if (view.category) find("kicker").textContent = `${view.category} template`;
+
+    const values: Record<string, string | null> = {
+      slots: view.slots ? String(view.slots) : null,
+      length: view.lengthMs ? formatLength(view.lengthMs) : null,
+      texts: view.texts ? String(view.texts) : null,
+    };
+    for (const [key, value] of Object.entries(values)) {
+      page.querySelector<HTMLElement>(`[data-fact="${key}"]`)!.hidden = !value;
+      find(`value="${key}"`).textContent = value ?? "";
+    }
+    find("facts").hidden = Object.values(values).every((value) => !value);
+
+    if (view.parts.length && view.lengthMs) {
+      const track = find("track");
+      let slot = 0;
+      for (const part of view.parts) {
+        const piece = document.createElement("span");
+        piece.className = part.slot ? "part part-slot" : "part part-fixed";
+        piece.style.flexGrow = String(part.ms);
+        if (part.slot) piece.textContent = String(++slot);
+        track.append(piece);
+      }
+      track.setAttribute(
+        "aria-label",
+        `The template's timeline, ${formatLength(view.lengthMs)} long, in ${view.parts.length} parts; ${slot} take your clips.`,
+      );
+      find("total").textContent = formatLength(view.lengthMs);
+      find("drawing").hidden = false;
+    }
+  }
+
+  async function load(id: string, cloud: string) {
+    status.textContent = "Loading the template…";
+    try {
+      const response = await fetch(
+        `${cloud.replace(/\/$/, "")}/templates/${id}`,
+      );
+      if (response.status === 404) {
+        status.textContent =
+          "This template isn't shared any more, or the link is mistyped.";
+        find("open").hidden = true;
+        return;
+      }
+      const view = response.ok ? templateView(await response.json()) : null;
+      if (!view) throw new Error(`HTTP ${response.status}`);
+      status.textContent = "";
+      show(view);
+    } catch {
+      status.textContent =
+        "Couldn't load the template. Check your connection, then reload the page.";
+    }
+  }
+
+  if (!id) {
+    status.textContent = "This link is incomplete. Ask for the link again.";
+  } else {
+    const open = find<HTMLAnchorElement>("open");
+    open.href = openInAppUrl(
+      `${location.origin}/t/${id}`,
+      `${location.origin}/download`,
+    );
+    open.hidden = false;
+    if (PUBLIC_CLOUD_URL) load(id, PUBLIC_CLOUD_URL);
+    if (document.documentElement.dataset.device === "desktop") {
+      find("scan").hidden = false;
+      import("uqr").then(({ renderSVG }) => {
+        find("qr").innerHTML = renderSVG(`${location.origin}/t/${id}`, {
+          ecc: "M",
+          border: 2,
+          pixelSize: 1,
+        });
+      });
+    }
+  }
+</script>
+
+<style>
+  .sheet {
+    display: grid;
+    gap: 3.5rem;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding: 3rem 1rem 5rem;
+  }
+  @media (min-width: 64rem) {
+    .sheet {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      column-gap: 5rem;
+      padding: 5rem 1.5rem 7rem;
+    }
+  }
+
+  .kicker {
+    color: var(--color-shadow);
+  }
+  h1 {
+    margin-top: 0.75rem;
+    font-size: clamp(2.5rem, 10vw, 4.5rem);
+    line-height: 1;
+    overflow-wrap: anywhere;
+  }
+  h2 {
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
+    line-height: 1.05;
+  }
+  .facts {
+    margin-top: 1.75rem;
+  }
+  .status {
+    min-height: 1.5rem;
+    margin-top: 1rem;
+    color: var(--color-shadow);
+  }
+  .status:empty {
+    display: none;
+  }
+  .action {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.5rem;
+    margin-top: 2.25rem;
+  }
+  .lede {
+    max-width: 34rem;
+    margin-top: 1.25rem;
+    color: var(--color-shadow);
+    line-height: 1.6;
+  }
+  .link {
+    padding-block: 0.5rem;
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: var(--color-sun);
+    text-decoration-thickness: 2px;
+  }
+  .link:hover {
+    text-decoration-color: var(--color-poche);
+  }
+  .link[hidden] {
+    display: none;
+  }
+
+  .panel {
+    margin-top: 2.25rem;
+    padding: 1.5rem;
+    border: 1px solid var(--color-poche);
+    background: var(--color-mortar);
+  }
+  .panel p {
+    margin-top: 0.75rem;
+    line-height: 1.6;
+  }
+
+  /* The template's timeline in section: a dimension line over the track, your clips
+     cut in poché and numbered, the template's own parts in mortar. */
+  .drawing {
+    margin-bottom: 3rem;
+  }
+  .dimension {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+    border-inline: 1px solid var(--color-poche);
+  }
+  .dimension::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    border-top: 1px solid var(--color-poche);
+  }
+  .dimension span {
+    position: relative;
+    padding-inline: 0.6rem;
+    background: var(--color-lime);
+    font-size: 1.125rem;
+  }
+  .track {
+    display: flex;
+    gap: 2px;
+    height: 4.5rem;
+    border-bottom: 2px solid var(--color-poche);
+  }
+  .track :global(.part) {
+    display: grid;
+    flex-basis: 0;
+    place-items: center;
+    min-width: 0.5rem;
+    overflow: hidden;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .track :global(.part-slot) {
+    background: var(--color-poche);
+    color: var(--color-sun);
+  }
+  .track :global(.part-fixed) {
+    border: 1px solid var(--color-poche);
+    border-bottom: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      var(--color-mortar) 0 6px,
+      color-mix(in srgb, var(--color-poche) 30%, var(--color-mortar)) 6px 7px
+    );
+  }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin-top: 0.9rem;
+    color: var(--color-shadow);
+    font-size: 0.9375rem;
+  }
+  .legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .key {
+    display: inline-block;
+    width: 0.9rem;
+    height: 0.9rem;
+  }
+  .key-slot {
+    background: var(--color-poche);
+  }
+  .key-fixed {
+    border: 1px solid var(--color-poche);
+    background: var(--color-mortar);
+  }
+  /* High-contrast mode drops backgrounds; outline the parts instead. */
+  @media (forced-colors: active) {
+    .track :global(.part),
+    .key {
+      border: 1px solid CanvasText;
+    }
+  }
+
+  .gets {
+    display: grid;
+    gap: 1rem;
+    max-width: 38rem;
+    margin-top: 1.5rem;
+    padding-left: 1.25rem;
+    line-height: 1.6;
+    list-style: square;
+  }
+  .gets li::marker {
+    color: var(--color-sun-ink);
+  }
+  .gets strong {
+    font-weight: 600;
+  }
+
+  .scan {
+    display: grid;
+    align-content: start;
+    gap: 2rem;
+  }
+  @media (min-width: 40rem) {
+    .scan {
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+  @media (min-width: 64rem) {
+    .scan {
+      grid-column: 1 / -1;
+    }
+  }
+  .scan[hidden] {
+    display: none;
+  }
+  .scan p {
+    max-width: 30rem;
+    margin-top: 0.9rem;
+    line-height: 1.6;
+  }
+</style>

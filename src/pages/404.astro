@@ -1,0 +1,62 @@
+---
+// Netlify shows this for any address with no page. Drawn like the text pages: an
+// inclined title, a line of explanation, the way home and the download.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "../components/Button.astro";
+import DownloadButton from "../components/DownloadButton.astro";
+import { app } from "../config";
+---
+
+<BaseLayout
+  title="Page not found"
+  description={`There's no page at this address on the ${app.name} website.`}
+  noindex
+>
+  <section class="sheet" aria-labelledby="missing-title">
+    <p class="label code tabular">404</p>
+    <h1 id="missing-title" class="lettering">Nothing drawn here</h1>
+    <p class="lede">
+      There's no page at this address. It may have moved, or the link has a
+      typo.
+    </p>
+    <div class="actions">
+      <DownloadButton id="not-found" size="lg" class="w-full sm:w-auto" />
+      <Button href="/" variant="outline" icon="arrow-right">Home page</Button>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .sheet {
+    max-width: 80rem;
+    margin-inline: auto;
+    padding: 4rem 1rem 6rem;
+  }
+  @media (min-width: 64rem) {
+    .sheet {
+      padding: 7rem 1.5rem 9rem;
+    }
+  }
+  .code {
+    color: var(--color-shadow);
+    font-size: 1.125rem;
+  }
+  h1 {
+    margin-top: 0.75rem;
+    font-size: clamp(2.5rem, 10vw, 4.5rem);
+    line-height: 1;
+  }
+  .lede {
+    max-width: 34rem;
+    margin-top: 1.25rem;
+    color: var(--color-shadow);
+    font-size: 1.125rem;
+    line-height: 1.6;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 1.5rem;
+    margin-top: 2.25rem;
+  }
+</style>
