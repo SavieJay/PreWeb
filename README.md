@@ -22,13 +22,22 @@ Node 22.23 or newer.
 - `src/components/`, `src/layouts/`, `src/pages/`: the site. Each file in `src/pages/` is a page.
 - `netlify.toml`: build settings and response headers.
 
+## Settings outside the code
+
+- **`PUBLIC_CLOUD_URL`** (Netlify → Site configuration → Environment variables): PreCut's cloud function, the `cloudUrl` from the app's `cloud.properties`. Shared templates' pages (`/t/<id>`) read the template from it; without it they still offer the app.
+- **`src/config.ts`**: `play.live` and `pro.prices` (Pro shows only when both are set and the published app has it), `analytics.plausibleScript` (off while null), `aiRelease` (the version whose features the legal pages describe once `app.version` reaches it).
+
+## Changelog
+
+Add `src/content/changelog/<version>.md` with `version`, `date` and `summary` at the top and the notes as a list. `/changelog` shows the newest first.
+
 ## Publishing a new APK
 
 1. Build a signed release APK from a commit of the PreCut app (`./gradlew assembleRelease`), signed with the same key as every earlier version.
 2. Check it and note its numbers: `apksigner verify --print-certs <apk>` (certificate SHA-256), `stat -c %s <apk>` (size), `sha256sum <apk>`.
 3. Copy it to `release/PreCut-<version>.apk` and publish it:
    `gh release create v<version> release/PreCut-<version>.apk --title "PreCut <version>" --notes-file release/notes-v<version>.md`
-4. In `src/config.ts`, set `app.version` and the APK's `sizeBytes`, `sha256` and `certSha256`, then push. The site's buttons point at the new file.
+4. In `src/config.ts`, set `app.version` and the APK's `sizeBytes`, `sha256` and `certSha256`, add its changelog entry, then push. The site's buttons point at the new file. Reaching `aiRelease` (1.1.0) also switches the legal pages to their 1.1.0 text, which must be approved first.
 
 ## Deploying
 

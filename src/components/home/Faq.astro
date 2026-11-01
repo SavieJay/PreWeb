@@ -3,6 +3,7 @@
 // schedule: each question a row, opening to its answer.
 import { app } from "../../config";
 import { proOnSale } from "../../lib/pro";
+import { hasAiRelease } from "../../lib/release";
 
 const items = [
   {
@@ -13,7 +14,9 @@ const items = [
   },
   {
     q: `Does ${app.name} upload my videos?`,
-    a: "No. Your videos, photos and projects stay on your phone. Optional cloud AI features send only the sound, and only after you agree each time.",
+    a: hasAiRelease
+      ? "No. Your videos, photos and projects stay on your phone. Optional cloud AI features ask you first each time, then send only what they need: the sound for captions, or a written description of your project for AI edit."
+      : "No. Your videos, photos and projects stay on your phone. Optional cloud AI features send only the sound, and only after you agree each time.",
   },
   {
     q: "Which phones does it work on?",

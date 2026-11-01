@@ -1,12 +1,13 @@
 ---
 import ProseLayout from "../layouts/ProseLayout.astro";
-import { app, contactEmail, legalName, legalUpdated } from "../config";
+import { app, contactEmail, legalName, play } from "../config";
+import { hasAiRelease as H, legalDate } from "../lib/release";
 ---
 
 <ProseLayout
   title="Terms of use"
   description={`The terms for using the ${app.name} app and this website.`}
-  updated={legalUpdated}
+  updated={legalDate}
 >
   <p>
     These terms cover the {app.name} app and this website, provided by{" "}
@@ -17,8 +18,9 @@ import { app, contactEmail, legalName, legalUpdated } from "../config";
 
   <h2>Using {app.name}</h2>
   <p>
-    {app.name} is free. You may use it to make videos for any lawful purpose,
-    personal or commercial. Exports carry no watermark.
+    {app.name} is free{H && ", with an optional paid subscription"}. You may use
+    it to make videos for any lawful purpose, personal or commercial. Exports
+    carry no watermark.
   </p>
   <p>
     Some built-in fonts and stickers are made by others and come with their own
@@ -31,7 +33,8 @@ import { app, contactEmail, legalName, legalUpdated } from "../config";
   <p>
     Your videos, photos, recordings and projects are yours. {app.name} doesn't
     claim any rights to them, and they stay on your phone (see the{" "}
-    <a href="/privacy">privacy policy</a> for the one exception, cloud AI).
+    <a href="/privacy">privacy policy</a> for the
+    {H ? " exceptions, cloud AI and template links" : " one exception, cloud AI"}).
     You're responsible for having the right to use what you edit and share.
   </p>
 
@@ -43,32 +46,88 @@ import { app, contactEmail, legalName, legalUpdated } from "../config";
       <strong>Settings → Cloud AI</strong>.
     </li>
     <li>
-      Each phone gets free cloud AI minutes every month. How many, and which
-      features use them, may change. The service can also pause, for example
-      when the month's budget is used up.
+      Each phone gets free cloud AI {H ? "minutes and AI edit requests" : "minutes"}{" "}
+      every month. How many, and which features use them, may change. The
+      service can also pause, for example when the month's budget is used up.
     </li>
     <li>
-      Only send sound you have the right to send, and don't use cloud AI for
-      anything unlawful.
+      Only send {H ? "sound and words" : "sound"} you have the right to send,
+      and don't use cloud AI for anything unlawful.
     </li>
+    {
+      H && (
+        <li>
+          AI edit and translation can be wrong. {app.name} shows every change
+          before it's kept; check them, and the words of translated captions,
+          before you publish. Don't use them to make content that is unlawful,
+          deceptive or harmful, or that breaks the{" "}
+          <a href="https://www.anthropic.com/legal/aup">usage policy</a> of
+          Anthropic, which provides the AI.
+        </li>
+      )
+    }
     <li>
       Don't try to get around the limits, copy or reverse-engineer {app.name}'s
       server, or use it outside the app.
     </li>
   </ul>
 
+  {
+    H && (
+      <>
+        <h2>Template links</h2>
+        <ul>
+          <li>
+            A template you share as a link can be opened by anyone who has the
+            link, in {app.name} or on this website. Share only templates whose
+            texts you're happy for others to see and reuse.
+          </li>
+          <li>
+            We may remove a shared template that breaks the law or these terms.
+            You can remove yours with{" "}
+            <strong>Settings → Cloud AI → Delete my cloud data</strong>.
+          </li>
+        </ul>
+      </>
+    )
+  }
+
   <h2>Getting {app.name} and updates</h2>
   <p>
-    Get {app.name} only from <a href="/download">this website</a>, which links
-    to the official file. Copies from anywhere else may be changed or unsafe.
+    Get {app.name} only from{" "}
+    {play.live ? "Google Play or " : ""}
+    <a href="/download">this website</a>, which links to the official
+    {play.live ? " listing and file" : " file"}. Copies from anywhere else may be changed or unsafe.
     New versions install over the old one and keep your projects.
   </p>
 
   <h2>Paid features</h2>
-  <p>
-    {app.name} is free today. If paid features come later, their price and terms
-    will be shown before you pay, and these terms will be updated.
-  </p>
+  {
+    H ? (
+      <ul>
+        <li>
+          {app.name} Pro is an optional subscription that adds more cloud AI and
+          some time-saving tools. Every editing tool on the phone stays free.
+        </li>
+        <li>
+          Pro is sold through Google Play only, under Google Play's terms: the
+          price, any free trial and the renewal period are shown before you pay.
+          It renews automatically until you cancel in Google Play; cancelling
+          keeps Pro until the end of the period you paid for. Refunds follow
+          Google Play's refund policies.
+        </li>
+        <li>
+          What Pro includes, and its monthly cloud AI limits, may change. The
+          current list is on {app.name}'s Pro screen in the app.
+        </li>
+      </ul>
+    ) : (
+      <p>
+        {app.name} is free today. If paid features come later, their price and
+        terms will be shown before you pay, and these terms will be updated.
+      </p>
+    )
+  }
 
   <h2>No warranty</h2>
   <p>

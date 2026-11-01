@@ -44,11 +44,19 @@ What the app does at version 1.0.0 (counts live in `src/config.ts`, `catalogue`)
 - Export 480p to 4K, 24 to 60 fps, H.264 or HEVC, HDR where the phone supports it; background export; GIF, audio-only and single-frame export.
 - Cloud AI (optional): speech-to-text for captions, sound only, consent before every upload, via PreCut's server (Supabase, Ireland) and ElevenLabs. Details are in `/privacy` and must stay accurate.
 
+Next release (app 1.1.0, not published yet; the site switches with `app.version`, see `src/lib/release.ts`):
+
+- AI edit: describe an edit; Claude (Anthropic), through PreCut's server, proposes changes the user reviews. It sends a written description of the project (clip lengths and settings, texts, file names, loudness, picture changes, a few image labels), never the media.
+- Caption translation (caption words to Claude), auto captions, edit by transcript, long video to shorts, multi-format export, brand kit, hook coach, smart B-roll (reads the gallery, on the phone).
+- On the phone and free: background removal, auto reframe, noise reduction, follow person.
+- PreCut Pro: an optional Google Play subscription (monthly, yearly, free trial) with more cloud AI and no limit on the Pro tools; every editing tool stays free. Bought only through Google Play.
+- Template links (`/t/<id>` on this site), an optional "Made with PreCut" end card, Play's rating card.
+
 Constraints:
 
 - Not on Google Play yet; `play.live` in `src/config.ts` flips every download button to the Play listing.
 - Facts that change (version, size, checksum, prices, Play URL, contact) live only in `src/config.ts`.
-- PreCut Pro does not exist yet; there are no prices. Do not show or imply any.
+- PreCut Pro is not on sale yet; there are no prices. Do not show or imply any until `proOnSale` (`src/lib/pro.ts`).
 - Hosted on Netlify as a static Astro site; minimal client JavaScript; no cookies, no trackers.
 - Undecided: whether to add an iPhone waitlist; the custom domain; governing law in the terms.
 

@@ -40,8 +40,21 @@ export const apk = {
 export const contactEmail = "savyj03@gmail.com";
 export const legalName = "SavieCode";
 
-/** When the privacy policy and terms last changed; shown on both pages. */
-export const legalUpdated = "29 October 2026";
+/**
+ * The app version that brings AI edit, caption translation, PreCut Pro, template links and
+ * smart B-roll (app Phases 22–28). Pages describe them, and the privacy policy and terms
+ * cover them, once `app.version` reaches it: publishing that APK switches the site over.
+ */
+export const aiRelease = "1.1.0";
+
+/**
+ * When the privacy policy and terms last changed, before and from `aiRelease`
+ * (1 November 2026 before it: the privacy policy added the template pages).
+ */
+export const legalUpdated = {
+  before: "1 November 2026",
+  aiRelease: "1 November 2026",
+};
 
 /** Pro's prices as Play Console shows them, e.g. "$4.99"; prices vary by country. */
 export interface ProPrices {

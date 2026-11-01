@@ -1,8 +1,13 @@
 // PreCut Pro on the site: whether it's shown, and the Free vs Pro comparison.
 import { play, pro } from "../config";
+import { hasAiRelease } from "./release";
 
-/** On sale on Google Play with prices: only then does the site show Pro at all. */
-export const proOnSale: boolean = play.live && pro.prices !== null;
+/**
+ * In the published app and on sale on Google Play with prices: only then does the site
+ * show Pro at all.
+ */
+export const proOnSale: boolean =
+  hasAiRelease && play.live && pro.prices !== null;
 
 export interface PlanRow {
   feature: string;

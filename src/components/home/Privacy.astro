@@ -4,6 +4,7 @@
 // (its texts at PreCut 6b2636a). Facts match /privacy.
 import Icon from "../Icon.astro";
 import { app } from "../../config";
+import { hasAiRelease } from "../../lib/release";
 
 const stops = [
   {
@@ -44,11 +45,22 @@ const stops = [
         Your videos, photos and projects stay on your phone. There's no account,
         no ads and no analytics.
       </p>
-      <p>
-        Cloud AI is optional, and {app.name} asks before every upload. Then only
-        the sound is sent, never the picture, and {app.name}'s server keeps no
-        audio and no words.
-      </p>
+      {
+        hasAiRelease ? (
+          <p>
+            Cloud AI is optional, and {app.name} asks before every upload. For
+            captions only the sound is sent; for AI edit, a written description
+            of your project. Never the picture, and {app.name}'s server keeps no
+            audio and no words.
+          </p>
+        ) : (
+          <p>
+            Cloud AI is optional, and {app.name} asks before every upload. Then
+            only the sound is sent, never the picture, and {app.name}'s server
+            keeps no audio and no words.
+          </p>
+        )
+      }
       <a href="/privacy" class="more">Read the privacy policy</a>
     </div>
 
