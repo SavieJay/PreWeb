@@ -71,7 +71,7 @@ Reasons: different stack and tooling, deploys on its own schedule, and the app's
 - [x] New tokens, type (Barlow Condensed + Roboto Flex), chamfered buttons, readouts, header with a scroll playhead, footer on the charcoal slab
 - [x] Home: hero with the E-03 editor design animated in HTML/CSS and a synced scrubber; feature "rooms" with real screens rendered from the design canvas; privacy drawn as the sound's path; questions; closing download
 - [x] Download page and the four text pages in the same world; new share image and favicon ground
-- [ ] Real device captures or a demo clip to replace the rendered design screens
+- [ ] Real device captures or a demo clip to replace the rendered design screens (and the three 1.1.0 stand-ins)
 - [x] `DESIGN.md` written from the build
 
 ## Phase W3 — Download, pricing, changelog
@@ -94,7 +94,7 @@ Reasons: different stack and tooling, deploys on its own schedule, and the app's
 ## Release switch (app 1.1.0)
 *Added 2026-11-01.* The site describes the published app only. `aiRelease` in `src/config.ts` (1.1.0) is the first version with AI edit, caption translation, Pro, template links and smart B-roll; when `app.version` reaches it (README, Publishing a new APK), the privacy policy, terms, data deletion page, support answers and home copy switch to their 1.1.0 text (`src/lib/release.ts`). That text needs the user's approval before the 1.1.0 APK is published.
 - [ ] The user approves the 1.1.0 privacy policy and terms (build with `app.version` set to 1.1.0 to read them)
-- [ ] Feature rooms for AI edit, captions and Pro tools on the home page, with real captures (needs screenshots of 1.1.0)
+- [x] Feature rooms for AI edit, captions and Pro tools on the home page, with real captures (needs screenshots of 1.1.0) (2026-11-02: three rooms, "Describe the edit", "Captions from your voice" and "Cut by the words", shown from 1.1.0 among the others, nine rooms on the same 15-second rail. Their screens are drawn stand-ins built from the design canvas's `precut.css` with the app's real wording (`design/screens/*.dc.html`, rendered at 412 × 915, 2x, provenance in the PNGs); the real captures stay on the "Real device captures" item above)
 
 ## Phase W4 — Launch checklist
 - [ ] Custom domain connected with HTTPS (the user buys the domain)
