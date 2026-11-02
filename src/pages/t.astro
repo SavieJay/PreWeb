@@ -114,7 +114,8 @@ const facts: Fact[] = [
 
 <script>
   import { PUBLIC_CLOUD_URL } from "astro:env/client";
-  import { app } from "../config";
+  import { app, play } from "../config";
+  import { playStoreUrl } from "../lib/download";
   import {
     formatLength,
     openInAppUrl,
@@ -189,10 +190,16 @@ const facts: Fact[] = [
   if (!id) {
     status.textContent = "This link is incomplete. Ask for the link again.";
   } else {
+    // On Google Play, the listing carries this template: PreCut opens it on its first start.
+    const store = play.live ? playStoreUrl("template", { template: id }) : null;
+    if (store) {
+      page.querySelector<HTMLAnchorElement>('[data-download="template"]')!.href =
+        store;
+    }
     const open = find<HTMLAnchorElement>("open");
     open.href = openInAppUrl(
       `${location.origin}/t/${id}`,
-      `${location.origin}/download`,
+      store ?? `${location.origin}/download`,
     );
     open.hidden = false;
     if (PUBLIC_CLOUD_URL) load(id, PUBLIC_CLOUD_URL);

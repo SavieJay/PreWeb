@@ -3,7 +3,7 @@
 // `aiRelease` the AI edit, translation, Pro, template link and B-roll parts (H below), from
 // the app's cloud AI texts, docs/store/privacy-policy.md and docs/CLOUD_API.md.
 import ProseLayout from "../layouts/ProseLayout.astro";
-import { analytics, app, contactEmail, legalName } from "../config";
+import { analytics, app, contactEmail, legalName, play } from "../config";
 import { hasAiRelease as H, legalDate } from "../lib/release";
 ---
 
@@ -172,7 +172,7 @@ import { hasAiRelease as H, legalDate } from "../lib/release";
           someone's link fetches their template and sends nothing about you.
         </p>
 
-        <h2>Updates and ratings</h2>
+        <h2>Updates, ratings and installs</h2>
         <ul>
           <li>
             Now and then {app.name} asks its server whether a newer version is
@@ -184,6 +184,12 @@ import { hasAiRelease as H, legalDate } from "../lib/release";
             rating card. What you write there goes to Google Play under Google's
             terms. {app.name} only remembers, on your phone, when it last let
             the card show.
+          </li>
+          <li>
+            If you install {app.name} from Google Play through a shared
+            template's page, {app.name} reads Google Play's install referrer
+            once, on your phone, to open that template on its first start.
+            Nothing is sent.
           </li>
         </ul>
       </>
@@ -280,6 +286,16 @@ import { hasAiRelease as H, legalDate } from "../lib/release";
       <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub</a>,
       which records downloads in the same way.
     </li>
+    {
+      play.live && (
+        <li>
+          Links to Google Play carry which of this website's buttons you
+          tapped (and, on a template's page, which template), so Google Play
+          can count installs from each button and {app.name} can open that
+          template after installing. They carry nothing about you.
+        </li>
+      )
+    }
     <li>
       A shared template's page (an address starting /t/) asks {app.name}'s
       server for that template from your browser. The server's logs record the
