@@ -4,6 +4,7 @@
 import DownloadButton from "./DownloadButton.astro";
 import Logo from "./Logo.astro";
 import { app } from "../config";
+import { proOnSale } from "../lib/pro";
 
 interface Props {
   /** Show the scroll playhead (home page only). */
@@ -16,6 +17,7 @@ const links = [
   { href: "/#features", label: "Features" },
   { href: "/#privacy", label: "Privacy" },
   { href: "/#questions", label: "Questions" },
+  ...(proOnSale ? [{ href: "/pricing", label: "Pricing" }] : []),
 ];
 ---
 

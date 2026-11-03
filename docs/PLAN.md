@@ -29,6 +29,9 @@ Reasons: different stack and tooling, deploys on its own schedule, and the app's
 - **Developer verification:** Google is starting to require that apps installed outside Play come from verified developers
   (some countries from September 2026, worldwide in 2027). Register PreCut in the Android Developer Console.
 
+## Working agreement
+*2026-11-01 (user, in the app's session): "go ahead with all the remaining plans and implement them", so the remaining W2–W4 items were built without stopping for approval between phases; the user still decides the legal text, the domain, prices and the Play launch.*
+
 ## Phase W0 — Setup
 *Hosting changed 2026-10-29 (user): Netlify instead of Cloudflare Pages.*
 - [x] Astro + Tailwind + TypeScript project, Prettier, `src/config.ts` (app name, package name, Play switch, APK, prices, contact email, current version)
@@ -54,8 +57,8 @@ Reasons: different stack and tooling, deploys on its own schedule, and the app's
 *Built 2026-10-30 without screenshots or video (none yet): drawn CSS illustrations stand in, ready to be replaced. Every claim checked against the published app (PreCut `6b2636a`); five reviewers plus skeptics checked accuracy, copy, accessibility, SEO and layout.*
 - [x] Hero: headline, one-line promise ("Pro-level video editing. Free tools, no watermark."), Play badge, phone mockup with a short looping demo video (poster image first, video lazy-loaded) (APK button until Play; the phone is drawn and animated in CSS until a demo clip exists)
 - [x] Feature sections (4–6), each with a short looping clip or screenshot: timeline editing, templates and AutoCut, captions, effects and filters, AI Edit (six cards with drawn illustrations; no captions or AI Edit card, since the published app has neither)
-- [ ] "Free forever" vs "Pro" comparison table (from the app's Phase 26 split) (waits for Pro to exist; a "Private by design" section is there for now)
-- [ ] Social proof placeholder (ratings once live) (nothing to show yet; nothing invented)
+- [x] "Free forever" vs "Pro" comparison table (from the app's Phase 26 split) (2026-11-01: built from the app's split, `src/lib/pro.ts`; it shows on the home page, below "Private by design", only once Pro is on sale: app 1.1.0 published, `play.live` and prices set)
+- [ ] Social proof placeholder (ratings once live) (nothing to show yet; nothing invented. Still waiting: add it once the Play listing has ratings)
 - [x] FAQ (5–8 questions)
 - [x] Final call to action with the Play badge (APK button until Play)
 - [x] SEO: title, description, Open Graph and Twitter images, sitemap, robots.txt, structured data (`SoftwareApplication`)
@@ -68,7 +71,7 @@ Reasons: different stack and tooling, deploys on its own schedule, and the app's
 - [x] New tokens, type (Barlow Condensed + Roboto Flex), chamfered buttons, readouts, header with a scroll playhead, footer on the charcoal slab
 - [x] Home: hero with the E-03 editor design animated in HTML/CSS and a synced scrubber; feature "rooms" with real screens rendered from the design canvas; privacy drawn as the sound's path; questions; closing download
 - [x] Download page and the four text pages in the same world; new share image and favicon ground
-- [ ] Real device captures or a demo clip to replace the rendered design screens
+- [ ] Real device captures or a demo clip to replace the rendered design screens (and the three 1.1.0 stand-ins)
 - [x] `DESIGN.md` written from the build
 
 ## Phase W3 — Download, pricing, changelog
@@ -76,16 +79,33 @@ Reasons: different stack and tooling, deploys on its own schedule, and the app's
 - [x] Publish the signed release APK as a GitHub Release (`v<version>`, `PreCut-<version>.apk`) with its SHA-256; size and checksum in `src/config.ts`
   (1.0.0 built from PreCut commit `6b2636a`, versionCode 35, signature verified; published 2026-10-29, the public download's SHA-256 matches)
 - [x] `/download` smart page (rules above), QR code generated at build time (no iPhone waitlist yet)
-- [ ] `/pricing` — Free vs Pro with prices from `src/config.ts`; "Prices may vary by country" note; links to the app
-- [ ] `/changelog` — one Markdown file per release in `src/content/changelog/`; newest first
-- [ ] Analytics: count clicks on each download button (privacy-friendly, no cookies)
+- [x] `/pricing` — Free vs Pro with prices from `src/config.ts`; "Prices may vary by country" note; links to the app (2026-11-01: `src/pages/[pricing].astro`, built only while Pro is on sale, so before that /pricing is a 404 and nothing links to it; then also in the header, footer and FAQs)
+- [x] `/changelog` — one Markdown file per release in `src/content/changelog/`; newest first (2026-11-01: 1.0.0 written; footer link "What's new")
+- [x] Analytics: count clicks on each download button (privacy-friendly, no cookies) (2026-11-01: Plausible, a "Download" event with the button's id; off until `analytics.plausibleScript` in `src/config.ts` holds the site's script address from Plausible, which then also switches on the privacy policy's mention)
 
 **Acceptance:** each device type gets the right download experience; changelog entries are added by dropping in a Markdown file.
+
+## Template links (app Phase 28)
+*Added 2026-11-01: the app shares templates as `https://<webHost>/t/<id>`; `webHost` is precut.netlify.app until a domain is bought.*
+- [x] `/t/<id>`: the template's name, category, clips to add, length and texts, drawn as a section of its timeline from the summary the app stores with it, with the download, "Open in PreCut" on Android (an intent link with the download page as fallback) and a QR code on computers; not found and broken links say so. Netlify rewrites `/t/*` to it; kept out of search.
+- [x] `/.well-known/assetlinks.json` served as JSON (App Links); it holds the APK's certificate, which Play App Signing keeps if PreCut's own key is enrolled
+- [ ] `PUBLIC_CLOUD_URL` set in Netlify's environment variables to the app's `cloudUrl` (from its cloud.properties), then redeploy; until then template pages offer the app without showing the template
+
+## Release switch (app 1.1.0)
+*Added 2026-11-01.* The site describes the published app only. `aiRelease` in `src/config.ts` (1.1.0) is the first version with AI edit, caption translation, Pro, template links and smart B-roll; when `app.version` reaches it (README, Publishing a new APK), the privacy policy, terms, data deletion page, support answers and home copy switch to their 1.1.0 text (`src/lib/release.ts`). That text needs the user's approval before the 1.1.0 APK is published.
+- [x] The user approves the 1.1.0 privacy policy and terms (build with `app.version` set to 1.1.0 to read them) (approved 3 November 2026, after a review of every change against the live site)
+- [x] Feature rooms for AI edit, captions and Pro tools on the home page, with real captures (needs screenshots of 1.1.0) (2026-11-02: three rooms, "Describe the edit", "Captions from your voice" and "Cut by the words", shown from 1.1.0 among the others, nine rooms on the same 15-second rail. Their screens are drawn stand-ins built from the design canvas's `precut.css` with the app's real wording (`design/screens/*.dc.html`, rendered at 412 × 915, 2x, provenance in the PNGs); the real captures stay on the "Real device captures" item above)
+
+## Release 1.1.0 (3 November 2026)
+- [x] `src/config.ts`: version 1.1.0, the APK's size and SHA-256 (built from PreCut `6662560`, versionCode 61, the same signing certificate), legal date 3 November
+- [x] Changelog entry for 1.1.0; the 1.0.0 entry corrected (1.0.0 had the cloud AI check, not captions)
+- [ ] The user publishes GitHub release `v1.1.0` with `PreCut-1.1.0.apk` (notes in `release/notes-v1.1.0.md`), **before** this branch reaches `main`, so the download never points at a missing file
+- [ ] Merge to `main` (Netlify deploys); set `PUBLIC_CLOUD_URL` in Netlify for template pages
 
 ## Phase W4 — Launch checklist
 - [ ] Custom domain connected with HTTPS (the user buys the domain)
 - [ ] Once the Play listing is live: `play.live = true` and real prices in `src/config.ts`
-- [ ] Privacy policy URL entered in Play Console and inside the app's Settings
-- [ ] App's forced-update fallback link points to `/download`
-- [ ] 404 page, favicon, web manifest
+- [ ] Privacy policy URL entered in Play Console and inside the app's Settings (2026-11-01: in the app, Settings → About links to /privacy, /terms and /support from version 1.1.0; Play Console is the user's step)
+- [x] App's forced-update fallback link points to `/download` (2026-11-01: copies not installed from Play go to `download_url` from the app's server, else `https://<webHost>/download`)
+- [x] 404 page, favicon, web manifest (2026-11-01: PNG icons rendered from the favicon)
 - [ ] Final check on a real Android phone and a desktop browser

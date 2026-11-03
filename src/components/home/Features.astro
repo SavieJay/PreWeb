@@ -3,14 +3,21 @@
 // room's time; the room the playhead has reached is lit (a sunbeam behind its phone),
 // rooms it has passed fall to shadow blue. Each room shows a real screen from the app's
 // design canvas, annotated like a drawing: leader lines on wide screens, a list on phones.
+// From app 1.1.0 (the release switch) three more rooms show its AI and Pro tools; their
+// screens are drawn stand-ins (design/screens/) until real captures replace them.
 import { Picture } from "astro:assets";
-import { catalogue } from "../../config";
+import { catalogue, pro } from "../../config";
+import { proOnSale } from "../../lib/pro";
+import { hasAiRelease } from "../../lib/release";
 import clipSelected from "../../assets/screens/clip-selected.png";
 import beats from "../../assets/screens/beats.png";
 import filters from "../../assets/screens/filters.png";
 import textGlow from "../../assets/screens/text-glow.png";
 import chromaKey from "../../assets/screens/chroma-key.png";
 import exportSheet from "../../assets/screens/export.png";
+import aiEdit from "../../assets/screens/ai-edit.png";
+import captions from "../../assets/screens/captions.png";
+import transcript from "../../assets/screens/transcript.png";
 
 // Numbers in running text keep the body face, with figures of equal width.
 const n = (value: number | string) => `<span class="tabular-nums">${value}</span>`;
@@ -109,6 +116,54 @@ const rooms: Room[] = [
   },
 ];
 
+// App 1.1.0's rooms, placed among the others by `after` (the title of the room they follow).
+const aiRooms: (Omit<Room, "time"> & { after: string })[] = [
+  {
+    after: "Edit on a timeline",
+    title: "Describe the edit",
+    body: `Tell AI Edit what you want, like a 30-second upbeat cut with a title. Claude proposes the changes and you see each one before anything is kept: switch off what you don't want, refine, or apply. It reads a written summary of your project, never the video. ${n(pro.aiEditRequests.free)} requests a month are free.`,
+    screen: aiEdit,
+    crop: { from: 47, to: 100 },
+    alt: "PreCut's AI edit review: Claude's summary of the edit, two steps of changes such as Cut 4 clips to the beat and Added text Weekend in Lagos, each with a switch, and Discard, Refine and Apply buttons",
+    notes: [
+      { x: 90, y: 64, label: "Each change", value: "Keep it or switch it off" },
+      { x: 85, y: 94, label: "Apply", value: "One step to undo" },
+    ],
+  },
+  {
+    after: "Text and stickers",
+    title: "Captions from your voice",
+    body: `Auto captions in eight languages, or Auto to let it tell, in six styles, with the word being spoken lit up. Fix any word or timing in the captions list, or save them as an .srt file. Only the sound is sent to make them, after you agree, and music is left out. ${n(pro.captionMinutes.free)} minutes a month are free.`,
+    screen: captions,
+    crop: { from: 38, to: 100 },
+    alt: "PreCut's captions: the line made it to Lagos on the video with Lagos highlighted in yellow, the captions list with times, and the Highlight style chosen",
+    notes: [
+      { x: 62, y: 48, label: "Highlight", value: "The word being spoken" },
+      { x: 7, y: 75, label: "Lines", value: "Fix words and timings" },
+    ],
+  },
+  {
+    after: "Layers, music and voice",
+    title: "Cut by the words",
+    body: `Edit by transcript removes filler words and long pauses in one tap: the cuts show in the text before you apply them, and captions stay in step. Background removal, auto reframe and noise reduction run on your phone, free. ${proOnSale ? `Edit by transcript is a PreCut Pro tool, with ${n(pro.freeTries.transcript)} free tries a month.` : `Edit by transcript has ${n(pro.freeTries.transcript)} free tries a month.`}`,
+    screen: transcript,
+    crop: { from: 66, to: 100 },
+    alt: "PreCut's Edit by transcript: Remove filler words (6) chosen, the words um, like, you know and uh struck through in the transcript, and Apply 6 cuts",
+    notes: [
+      { x: 23, y: 75, label: "Filler words", value: "Found and struck through" },
+      { x: 82, y: 94, label: "Apply", value: "Captions stay in step" },
+    ],
+  },
+];
+
+// The rooms shown, timed along the edit: with app 1.1.0 there are nine in the same 15 seconds.
+const AI_TIMES = ["0:01", "0:03", "0:04", "0:06", "0:07", "0:09", "0:11", "0:13", "0:15"];
+const shown: Room[] = hasAiRelease
+  ? rooms
+      .flatMap((room) => [room, ...aiRooms.filter((ai) => ai.after === room.title)])
+      .map((room, i) => ({ ...room, time: AI_TIMES[i] ?? "0:15" }))
+  : rooms;
+
 // A note's height on the band of the screen that shows.
 const noteY = (room: Room, y: number) =>
   room.crop ? ((y - room.crop.from) / (room.crop.to - room.crop.from)) * 100 : y;
@@ -129,14 +184,23 @@ function band(room: Room) {
       <h2 id="features-title" class="lettering">
         Everything you need to edit, right on your phone
       </h2>
-      <p>
-        A full timeline and the tools around it. Every one of them free, with no
-        watermark.
-      </p>
+      {
+        hasAiRelease ? (
+          <p>
+            A full timeline, the tools around it, and AI that works for you.
+            Every tool that edits on your phone is free, with no watermark.
+          </p>
+        ) : (
+          <p>
+            A full timeline and the tools around it. Every one of them free, with
+            no watermark.
+          </p>
+        )
+      }
     </header>
 
     <div class="rooms">
-      {rooms.map((room, i) => (
+      {shown.map((room, i) => (
         <article class:list={["room", i % 2 && "flip"]} data-time={room.time} data-state="ahead">
           <span class="marker" aria-hidden="true" />
           <span class="time tabular" aria-hidden="true">{room.time}</span>

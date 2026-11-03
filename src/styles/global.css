@@ -65,6 +65,15 @@
     text-underline-offset: 0.2em;
   }
 
+  /* Pages with a part per device (DeviceClass): only the part for this device shows.
+     Without JavaScript, the Android and computer parts both show. */
+  html[data-device="android"] [data-for]:not([data-for~="android"]),
+  html[data-device="ios"] [data-for]:not([data-for~="ios"]),
+  html[data-device="desktop"] [data-for]:not([data-for~="desktop"]),
+  html:not([data-device]) [data-for="ios"] {
+    display: none;
+  }
+
   /* No single word stranded on a paragraph's last line. */
   :where(p, li, dd) {
     text-wrap: pretty;

@@ -1,0 +1,110 @@
+---
+// Free vs Pro as a drawing's schedule: one ruled row per feature, the Pro column lit by
+// a gold rule. A real table at every width, so screen readers read it as one.
+import { planRows } from "../../lib/pro";
+
+interface Props {
+  class?: string;
+  /** The table's caption, for screen readers. */
+  caption?: string;
+}
+
+const { class: className, caption = "What's free and what Pro adds" } =
+  Astro.props;
+---
+
+<table class:list={["plans", className]}>
+  <caption class="sr-only">{caption}</caption>
+  <thead>
+    <tr>
+      <th scope="col" class="label"><span class="sr-only">Feature</span></th>
+      <th scope="col" class="label">Free</th>
+      <th scope="col" class="label pro">Pro</th>
+    </tr>
+  </thead>
+  <tbody>
+    {
+      planRows.map((row) => (
+        <tr>
+          <th scope="row">
+            <span class="name">{row.feature}</span>
+            {row.detail && <span class="detail">{row.detail}</span>}
+          </th>
+          <td>{row.free}</td>
+          <td>{row.pro}</td>
+        </tr>
+      ))
+    }
+  </tbody>
+</table>
+
+<style>
+  .plans {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: 0.9375rem;
+    line-height: 1.45;
+  }
+  thead th {
+    padding: 0 0.5rem 0.6rem;
+    color: var(--color-shadow);
+    font-size: 0.75rem;
+    text-align: left;
+    vertical-align: bottom;
+  }
+  thead th:first-child {
+    width: 46%;
+    padding-left: 0;
+  }
+  /* The Pro column is lit: a gold rule over its heading. */
+  thead .pro {
+    color: var(--color-poche);
+    box-shadow: inset 0 3px 0 var(--color-sun);
+    padding-top: 0.6rem;
+  }
+  tbody tr {
+    border-top: 1px solid color-mix(in srgb, var(--color-poche) 40%, transparent);
+  }
+  tbody tr:first-child {
+    border-top-color: var(--color-poche);
+  }
+  tbody tr:last-child {
+    border-bottom: 1px solid var(--color-poche);
+  }
+  tbody th,
+  tbody td {
+    padding: 0.85rem 0.5rem;
+    text-align: left;
+    vertical-align: top;
+  }
+  tbody th {
+    padding-left: 0;
+    font-weight: 400;
+  }
+  .name {
+    display: block;
+    font-weight: 600;
+  }
+  .detail {
+    display: block;
+    margin-top: 0.2rem;
+    color: var(--color-shadow);
+    font-size: 0.875rem;
+  }
+  tbody td {
+    font-variant-numeric: tabular-nums;
+  }
+  @media (min-width: 40rem) {
+    .plans {
+      font-size: 1rem;
+    }
+    thead th:first-child {
+      width: 52%;
+    }
+    tbody th,
+    tbody td {
+      padding-block: 1rem;
+    }
+  }
+</style>

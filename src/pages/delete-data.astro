@@ -2,6 +2,7 @@
 // The data-deletion page (also the URL for Play Console's data deletion question).
 import ProseLayout from "../layouts/ProseLayout.astro";
 import { app, contactEmail } from "../config";
+import { hasAiRelease as H } from "../lib/release";
 ---
 
 <ProseLayout
@@ -10,8 +11,11 @@ import { app, contactEmail } from "../config";
 >
   <p>
     {app.name} has no accounts. Almost everything it stores is on your phone.
-    The only thing kept on {app.name}'s server is an anonymous ID for your phone
-    and the cloud AI minutes it used, and only if you've used cloud AI.
+    {
+      H
+        ? ` ${app.name}'s server keeps only an anonymous ID for your phone and the cloud AI it used this month (if you've used cloud AI), your ${app.name} Pro purchase records (if you bought Pro), and templates you shared as links.`
+        : ` The only thing kept on ${app.name}'s server is an anonymous ID for your phone and the cloud AI minutes it used, and only if you've used cloud AI.`
+    }
   </p>
 
   <h2>Delete your cloud data</h2>
@@ -24,10 +28,23 @@ import { app, contactEmail } from "../config";
     </li>
   </ol>
   <p>
-    {app.name}'s server forgets this phone's anonymous ID and the minutes it
-    used. Nothing else is kept there, and your projects aren't affected. If you
-    use cloud AI again later, the phone gets a new ID.
+    {
+      H
+        ? `${app.name}'s server forgets this phone's anonymous ID and the cloud AI it used, and deletes the templates you shared as links (their links stop working) and its Pro purchase records, unless another phone of yours still uses them.`
+        : `${app.name}'s server forgets this phone's anonymous ID and the minutes it used.`
+    }{" "}
+    Nothing else is kept there, and your projects aren't affected. If you use
+    cloud AI again later, the phone gets a new ID.
   </p>
+  {
+    H && (
+      <p>
+        Deleting this data doesn't cancel {app.name} Pro. Cancel it in Google
+        Play (<strong>Settings → {app.name} Pro → Manage in Google Play</strong>);
+        Restore purchases brings Pro back to this phone while it's paid.
+      </p>
+    )
+  }
 
   <h2>Delete what's on your phone</h2>
   <ul>

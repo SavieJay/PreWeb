@@ -1,13 +1,22 @@
 import { app, play } from "../config";
 
 /**
- * The Play listing with a referrer tag, so installs from each website button
- * can be told apart in Play Console.
+ * The Play listing with a referrer tag, so installs from each website button can be
+ * told apart in Play Console's acquisition reports (by UTM source and campaign). A
+ * template page adds `template` (its id): PreCut reads Play's install referrer on its
+ * first start and opens that template (app Phase 28).
  */
-export function playStoreUrl(buttonId: string): string {
-  const referrer = encodeURIComponent(
-    `utm_source=website&utm_medium=${buttonId}`,
-  );
+export function playStoreUrl(
+  buttonId: string,
+  extra: Record<string, string> = {},
+): string {
+  const params = new URLSearchParams({
+    utm_source: "website",
+    utm_medium: buttonId,
+    utm_campaign: buttonId,
+    ...extra,
+  });
+  const referrer = encodeURIComponent(params.toString());
   return `https://play.google.com/store/apps/details?id=${app.packageName}&referrer=${referrer}`;
 }
 

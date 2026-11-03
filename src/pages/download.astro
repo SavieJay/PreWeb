@@ -6,7 +6,9 @@
 import { renderSVG } from "uqr";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import AppFacts from "../components/AppFacts.astro";
+import DeviceClass from "../components/DeviceClass.astro";
 import DownloadButton from "../components/DownloadButton.astro";
+import QrPlate from "../components/QrPlate.astro";
 import { apk, app } from "../config";
 import { formatSize } from "../lib/download";
 
@@ -43,22 +45,7 @@ const steps = [
   title="Download"
   description={`Download ${app.name}, the video editor for Android: the APK, how to install it, and how to check it's genuine.`}
 >
-  <Fragment slot="head">
-    <script is:inline>
-      // Show the part of the page for this device before anything is drawn.
-      (() => {
-        const ua = navigator.userAgent;
-        const ios =
-          /iPhone|iPad|iPod/.test(ua) ||
-          (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
-        document.documentElement.dataset.device = /Android/i.test(ua)
-          ? "android"
-          : ios
-            ? "ios"
-            : "desktop";
-      })();
-    </script>
-  </Fragment>
+  <DeviceClass slot="head" />
 
   <div class="sheet">
     <section class="title-block" aria-labelledby="download-title">
@@ -108,12 +95,7 @@ const steps = [
     </section>
 
     <section data-for="desktop" class="scan" aria-labelledby="scan-title">
-      <div
-        class="qr"
-        role="img"
-        aria-label="QR code that opens this page"
-        set:html={qr}
-      />
+      <QrPlate svg={qr} label="QR code that opens this page" />
       <div>
         <h2 id="scan-title" class="lettering">Scan with your Android phone</h2>
         <p>
@@ -265,7 +247,7 @@ const steps = [
     color: var(--color-shadow);
   }
 
-  /* The QR code on a white plate with a drawing's corner marks. */
+  /* The QR code beside how to use it. */
   .scan {
     display: grid;
     align-content: start;
@@ -276,39 +258,6 @@ const steps = [
       grid-template-columns: auto minmax(0, 1fr);
       align-items: start;
     }
-  }
-  .qr {
-    position: relative;
-    width: 12rem;
-    padding: 0.75rem;
-    background: #fff;
-    box-shadow: 0 0 0 1px var(--color-poche);
-  }
-  .qr::before,
-  .qr::after {
-    content: "";
-    position: absolute;
-    width: 1rem;
-    height: 1rem;
-    border: 0 solid var(--color-poche);
-  }
-  .qr::before {
-    top: -0.6rem;
-    left: -0.6rem;
-    border-top-width: 2px;
-    border-left-width: 2px;
-  }
-  .qr::after {
-    right: -0.6rem;
-    bottom: -0.6rem;
-    border-right-width: 2px;
-    border-bottom-width: 2px;
-  }
-  .qr :global(svg) {
-    display: block;
-    width: 100%;
-    height: auto;
-    shape-rendering: crispEdges;
   }
   .scan p {
     max-width: 30rem;
@@ -415,13 +364,5 @@ const steps = [
     padding-block: 1rem 1.5rem;
     color: var(--color-shadow);
     line-height: 1.6;
-  }
-
-  /* Only the part for this device. Without JavaScript, Android and computer both show. */
-  :global(html[data-device="android"]) [data-for]:not([data-for~="android"]),
-  :global(html[data-device="ios"]) [data-for]:not([data-for~="ios"]),
-  :global(html[data-device="desktop"]) [data-for]:not([data-for~="desktop"]),
-  :global(html:not([data-device])) [data-for="ios"] {
-    display: none;
   }
 </style>

@@ -18,3 +18,22 @@
     X-Frame-Options = "DENY"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+
+# Template links from the app (https://<site>/t/<id>) all show the template page, which
+# reads the id from the address. Phones with PreCut open these links in the app instead.
+[[redirects]]
+  from = "/t/*"
+  to = "/t.html"
+  status = 200
+
+[[headers]]
+  for = "/t/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+
+# Android checks this file to let PreCut open the site's template links (App Links).
+[[headers]]
+  for = "/.well-known/assetlinks.json"
+  [headers.values]
+    Content-Type = "application/json"
+    Access-Control-Allow-Origin = "*"

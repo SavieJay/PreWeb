@@ -2,9 +2,12 @@
 // The end of the sheet, on the charcoal slab: legal links and the publisher.
 import Logo from "./Logo.astro";
 import { app, legalName } from "../config";
+import { proOnSale } from "../lib/pro";
 
 const links = [
   { href: "/download", label: "Download" },
+  ...(proOnSale ? [{ href: "/pricing", label: "Pricing" }] : []),
+  { href: "/changelog", label: "What's new" },
   { href: "/support", label: "Support" },
   { href: "/privacy", label: "Privacy" },
   { href: "/terms", label: "Terms" },

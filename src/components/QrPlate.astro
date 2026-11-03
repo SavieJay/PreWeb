@@ -1,0 +1,54 @@
+---
+// A QR code on a white plate with a drawing's corner marks. Dark squares on white,
+// which phone cameras read most reliably. A page's script can fill an empty plate
+// (data-qr) when the address is only known in the browser.
+interface Props {
+  /** The code as SVG (uqr's renderSVG); empty to fill in later. */
+  svg?: string;
+  label: string;
+}
+
+const { svg = "", label } = Astro.props;
+---
+
+<div class="qr" role="img" aria-label={label} data-qr set:html={svg} />
+
+<style>
+  .qr {
+    position: relative;
+    width: 12rem;
+    padding: 0.75rem;
+    background: #fff;
+    box-shadow: 0 0 0 1px var(--color-poche);
+  }
+  .qr::before,
+  .qr::after {
+    content: "";
+    position: absolute;
+    width: 1rem;
+    height: 1rem;
+    border: 0 solid var(--color-poche);
+  }
+  .qr::before {
+    top: -0.6rem;
+    left: -0.6rem;
+    border-top-width: 2px;
+    border-left-width: 2px;
+  }
+  .qr::after {
+    right: -0.6rem;
+    bottom: -0.6rem;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+  }
+  /* Waiting for its code: keep the square, so nothing moves when it arrives. */
+  .qr:empty {
+    aspect-ratio: 1;
+  }
+  .qr :global(svg) {
+    display: block;
+    width: 100%;
+    height: auto;
+    shape-rendering: crispEdges;
+  }
+</style>

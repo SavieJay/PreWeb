@@ -1,0 +1,61 @@
+---
+// Free vs Pro on the home page, shown only once Pro is on sale (index.astro). Ruled like
+// the questions below it: a title on the drawing margin, the schedule beside it.
+import PlanTable from "../pro/PlanTable.astro";
+import { app } from "../../config";
+---
+
+<section id="plans" class="below-fold plans" aria-labelledby="plans-title">
+  <div class="in">
+    <div>
+      <h2 id="plans-title" class="lettering">Free, and Pro</h2>
+      <p class="lede">
+        Every tool that edits on your phone is free. {app.name} Pro adds more
+        cloud AI and time-saving tools.
+      </p>
+      <a href="/pricing" class="more">See prices</a>
+    </div>
+    <PlanTable />
+  </div>
+</section>
+
+<style>
+  .plans {
+    border-top: 1px solid color-mix(in srgb, var(--color-poche) 55%, transparent);
+  }
+  .in {
+    display: grid;
+    gap: 2.5rem;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding: 5rem 1rem 6rem;
+  }
+  @media (min-width: 64rem) {
+    .in {
+      grid-template-columns: minmax(0, 20rem) minmax(0, 46rem);
+      gap: 4rem;
+      padding: 7rem 1.5rem 8rem 9.5rem;
+    }
+  }
+  h2 {
+    font-size: clamp(2rem, 6.4vw, 3.75rem);
+    line-height: 1.02;
+  }
+  .lede {
+    margin-top: 1.25rem;
+    color: var(--color-shadow);
+    line-height: 1.6;
+  }
+  .more {
+    display: inline-block;
+    margin-top: 1.25rem;
+    padding-block: 0.5rem;
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: var(--color-sun);
+    text-decoration-thickness: 2px;
+  }
+  .more:hover {
+    text-decoration-color: var(--color-poche);
+  }
+</style>

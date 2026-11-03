@@ -1,6 +1,8 @@
 ---
 import ProseLayout from "../layouts/ProseLayout.astro";
 import { app, contactEmail } from "../config";
+import { proOnSale } from "../lib/pro";
+import { hasAiRelease } from "../lib/release";
 
 const mail = `mailto:${contactEmail}`;
 ---
@@ -23,7 +25,18 @@ const mail = `mailto:${contactEmail}`;
     </dd>
 
     <dt>Is {app.name} free?</dt>
-    <dd>Yes. No watermark on exports, no ads and no account.</dd>
+    <dd>
+      Yes. No watermark on exports, no ads and no account.
+      {
+        proOnSale && (
+          <>
+            {" "}
+            {app.name} Pro, an optional subscription, adds more cloud AI and
+            time-saving tools; see <a href="/pricing">pricing</a>.
+          </>
+        )
+      }
+    </dd>
 
     <dt>Why isn't it on Google Play?</dt>
     <dd>
@@ -56,9 +69,13 @@ const mail = `mailto:${contactEmail}`;
 
     <dt>Does {app.name} upload my videos?</dt>
     <dd>
-      No. Your videos, photos and projects stay on your phone. Optional cloud AI
-      features send only the sound, and only after you agree each time. See the{" "}
-      <a href="/privacy">privacy policy</a>.
+      No. Your videos, photos and projects stay on your phone.
+      {
+        hasAiRelease
+          ? " Optional cloud AI features ask you first each time, then send only what they need: the sound for captions, or a written description of your project for AI edit and translation."
+          : " Optional cloud AI features send only the sound, and only after you agree each time."
+      }{" "}
+      See the <a href="/privacy">privacy policy</a>.
     </dd>
 
     <dt>{app.name} closed unexpectedly. How do I report it?</dt>
