@@ -44,7 +44,7 @@ What the app does at version 1.0.0 (counts live in `src/config.ts`, `catalogue`)
 - Export 480p to 4K, 24 to 60 fps, H.264 or HEVC, HDR where the phone supports it; background export; GIF, audio-only and single-frame export.
 - Cloud AI (optional): speech-to-text for captions, sound only, consent before every upload, via PreCut's server (Supabase, Ireland) and ElevenLabs. Details are in `/privacy` and must stay accurate.
 
-Next release (app 1.1.0, not published yet; the site switches with `app.version`, see `src/lib/release.ts`):
+Version 1.1.0 (the download from 3 November 2026; the site switched with `app.version`, see `src/lib/release.ts`):
 
 - AI edit: describe an edit; Claude (Anthropic), through PreCut's server, proposes changes the user reviews. It sends a written description of the project (clip lengths and settings, texts, file names, loudness, picture changes, a few image labels), never the media.
 - Caption translation (caption words to Claude), auto captions, edit by transcript, long video to shorts, multi-format export, brand kit, hook coach, smart B-roll (reads the gallery, on the phone).

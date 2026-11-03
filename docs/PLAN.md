@@ -93,8 +93,14 @@ Reasons: different stack and tooling, deploys on its own schedule, and the app's
 
 ## Release switch (app 1.1.0)
 *Added 2026-11-01.* The site describes the published app only. `aiRelease` in `src/config.ts` (1.1.0) is the first version with AI edit, caption translation, Pro, template links and smart B-roll; when `app.version` reaches it (README, Publishing a new APK), the privacy policy, terms, data deletion page, support answers and home copy switch to their 1.1.0 text (`src/lib/release.ts`). That text needs the user's approval before the 1.1.0 APK is published.
-- [ ] The user approves the 1.1.0 privacy policy and terms (build with `app.version` set to 1.1.0 to read them)
+- [x] The user approves the 1.1.0 privacy policy and terms (build with `app.version` set to 1.1.0 to read them) (approved 3 November 2026, after a review of every change against the live site)
 - [x] Feature rooms for AI edit, captions and Pro tools on the home page, with real captures (needs screenshots of 1.1.0) (2026-11-02: three rooms, "Describe the edit", "Captions from your voice" and "Cut by the words", shown from 1.1.0 among the others, nine rooms on the same 15-second rail. Their screens are drawn stand-ins built from the design canvas's `precut.css` with the app's real wording (`design/screens/*.dc.html`, rendered at 412 × 915, 2x, provenance in the PNGs); the real captures stay on the "Real device captures" item above)
+
+## Release 1.1.0 (3 November 2026)
+- [x] `src/config.ts`: version 1.1.0, the APK's size and SHA-256 (built from PreCut `6662560`, versionCode 61, the same signing certificate), legal date 3 November
+- [x] Changelog entry for 1.1.0; the 1.0.0 entry corrected (1.0.0 had the cloud AI check, not captions)
+- [ ] The user publishes GitHub release `v1.1.0` with `PreCut-1.1.0.apk` (notes in `release/notes-v1.1.0.md`), **before** this branch reaches `main`, so the download never points at a missing file
+- [ ] Merge to `main` (Netlify deploys); set `PUBLIC_CLOUD_URL` in Netlify for template pages
 
 ## Phase W4 — Launch checklist
 - [ ] Custom domain connected with HTTPS (the user buys the domain)

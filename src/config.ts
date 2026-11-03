@@ -4,7 +4,7 @@
 export const app = {
   name: "PreCut",
   packageName: "com.savie.precut",
-  version: "1.0.0",
+  version: "1.1.0",
   // The app's minSdk is 26.
   minAndroid: "8.0",
 };
@@ -27,9 +27,9 @@ export const play = {
 /** The signed APK, published as a GitHub Release asset of this repository. */
 export const apk = {
   url: `https://github.com/SavieJay/PreWeb/releases/download/v${app.version}/PreCut-${app.version}.apk`,
-  // Built from PreCut commit 6b2636a (versionCode 35). From the file: `stat -c %s`, `sha256sum`.
-  sizeBytes: 8_916_929,
-  sha256: "f97372f086d77d9bf8821b464b6b8e7ffc6fdd8ccd204fd3e11c3164eff3c174",
+  // Built from PreCut commit 6662560 (versionCode 61). From the file: `stat -c %s`, `sha256sum`.
+  sizeBytes: 35_342_712,
+  sha256: "813f7eefd1bcd356b7f2a1a3196c3e50c067f31373c2b02d08fc574c8cdfb58f",
   // The signing certificate's SHA-256 (`apksigner verify --print-certs`). Every version
   // must be signed with this key, or it won't install over the previous one.
   certSha256:
@@ -53,7 +53,7 @@ export const aiRelease = "1.1.0";
  */
 export const legalUpdated = {
   before: "1 November 2026",
-  aiRelease: "1 November 2026",
+  aiRelease: "3 November 2026",
 };
 
 /** Pro's prices as Play Console shows them, e.g. "$4.99"; prices vary by country. */
