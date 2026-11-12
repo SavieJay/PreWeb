@@ -9,7 +9,8 @@ import AppFacts from "../components/AppFacts.astro";
 import DeviceClass from "../components/DeviceClass.astro";
 import DownloadButton from "../components/DownloadButton.astro";
 import QrPlate from "../components/QrPlate.astro";
-import { apk, app } from "../config";
+import { app } from "../config";
+import { apk } from "../lib/apk";
 import { formatSize } from "../lib/download";
 
 const fileName = `PreCut-${app.version}.apk`;
