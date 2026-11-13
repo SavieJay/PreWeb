@@ -58,7 +58,16 @@ export const aiRelease = "1.1.0";
 export const legalUpdated = {
   before: "1 November 2026",
   aiRelease: "3 November 2026",
+  accounts: "13 November 2026",
 };
+
+/**
+ * Accounts and cloud projects (PreCut Phase 30): sign-in with Google or an emailed code, and every
+ * project syncing to the account with its videos and photos. The app switches them on once its
+ * build has the account keys (PreCut docs/ACCOUNTS.md); set `live` to true when the APK on the
+ * download page asks to sign in, and the privacy policy, deletion page and home page follow.
+ */
+export const accounts = { live: false };
 
 /** Pro's prices as Play Console shows them, e.g. "$4.99"; prices vary by country. */
 export interface ProPrices {
