@@ -3,18 +3,20 @@
 // schedule: each question a row, opening to its answer.
 import { app } from "../../config";
 import { proOnSale } from "../../lib/pro";
-import { hasAiRelease } from "../../lib/release";
+import { hasAccounts, hasAiRelease } from "../../lib/release";
 
 const items = [
   {
     q: `Is ${app.name} free?`,
     a: proOnSale
-      ? `Yes. Every editing tool is free, with no watermark on exports, no ads and no account. ${app.name} Pro, an optional subscription, adds more cloud AI and time-saving tools.`
-      : "Yes. Every tool is free, with no watermark on exports, no ads and no account.",
+      ? `Yes. Every editing tool is free, with no watermark on exports and no ads${hasAccounts ? "" : " and no account"}. ${app.name} Pro, an optional subscription, adds more cloud AI, more cloud storage and time-saving tools.`
+      : `Yes. Every tool is free, with no watermark on exports and no ads${hasAccounts ? "" : " and no account"}.`,
   },
   {
     q: `Does ${app.name} upload my videos?`,
-    a: hasAiRelease
+    a: hasAccounts
+      ? "Yes, to your own account: every project syncs with its videos and photos, so it's on every phone you sign in to. Only your account can read them, and on mobile data they wait for Wi-Fi unless you allow it. Cloud AI features ask you first, then send only the sound or a written description of your project."
+      : hasAiRelease
       ? "No. Your videos, photos and projects stay on your phone. Optional cloud AI features ask you first each time, then send only what they need: the sound for captions, or a written description of your project for AI edit."
       : "No. Your videos, photos and projects stay on your phone. Optional cloud AI features send only the sound, and only after you agree each time.",
   },

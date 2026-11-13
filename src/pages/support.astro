@@ -2,7 +2,7 @@
 import ProseLayout from "../layouts/ProseLayout.astro";
 import { app, contactEmail } from "../config";
 import { proOnSale } from "../lib/pro";
-import { hasAiRelease } from "../lib/release";
+import { hasAccounts, hasAiRelease } from "../lib/release";
 
 const mail = `mailto:${contactEmail}`;
 ---
@@ -26,7 +26,7 @@ const mail = `mailto:${contactEmail}`;
 
     <dt>Is {app.name} free?</dt>
     <dd>
-      Yes. No watermark on exports, no ads and no account.
+      Yes. No watermark on exports{hasAccounts ? " and no ads." : ", no ads and no account."}
       {
         proOnSale && (
           <>
@@ -69,7 +69,11 @@ const mail = `mailto:${contactEmail}`;
 
     <dt>Does {app.name} upload my videos?</dt>
     <dd>
-      No. Your videos, photos and projects stay on your phone.
+      {
+        hasAccounts
+          ? "Yes, to your own account: every project syncs with its videos and photos, so it's on every phone you sign in to. Only your account can read them."
+          : "No. Your videos, photos and projects stay on your phone."
+      }
       {
         hasAiRelease
           ? " Optional cloud AI features ask you first each time, then send only what they need: the sound for captions, or a written description of your project for AI edit and translation."

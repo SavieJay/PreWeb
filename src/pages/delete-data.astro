@@ -2,15 +2,63 @@
 // The data-deletion page (also the URL for Play Console's data deletion question).
 import ProseLayout from "../layouts/ProseLayout.astro";
 import { app, contactEmail } from "../config";
-import { hasAiRelease as H } from "../lib/release";
+import { hasAccounts as A, hasAiRelease as H } from "../lib/release";
 ---
 
 <ProseLayout
-  title="Delete your data"
+  title={A ? "Delete your account or data" : "Delete your data"}
   description={`How to delete what ${app.name} keeps, on your phone and on its server.`}
 >
+  {
+    A && (
+      <>
+        <p>
+          Your {app.name} account holds your email address (and, with Google
+          sign-in, the name Google shares), and every project you saved with
+          its videos, photos and other files. Deleting the account deletes all
+          of it from {app.name}'s server.
+        </p>
+        <h2>Delete your account in the app</h2>
+        <ol>
+          <li>
+            Open {app.name} and go to <strong>Settings → Account</strong>.
+          </li>
+          <li>
+            Tap <strong>Delete account</strong>, type DELETE and confirm.
+          </li>
+        </ol>
+        <p>
+          Your account, its projects and files, your sign-in details and the
+          link to your Pro purchases are deleted at once. Projects on your phone
+          stay on it until you delete them or uninstall {app.name}. Deleting the
+          account doesn't cancel {app.name} Pro: cancel it in Google Play.
+        </p>
+        <h2>Delete your account without the app</h2>
+        <p>
+          Email{" "}
+          <a href={`mailto:${contactEmail}?subject=Delete%20my%20${app.name}%20account`}>
+            {contactEmail}
+          </a>{" "}
+          from the address you sign in with (or the Google account's address),
+          with the subject "Delete my {app.name} account". We'll delete the
+          account and everything in it within 30 days and reply when it's done.
+        </p>
+        <h2>Delete some data, keep the account</h2>
+        <ul>
+          <li>
+            <strong>A project:</strong> delete it in {app.name}. It goes from
+            your account and your phones; its files are deleted 30 days later
+            if no other project uses them.
+          </li>
+          <li>
+            <strong>Cloud AI usage and template links:</strong> below.
+          </li>
+        </ul>
+      </>
+    )
+  }
   <p>
-    {app.name} has no accounts. Almost everything it stores is on your phone.
+    {A ? "Besides your account, " : `${app.name} has no accounts. Almost everything it stores is on your phone.`}
     {
       H
         ? ` ${app.name}'s server keeps only an anonymous ID for your phone and the cloud AI it used this month (if you've used cloud AI), your ${app.name} Pro purchase records (if you bought Pro), and templates you shared as links.`

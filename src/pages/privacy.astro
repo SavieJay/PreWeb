@@ -4,7 +4,8 @@
 // the app's cloud AI texts, docs/store/privacy-policy.md and docs/CLOUD_API.md.
 import ProseLayout from "../layouts/ProseLayout.astro";
 import { analytics, app, contactEmail, legalName, play } from "../config";
-import { hasAiRelease as H, legalDate } from "../lib/release";
+import { hasAccounts as A, hasAiRelease as H, legalDate } from "../lib/release";
+import AccountSections from "../components/privacy/AccountSections.astro";
 ---
 
 <ProseLayout
@@ -17,7 +18,17 @@ import { hasAiRelease as H, legalDate } from "../lib/release";
     explains what the {app.name} app and this website do with your information.
   </p>
   {
-    H ? (
+    A ? (
+      <p class="card">
+        <strong>In short:</strong> you sign in with Google or your email, and{" "}
+        {app.name} saves your projects to your account, with their videos,
+        photos and other files, so they're on every phone you sign in to. Cloud
+        AI features send only what they need, and only after you agree: the
+        sound, to turn speech into words, or a written description of your
+        project and your request, for AI edit and caption translation. There
+        are no ads and no analytics in the app.
+      </p>
+    ) : H ? (
       <p class="card">
         <strong>In short:</strong> {app.name} edits on your phone, and your
         videos and photos never leave it. If you use a cloud AI feature and
@@ -35,6 +46,8 @@ import { hasAiRelease as H, legalDate } from "../lib/release";
       </p>
     )
   }
+
+  {A && <AccountSections />}
 
   <h2>Cloud AI (optional, and asked every time)</h2>
   {
@@ -236,6 +249,7 @@ import { hasAiRelease as H, legalDate } from "../lib/release";
       <strong>Your projects.</strong>
       {app.name} saves drafts, covers, preview copies and other working files in
       its own storage on your phone.
+      {A && " A copy of each project and its files is kept in your account (above)."}
       {
         H &&
           " So do your brand kit (a logo or fonts you add are copied in) and your answers to the welcome questions, which only change what it suggests first."
@@ -260,7 +274,7 @@ import { hasAiRelease as H, legalDate } from "../lib/release";
     </li>
   </ul>
   <p>
-    {app.name} has no accounts, no ads and no analytics. When you share an
+    {app.name} has {A ? "" : "no accounts, "}no ads and no analytics. When you share an
     export, Android's share sheet sends it to the app you choose. What happens
     next is up to that app.
   </p>
@@ -325,6 +339,17 @@ import { hasAiRelease as H, legalDate } from "../lib/release";
 
   <h2>Deleting your data</h2>
   <ul>
+    {
+      A && (
+        <li>
+          <strong>Settings → Account → Delete account</strong> deletes your
+          account and, at once, every project and file saved to it, your
+          sign-in details and the link to your Pro purchases. You can also ask
+          on the <a href="/delete-data">deletion page</a>. Deleting the account
+          doesn't cancel a Pro subscription (do that in Google Play).
+        </li>
+      )
+    }
     <li>
       Deleting a project removes its files from the app.
       <strong>Settings → Clear preview cache</strong> frees working copies.
@@ -349,7 +374,8 @@ import { hasAiRelease as H, legalDate } from "../lib/release";
 
   <h2>Children</h2>
   <p>
-    {app.name} isn't directed at children.{" "}
+    {app.name} isn't directed at children
+    {A ? " under 13, and accounts are for people aged 13 and over." : "."}{" "}
     {
       H
         ? "Cloud AI sends only what the person using the app chooses to send."
