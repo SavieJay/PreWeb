@@ -29,10 +29,11 @@ export const play = {
  * own releases (published by the app's build on every push) and falls back to these values.
  */
 export const apk = {
-  url: `https://github.com/SavieJay/PreWeb/releases/download/v${app.version}/PreCut-${app.version}.apk`,
-  // Built from PreCut commit 429e18f (versionCode 66; 64 crashed on Android 11 and older when adding a video, 65 froze with over 15 captions). From the file: `stat -c %s`, `sha256sum`.
-  sizeBytes: 35_639_177,
-  sha256: "c5e4d27d3f395b20282768602266def151e760b6297cf748f9e4c4af1f2e4c30",
+  url: "https://github.com/SavieJay/PreCut/releases/latest/download/PreCut.apk",
+  // Build 71 (PreCut d22894d), the first published by the app's own workflow. From the release:
+  // its size and the SHA-256 digest GitHub computes for the asset.
+  sizeBytes: 35_663_689,
+  sha256: "db6bb180e518accb31feeded32afdccbf1f2a9b0650643bd11e9f68a4aee285f",
   // The signing certificate's SHA-256 (`apksigner verify --print-certs`). Every version
   // must be signed with this key, or it won't install over the previous one.
   certSha256:
