@@ -24,7 +24,10 @@ export const play = {
   live: false,
 };
 
-/** The signed APK, published as a GitHub Release asset of this repository. */
+/**
+ * The last known signed APK. Pages use `src/lib/apk.ts`, which reads the newest one from PreCut's
+ * own releases (published by the app's build on every push) and falls back to these values.
+ */
 export const apk = {
   url: `https://github.com/SavieJay/PreWeb/releases/download/v${app.version}/PreCut-${app.version}.apk`,
   // Built from PreCut commit 429e18f (versionCode 66; 64 crashed on Android 11 and older when adding a video, 65 froze with over 15 captions). From the file: `stat -c %s`, `sha256sum`.

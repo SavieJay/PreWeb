@@ -2,7 +2,8 @@
 // The app's facts as readouts: version, size, Android and price.
 import Readouts from "./Readouts.astro";
 import type { Fact } from "./Readouts.astro";
-import { apk, app } from "../config";
+import { app } from "../config";
+import { apk } from "../lib/apk";
 import { formatSize } from "../lib/download";
 
 interface Props {
