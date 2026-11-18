@@ -67,7 +67,7 @@ export const legalUpdated = {
  * build has the account keys (PreCut docs/ACCOUNTS.md); set `live` to true when the APK on the
  * download page asks to sign in, and the privacy policy, deletion page and home page follow.
  */
-export const accounts = { live: false };
+export const accounts = { live: true };
 
 /** Pro's prices as Play Console shows them, e.g. "$4.99"; prices vary by country. */
 export interface ProPrices {
