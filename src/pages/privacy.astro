@@ -5,6 +5,7 @@
 import ProseLayout from "../layouts/ProseLayout.astro";
 import { analytics, app, contactEmail, legalName, play } from "../config";
 import { hasAccounts as A, hasAiRelease as H, legalDate } from "../lib/release";
+import { proOnWeb } from "../lib/pro";
 import AccountSections from "../components/privacy/AccountSections.astro";
 ---
 
@@ -160,8 +161,34 @@ import AccountSections from "../components/privacy/AccountSections.astro";
     H && (
       <>
         <h2>{app.name} Pro (optional subscription)</h2>
+        {
+          proOnWeb && (
+            <>
+              <p>
+                Every account gets {app.name} Pro free for 14 days from sign-up,
+                with nothing to pay or enter; {app.name}'s server works out the
+                dates from when the account was made. After that, Pro tools need
+                a subscription.
+              </p>
+              <p>
+                On the version from this website, Pro is paid in naira through{" "}
+                <a href="https://paystack.com/privacy/merchant">Paystack</a>.{" "}
+                {app.name} opens Paystack's payment page in your browser, where
+                you pay Paystack directly: {app.name} never sees your card or bank
+                details. {app.name}'s server sends Paystack your account's email
+                and the plan, and keeps what Paystack tells it about the
+                subscription (plan, status, renewal date, and Paystack's customer
+                and subscription references), linked to your account so Pro works
+                on every phone you sign in to. Cancel in{" "}
+                <strong>Settings → {app.name} Pro</strong>; Pro lasts until the end
+                of the period you paid for. Deleting your account deletes these
+                records (cancel first: it doesn't stop Paystack renewing).
+              </p>
+            </>
+          )
+        }
         <p>
-          {app.name} Pro is sold through Google Play, which handles the payment
+          {proOnWeb ? "On the Google Play version, " : ""}{app.name} Pro is sold through Google Play, which handles the payment
           under Google's terms; {app.name} never sees your card or Google
           account details. To confirm a purchase, the app sends {app.name}'s
           server the purchase token Google Play gives it. The server checks it

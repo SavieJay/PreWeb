@@ -1,13 +1,19 @@
 // PreCut Pro on the site: whether it's shown, and the Free vs Pro comparison.
 import { play, pro } from "../config";
-import { hasAiRelease } from "./release";
+import { hasAccounts, hasAiRelease } from "./release";
 
 /**
  * In the published app and on sale on Google Play with prices: only then does the site
  * show Pro at all.
  */
+/** Pro sold on the website APK through Paystack, after every account's free trial (Phase 31). */
+export const proOnWeb: boolean = hasAccounts && pro.web !== null && !(play.live && pro.prices !== null);
+
 export const proOnSale: boolean =
-  hasAiRelease && play.live && pro.prices !== null;
+  hasAiRelease && ((play.live && pro.prices !== null) || proOnWeb);
+
+/** The prices shown: Google Play's once on Play, else the website's (naira). */
+export const proPrices = proOnWeb ? pro.web : pro.prices;
 
 export interface PlanRow {
   feature: string;
@@ -18,7 +24,11 @@ export interface PlanRow {
 }
 
 const tries = (count: number): string =>
-  count === 0 ? "Not included" : `${count} a month`;
+  proOnWeb
+    ? `Free for ${pro.web?.trialDays ?? 14} days`
+    : count === 0
+    ? "Not included"
+    : `${count} a month`;
 
 /** The comparison, from the app's split: every tool on the phone is free. */
 export const planRows: PlanRow[] = [
