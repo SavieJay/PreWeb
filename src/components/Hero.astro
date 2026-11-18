@@ -7,6 +7,7 @@ import Button from "./Button.astro";
 import DownloadButton from "./DownloadButton.astro";
 import EditorDemo from "./editor/EditorDemo.astro";
 import { app } from "../config";
+import { hasAccounts } from "../lib/release";
 
 // Leader-line notes, pinned to parts of the phone (percentages of its height and width).
 // "above" sets the note over its line instead of centred on it.
@@ -38,8 +39,10 @@ const digits = Array.from({ length: 19 }, (_, s) => String(s).padStart(2, "0"));
       </h1>
       <p class="tagline">
         {app.name} puts a full timeline, effects, text, music and 4K export in your
-        pocket. No ads, no account, and nothing leaves your phone without your
-        say-so.
+        pocket.{" "}
+        {hasAccounts
+          ? "No ads, and your projects follow you to every phone you sign in to."
+          : "No ads, no account, and nothing leaves your phone without your say-so."}
       </p>
       <div class="actions">
         <DownloadButton id="hero" size="lg" class="w-full sm:w-auto" />

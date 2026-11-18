@@ -1,0 +1,73 @@
+---
+// The privacy policy's account and cloud-projects sections (PreCut Phase 30), shown once
+// `accounts.live` is set. Matches PreCut docs/store/privacy-policy.md.
+import { app } from "../../config";
+---
+
+<h2>Your account</h2>
+<p>
+  {app.name} needs an account. You sign in with <strong>Google</strong> or with
+  your <strong>email address</strong> and a 6-digit code {app.name} emails you;
+  there's no password.
+</p>
+<ul>
+  <li>
+    <strong>What {app.name} keeps:</strong> your email address and an account
+    ID. If you sign in with Google, also the name and profile picture address
+    your Google account shares with apps; {app.name} doesn't show or use them.
+    Google sign-in runs under Google's terms; {app.name} receives only that
+    Google confirmed it's you.
+  </li>
+  <li>
+    <strong>Where:</strong> Supabase Auth, part of {app.name}'s server, in
+    Ireland (EU). The sign-in code is sent by an email delivery service, which
+    handles your address only to send it.
+  </li>
+  <li>
+    <strong>On your phone:</strong> the signed-in session, encrypted with a key
+    kept in Android's secure key store. It isn't included in phone backups.
+  </li>
+  <li>
+    <strong>{app.name} Pro</strong> is linked to your account, so it works on
+    every phone you sign in to.
+  </li>
+</ul>
+
+<h2>Your projects in the cloud</h2>
+<p>
+  While you're signed in, {app.name} saves each project to your account as you
+  edit it, and brings your projects to any phone you sign in to.
+</p>
+<ul>
+  <li>
+    <strong>What is saved:</strong> the project itself (its clips, order,
+    edits, effects, texts and captions, names) and
+    <strong>every file it uses</strong>: videos, photos, music and sounds,
+    voiceovers, stickers and drawings, fonts and colour looks you imported.
+  </li>
+  <li>
+    <strong>Where:</strong> {app.name}'s server and file storage on Supabase, in
+    Ireland (EU), encrypted in transit (HTTPS) and at rest. Only your account
+    can read your files; other phones get them through links that work for an
+    hour.
+  </li>
+  <li>
+    <strong>When:</strong> projects sync shortly after you edit. Videos and
+    photos upload on Wi-Fi unless you allow mobile data in
+    <strong>Settings → Account</strong>.
+  </li>
+  <li>
+    <strong>How long:</strong> until you delete the project (a deleted project's
+    record is kept for 90 days so your other phones remove it too; files no
+    project uses are deleted 30 days later) or delete your account (everything
+    at once).
+  </li>
+  <li>
+    <strong>Storage:</strong> each account has a storage limit, shown in
+    Settings → Account. When it's full, new files stay on your phone.
+  </li>
+  <li>
+    {app.name} doesn't look at, analyse or share your projects or files. They're
+    kept only to bring them back to you.
+  </li>
+</ul>

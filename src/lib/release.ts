@@ -1,6 +1,6 @@
 // Which app version the site describes (config.ts `app.version`), so pages never mention
 // features the published app doesn't have yet.
-import { aiRelease, app, legalUpdated } from "../config";
+import { accounts, aiRelease, app, legalUpdated } from "../config";
 
 /** Whether version `a` is `b` or newer ("1.10.0" is newer than "1.9.2"). */
 export function atLeast(a: string, b: string): boolean {
@@ -16,7 +16,12 @@ export function atLeast(a: string, b: string): boolean {
 /** The published app has AI edit, translation, Pro, template links and B-roll. */
 export const hasAiRelease: boolean = atLeast(app.version, aiRelease);
 
+/** The published app needs an account and syncs projects, with their media, to it. */
+export const hasAccounts: boolean = hasAiRelease && accounts.live;
+
 /** The privacy policy's and terms' date for the published version. */
-export const legalDate: string = hasAiRelease
-  ? legalUpdated.aiRelease
-  : legalUpdated.before;
+export const legalDate: string = hasAccounts
+  ? legalUpdated.accounts
+  : hasAiRelease
+    ? legalUpdated.aiRelease
+    : legalUpdated.before;

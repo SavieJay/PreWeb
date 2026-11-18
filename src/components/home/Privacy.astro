@@ -4,13 +4,15 @@
 // (its texts at PreCut 6b2636a). Facts match /privacy.
 import Icon from "../Icon.astro";
 import { app } from "../../config";
-import { hasAiRelease } from "../../lib/release";
+import { hasAccounts, hasAiRelease } from "../../lib/release";
 
 const stops = [
   {
     icon: "phone",
-    title: "On your phone: videos, photos and projects",
-    detail: "Edited here, and they never leave. No account, no ads, no analytics.",
+    title: hasAccounts ? "Your projects, in your account only" : "On your phone: videos, photos and projects",
+    detail: hasAccounts
+      ? "Saved to your account, private to it, in Ireland. No ads, no analytics."
+      : "Edited here, and they never leave. No account, no ads, no analytics.",
   },
   {
     icon: "lock",
@@ -42,8 +44,9 @@ const stops = [
     <div class="text">
       <h2 id="privacy-title" class="lettering">Private by design</h2>
       <p>
-        Your videos, photos and projects stay on your phone. There's no account,
-        no ads and no analytics.
+        {hasAccounts
+          ? "Your projects and their videos and photos are saved to your account, which only you can read, so they're on every phone you sign in to. There are no ads and no analytics."
+          : "Your videos, photos and projects stay on your phone. There's no account, no ads and no analytics."}
       </p>
       {
         hasAiRelease ? (

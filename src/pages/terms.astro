@@ -1,7 +1,7 @@
 ---
 import ProseLayout from "../layouts/ProseLayout.astro";
 import { app, contactEmail, legalName, play } from "../config";
-import { hasAiRelease as H, legalDate } from "../lib/release";
+import { hasAccounts as A, hasAiRelease as H, legalDate } from "../lib/release";
 ---
 
 <ProseLayout
@@ -32,9 +32,12 @@ import { hasAiRelease as H, legalDate } from "../lib/release";
   <h2>Your content</h2>
   <p>
     Your videos, photos, recordings and projects are yours. {app.name} doesn't
-    claim any rights to them, and they stay on your phone (see the{" "}
-    <a href="/privacy">privacy policy</a> for the
-    {H ? " exceptions, cloud AI and template links" : " one exception, cloud AI"}).
+    claim any rights to them.{" "}
+    {A
+      ? "They're kept in your account only to sync them to your phones (see the "
+      : "They stay on your phone (see the "}
+    <a href="/privacy">privacy policy</a>
+    {A ? ")." : H ? " for the exceptions, cloud AI and template links)." : " for the one exception, cloud AI)."}
     You're responsible for having the right to use what you edit and share.
   </p>
 
