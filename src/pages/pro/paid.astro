@@ -1,0 +1,24 @@
+---
+// Where Paystack's payment page sends people after paying for PreCut Pro (PreCut Phase 31,
+// PAYSTACK_CALLBACK_URL). The app checks the payment itself when they go back to it.
+import ProseLayout from "../../layouts/ProseLayout.astro";
+import { app } from "../../config";
+---
+
+<ProseLayout
+  title="Payment received"
+  description={`Thanks for getting ${app.name} Pro.`}
+>
+  <p class="card">
+    <strong>Thank you.</strong> Go back to {app.name}: Pro switches on as soon
+    as you're back in the app, on every phone you sign in to.
+  </p>
+  <p>
+    If {app.name} still shows the paywall after a minute, open{" "}
+    <strong>Settings → {app.name} Pro</strong> and tap <strong>Check my
+    payment</strong>. Your receipt is in your email from Paystack.
+  </p>
+  <p>
+    Questions about a payment: see <a href="/support">support</a>.
+  </p>
+</ProseLayout>
