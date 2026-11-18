@@ -7,15 +7,15 @@ import DownloadButton from "../components/DownloadButton.astro";
 import Readouts from "../components/Readouts.astro";
 import type { Fact } from "../components/Readouts.astro";
 import PlanTable from "../components/pro/PlanTable.astro";
-import { app, pro } from "../config";
-import { proOnSale } from "../lib/pro";
+import { app } from "../config";
+import { proOnSale, proOnWeb, proPrices } from "../lib/pro";
 
 export function getStaticPaths() {
   return proOnSale ? [{ params: { pricing: "pricing" } }] : [];
 }
 
 // getStaticPaths only builds this page while Pro is on sale, so prices are set.
-const prices = pro.prices ?? { monthly: "", yearly: "", trialDays: 0 };
+const prices = proPrices ?? { monthly: "", yearly: "", trialDays: 0 };
 const facts: Fact[] = [
   { icon: "sun", label: "Free", value: "Every editing tool" },
   { icon: "tag", label: "Pro monthly", value: `${prices.monthly} a month` },
@@ -36,7 +36,13 @@ const facts: Fact[] = [
       </p>
       <div class="facts"><Readouts facts={facts} /></div>
       {
-        prices.trialDays > 0 && (
+        proOnWeb ? (
+          <p class="trial">
+            Every account gets Pro free for {prices.trialDays} days, with no
+            card needed. After that, keep it for {prices.monthly} a month or{" "}
+            {prices.yearly} a year.
+          </p>
+        ) : prices.trialDays > 0 && (
           <p class="trial">
             Pro starts with a {prices.trialDays}-day free trial for new
             subscribers. Cancel before it ends and you pay nothing.
@@ -52,12 +58,30 @@ const facts: Fact[] = [
         />
       </div>
       <ul class="notes">
-        <li>Prices may vary by country; Google Play shows yours before you pay.</li>
-        <li>
-          Buy Pro inside {app.name}, in Settings → {app.name} Pro. Google Play
-          takes the payment and lets you cancel any time; on a new phone,
-          Restore purchases brings Pro back.
-        </li>
+        {
+          proOnWeb ? (
+            <>
+              <li>
+                Paid in naira with Paystack (card, bank or transfer), which may
+                add its fee at checkout. {app.name} never sees your card details.
+              </li>
+              <li>
+                Subscribe inside {app.name}, in Settings → {app.name} Pro, and
+                cancel there any time: Pro lasts until the end of the period you
+                paid for. It follows your account to every phone you sign in to.
+              </li>
+            </>
+          ) : (
+            <>
+              <li>Prices may vary by country; Google Play shows yours before you pay.</li>
+              <li>
+                Buy Pro inside {app.name}, in Settings → {app.name} Pro. Google Play
+                takes the payment and lets you cancel any time; on a new phone,
+                Restore purchases brings Pro back.
+              </li>
+            </>
+          )
+        }
         <li>
           Cloud features use the month's caption minutes or AI edit requests.
           They start again each month.

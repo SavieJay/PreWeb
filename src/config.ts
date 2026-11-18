@@ -86,6 +86,12 @@ export interface ProPrices {
  */
 export const pro = {
   prices: null as ProPrices | null,
+  /**
+   * PreCut Pro on the website APK (PreCut Phase 31, live 18 November 2026): every account gets
+   * Pro free for `trialDays` with no card, then it's paid in naira through Paystack. Shown while
+   * accounts are live; Google Play's `prices` take over once PreCut is on Play.
+   */
+  web: { monthly: "₦4,000", yearly: "₦36,000", trialDays: 14 } as ProPrices | null,
   /** Cloud AI each month, free and with Pro. */
   captionMinutes: { free: 30, pro: 300 },
   aiEditRequests: { free: 10, pro: 100 },
